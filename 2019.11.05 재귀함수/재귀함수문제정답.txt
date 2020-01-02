@@ -1,0 +1,37 @@
+#include <iostream>
+using namespace std;
+
+int Sum(int Num)
+{
+	if (Num == 0)
+		return Num;
+	return Sum(Num - 1) + Num;
+}
+
+int Bin(int Num)
+{
+	static int BinNum = 0;
+	if (Num == 1)
+	{
+		BinNum *= 10;
+		BinNum += Num;
+		return BinNum;
+	}
+	Bin(Num / 2);
+	BinNum *= 10;
+	BinNum += Num % 2;
+	return BinNum;
+}
+
+void main()
+{
+	int Num;
+	cout << "1.정수 입력 : ";
+	cin >> Num;
+	cout << "1 ~ " << Num << " : " << Sum(Num) << endl;
+
+	cout << "2.정수 입력 : ";
+	cin >> Num;
+	cout << Num << " -> " << Bin(Num) << endl;
+	return;
+}

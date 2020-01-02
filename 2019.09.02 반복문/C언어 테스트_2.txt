@@ -1,0 +1,120 @@
+1. 두수를 입력 받아 큰 수가 짝수이면 출력하시오(if문)
+
+int a, b, c;
+printf("두 수 입력: ");
+scanf("%d %d", &a, &b);
+
+if(a>b){
+	c = a;
+	if(c%2==0){
+	printf("큰 수이며 짝수: %d", c);
+	}
+}
+else if(a<b){
+	c = b;
+	if(c%2==0){
+	printf("큰 수이며 짝수: %d", c);
+	}
+}
+
+
+
+
+2. 5.세 과목의 성적을 입력 받아 합계와 평균을 구하고 평균이 90이상이면 “A”, 
+80이상이면 “B”, 70 이상이면 “C”, 60 이상이면 “ D”, 60미만이면 “F”를 출력하시오.(if문)
+
+int a, b, c;
+int d, f;
+pritnf("세 과목의 성적 입력: ");
+scanf("%d, %d, %d", &a, &b, &c);
+
+d = (a + b+ c);
+pritnf("세 과목의 합계: %d", d);
+
+f = d/3;
+if(f>=90){
+	printf("평균 성적은 A");
+}
+else if(f>=80){
+	printf("평균 성적은 B");
+}
+else if(f>=70){
+	printf("평균 성적은 C");
+}
+else if(f>=60){
+	printf("평균 성적은 D");
+}
+else if(f<60){
+	printf("평균 성적은 F");
+}
+
+
+
+3.menu 실행파일을 완성해 보세요(Switch문)
+
+int num;
+char name[100];
+int a, b, c;
+int d;
+
+int main(){
+scanf("%d", &num);
+switch(num){
+case 1:
+	printf("학생이름을 입력하세요... ");
+	scanf("%c", &name);
+	break;
+case 2:
+	printf("3과목의 성적을 입력하세요... ");
+	scanf("%d %d %d", &a, &b, &c);
+	break;
+case 3:
+	pritnf("학생 이름은 %s입니다\n", &name);
+	break;
+case 4:
+	pritnf("성적: a, b, c\n");
+	
+	d = a + b + c;
+	pritnf("합계: d\n");
+	break;
+case 5:
+	f = d/3
+	pritnf("%c 학생의 평균: f\n);
+	break;
+case 6:
+	return 0;
+}
+
+4.1~1000까지의 합을 구하라.단 3의 배수는 제외하고 3의 배수이면서
+  5의 배수는 제외하  지 않는 조건으로 구하라.(for문)
+
+int sum = 0;
+
+for(int i = 1; i <= 1000; i++){
+	if(i%3==0){
+		if(i%5==0){
+			sum += i;
+		}
+	}	
+}
+
+5. 정수를 반복하여 입력 받아 입력 받은 정수들의 합계를 구하시오
+(0을 입력 받을 때 까지 계속하여 입력 받게 만들 것)(while문)
+
+int a, b;
+
+while(1){
+	pritnf("정수 입력: ");
+	scanf("%d", &a);
+	
+	if(a==0) return 0;	
+
+	b += a;
+	printf("합계: %d", &b);	
+}
+
+
+6.updown 게임을 완성하시오
+
+
+

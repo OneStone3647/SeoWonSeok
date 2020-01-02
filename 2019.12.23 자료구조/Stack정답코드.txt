@@ -1,0 +1,37 @@
+#include <iostream>
+#define EMPTY 0
+using namespace std;
+
+struct Stack
+{
+	int data;
+	Stack* Next;
+};
+
+void push(Stack** top, int data)
+{
+	Stack* tmp = new Stack;
+	tmp->Next = *top;
+	tmp->data = data;
+	*top = tmp;
+	cout << "push = " << (*top)->data << endl;
+}
+
+void pop(Stack** top)
+{
+	Stack* tmp = *top;
+	*top = tmp->Next;
+	int data = tmp->data;
+	delete tmp;
+	cout << "pop = " << data << endl;
+}
+
+void main()
+{
+	Stack* top = EMPTY;
+	push(&top, 10);
+	push(&top, 20);
+	push(&top, 30);
+	while(top != NULL)
+		pop(&top);
+};
