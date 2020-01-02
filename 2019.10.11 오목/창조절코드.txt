@@ -1,0 +1,5 @@
+	int Width = (WIDTH * 2) + 1;
+	int Height = HEIGHT + 1;
+	char buf[256];
+	sprintf(buf, "mode con: lines=%d cols=%d", Height, Width);
+	system(buf);
