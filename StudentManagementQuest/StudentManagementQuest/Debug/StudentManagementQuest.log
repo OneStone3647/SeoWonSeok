@@ -1,0 +1,6 @@
+﻿  Main.cpp
+c:\sos\seowonseok\studentmanagementquest\studentmanagementquest\main.cpp(4): warning C4326: 'main'의 반환 형식이 'int'이어야 하는데 'void'입니다.
+  Std_Manager.cpp
+c:\sos\seowonseok\studentmanagementquest\studentmanagementquest\std_manager.cpp(3): warning C4356: 'Singleton<Std_Manager>::m_pThis': 정적 데이터 멤버는 파생 클래스를 통해 초기화할 수 없습니다.
+  코드를 생성하고 있습니다...
+  StudentManagementQuest.vcxproj -> C:\sos\SeoWonSeok\StudentManagementQuest\Debug\StudentManagementQuest.exe
