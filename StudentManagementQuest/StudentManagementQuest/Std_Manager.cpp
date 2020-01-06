@@ -44,6 +44,7 @@ void Std_Manager::Display()
 			GetInstance()->FindClass();
 			break;
 		case 0:
+			DestroyInstance();
 			return;
 		default:
 			cout << "잘못 입력하셨습니다." << endl;
