@@ -1,28 +1,29 @@
 #pragma once
 #include "Mecro.h"
-#include "Character.h"
 
 class Weapon
 {
 public:
 	Weapon();
-	virtual void ActiveSkill(Character* caster, Character* target) = 0;
-	~Weapon();
+	virtual bool Attack() = 0;
+	virtual ~Weapon();
 };
 
 class Sword : public Weapon
 {
 public:
-	virtual bool ActiveSkill(Character* caster, Character target) = 0;
+	virtual bool Attack();
 };
 
 class Bow : public Weapon
 {
-
+public:
+	virtual bool Attack();
 };
 
 class Staff : public Weapon
 {
-
+public:
+	virtual bool Attack();
 };
 

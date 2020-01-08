@@ -1,5 +1,5 @@
 #pragma once
-#include "Mecro.h"
+#include "Weapon.h"
 
 enum SELECT
 {
@@ -8,22 +8,60 @@ enum SELECT
 	SELECT_PAPAER
 };
 
+enum SELECTJOB
+{
+	SELECTJOB_KNIGHT = 0,
+	SELECTJOB_ARCHER,
+	SELECTJOB_WIZARD
+};
+
 class Character
 {
-private:
+protected:
 	string Name;
 	string Job;
-	int Level;
 	int Att;
 	int CurHP;
 	int MaxHP;
-	int CurExp;
-	int MaxExp;
+	Weapon* weapon;
 public:
 	Character();
 	~Character();
 
 public:
-	void SetPlayerInfo();
+	void ShowCharacterInfo();
+	void SetWeapon(Weapon* _weapon);
+	
+public:
+	Weapon* GetWeapon();
+
+public:
+	virtual bool EquipCheck() = 0;
 };
 
+class Knight : public Character
+{
+public:
+	Knight(string name);
+
+public:
+	virtual bool EquipCheck();
+};
+
+class Archer : public Character
+{
+public:
+	Archer(string name);
+
+public:
+	virtual bool EquipCheck();
+};
+
+class Wizard : public Character
+{
+public:
+	Wizard(string name);
+
+public:
+	virtual bool EquipCheck();
+};

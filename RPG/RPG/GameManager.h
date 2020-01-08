@@ -1,5 +1,11 @@
 #pragma once
-#include "Character.h"
+#include "CharacterFactory.h"
+
+enum SELECTCHARACTER
+{
+	SELECTCHARACTER_PLAYER = 1,
+	SELECTCHARACTER_NPC
+};
 
 class GameManager
 {
@@ -9,7 +15,7 @@ public:
 
 private:
 	Character* Player;
-	Character* Monster;
+	Character* NPC;
 
 public:
 	virtual void Initialized();
@@ -17,12 +23,12 @@ public:
 	virtual void Finishied();
 
 protected:
-	virtual Character* CreateCharacter() = 0;
+	virtual Character* CreateCharater(SELECTCHARACTER select) = 0;
 };
 
 class Game : public GameManager
 {
 protected:
-	virtual Character* CreateCharacter();
+	virtual Character* CreateCharater(SELECTCHARACTER select);
 };
 

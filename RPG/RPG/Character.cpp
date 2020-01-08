@@ -11,32 +11,76 @@ Character::~Character()
 {
 }
 
-void Character::SetPlayerInfo()
+void Character::ShowCharacterInfo()
 {
-	int select;
-	cout << "플레이어 이름 입력 : ";
-	cin >> Name;
-	cout << "1. 기사" << endl;
-	cout << "2. 궁수" << endl;
-	cout << "3. 마법사" << endl;
-	cout << "직업 선택 : ";
-	cin >> select;
-	switch (select)
-	{
-	case 1:
-		Job = "기사";
-		break;
-	case 2:
-		Job = "궁수";
-		break;
-	case 3:
-		Job = "마법사";
-		break;
-	}
-	Level = 1;
+	cout << "=====info=====" << endl;
+	cout << "이름 : " << Name << "\t 직업 : " << Job << endl;
+	cout << "Att : " << Att << "\t CurHP / MaxHP : " << CurHP << " / " << MaxHP << endl;
+}
+
+void Character::SetWeapon(Weapon * _weapon)
+{
+	weapon = _weapon;
+}
+
+Weapon * Character::GetWeapon()
+{
+	return weapon;
+}
+
+Knight::Knight(string name)
+{
+	Name = name;
+	Job = "기사";
 	Att = 5;
 	MaxHP = 50;
 	CurHP = MaxHP;
-	MaxExp = 10;
-	CurExp = 0;
+}
+
+bool Knight::EquipCheck()
+{
+	Sword* sword = dynamic_cast<Sword*>(GetWeapon());
+
+	if (sword == NULL)
+		return false;
+
+	return sword->Attack();
+}
+
+Archer::Archer(string name)
+{
+	Name = name;
+	Job = "궁수";
+	Att = 7;
+	MaxHP = 40;
+	CurHP = MaxHP;
+}
+
+bool Archer::EquipCheck()
+{
+	Bow* bow = dynamic_cast<Bow*>(GetWeapon());
+
+	if (bow == NULL)
+		return false;
+
+	return bow->Attack();
+}
+
+Wizard::Wizard(string name)
+{
+	Name = name;
+	Job = "마법사";
+	Att = 10;
+	MaxHP = 30;
+	CurHP = MaxHP;
+}
+
+bool Wizard::EquipCheck()
+{
+	Staff* staff = dynamic_cast<Staff*>(GetWeapon());
+
+	if (staff == NULL)
+		return false;
+
+	return staff->Attack();
 }
