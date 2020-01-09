@@ -87,6 +87,7 @@ void GameManager::Init()
 
 Character * GameManager::SetPlayer()
 {
+	// √ﬂªÛ ∆—≈‰∏Æ
 	CharacterFactory* characterFactory;
 	Character* character;
 	string tmp;
@@ -114,6 +115,7 @@ Character * GameManager::SetPlayer()
 
 Character * GameManager::SetNPC()
 {
+	// √ﬂªÛ ∆—≈‰∏Æ
 	CharacterFactory* characterFactory;
 	Character* character;
 	int select;
