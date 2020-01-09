@@ -11,32 +11,25 @@ CharacterFactory::~CharacterFactory()
 {
 }
 
-Weapon * KnightCharacter::CreateWeapon()
+// 팩토리 메서드
+Character * CharacterFactory::SpawnCharacter()
 {
-	return new Sword();
+	m_Character = CreateCharacter();
+	m_Character->Initialize();
+	return m_Character;
 }
 
-Character * KnightCharacter::CreateCharacter(string name)
+Character * KnightFactory::CreateCharacter()
 {
-	return new Knight(name);
+	return new Knight(new KnightWeaponFactory);
 }
 
-Weapon * ArcherCharacter::CreateWeapon()
+Character * ArcherFactory::CreateCharacter()
 {
-	return new Bow();
+	return new Archer(new ArcherWeaponFactory);
 }
 
-Character * ArcherCharacter::CreateCharacter(string name)
+Character * WizardFactory::CreateCharacter()
 {
-	return new Archer(name);
-}
-
-Weapon * WizardCharacter::CreateWeapon()
-{
-	return new Staff();
-}
-
-Character * WizardCharacter::CreateCharacter(string name)
-{
-	return new Wizard(name);
+	return new Wizard(new WizardWeaponFactory);
 }

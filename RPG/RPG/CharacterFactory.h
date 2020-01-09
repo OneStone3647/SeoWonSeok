@@ -1,35 +1,37 @@
 #pragma once
-#include "Character.h"
+#include"Character.h"
 
 class CharacterFactory
 {
+public:
+	Character* m_Character;
+
 public:
 	CharacterFactory();
 	~CharacterFactory();
 
 public:
-	virtual Weapon* CreateWeapon() = 0;
-	virtual Character* CreateCharacter(string name) = 0;
+	virtual Character* SpawnCharacter();
+
+public:
+	virtual Character* CreateCharacter() = 0;
 };
 
-class KnightCharacter : public CharacterFactory
+class KnightFactory : public CharacterFactory
 {
 public:
-	virtual Weapon* CreateWeapon();
-	virtual Character* CreateCharacter(string name);
+	Character* CreateCharacter();
 };
 
-class ArcherCharacter : public CharacterFactory
+class ArcherFactory : public CharacterFactory
 {
 public:
-	virtual Weapon* CreateWeapon();
-	virtual Character* CreateCharacter(string name);
+	Character* CreateCharacter();
 };
 
-class WizardCharacter : public CharacterFactory
+class WizardFactory : public CharacterFactory
 {
 public:
-	virtual Weapon* CreateWeapon();
-	virtual Character* CreateCharacter(string name);
+	Character* CreateCharacter();
 };
 

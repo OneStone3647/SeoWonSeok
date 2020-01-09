@@ -1,67 +1,61 @@
 #pragma once
-#include "Weapon.h"
-
-enum SELECT
-{
-	SELECT_SCISSORS = 49,
-	SELECT_ROCK,
-	SELECT_PAPAER
-};
-
-enum SELECTJOB
-{
-	SELECTJOB_KNIGHT = 0,
-	SELECTJOB_ARCHER,
-	SELECTJOB_WIZARD
-};
+#include "WeaponFactory.h"
 
 class Character
 {
 protected:
-	string Name;
-	string Job;
-	int Att;
-	int CurHP;
-	int MaxHP;
-	Weapon* weapon;
+	string m_Name;
+	int m_Att;
+	int m_Def;
+	MainWeapon* m_MainWeapon;
+	SubWeapon* m_SubWeapon;
+
 public:
 	Character();
 	~Character();
 
 public:
-	void ShowCharacterInfo();
-	void SetWeapon(Weapon* _weapon);
-	
-public:
-	Weapon* GetWeapon();
+	void GetCharacterInfo();
+	void GetMainWeapon();
+	void GetSubWeapon();
 
 public:
-	virtual bool EquipCheck() = 0;
+	virtual void Initialize() = 0;
 };
 
 class Knight : public Character
 {
 public:
-	Knight(string name);
+	WeaponFactory* m_WeaponFactory;
 
 public:
-	virtual bool EquipCheck();
+	Knight(WeaponFactory* m_WeaponFactory);
+
+public:
+	void Initialize();
 };
 
 class Archer : public Character
 {
 public:
-	Archer(string name);
+	WeaponFactory* m_WeaponFactory;
 
 public:
-	virtual bool EquipCheck();
+	Archer(WeaponFactory* m_WeaponFactory);
+
+public:
+	void Initialize();
 };
 
 class Wizard : public Character
 {
 public:
-	Wizard(string name);
+	WeaponFactory* m_WeaponFactory;
 
 public:
-	virtual bool EquipCheck();
+	Wizard(WeaponFactory* m_WeaponFactory);
+
+public:
+	void Initialize();
 };
+

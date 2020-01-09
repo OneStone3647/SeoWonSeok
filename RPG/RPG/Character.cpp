@@ -9,78 +9,71 @@ Character::Character()
 
 Character::~Character()
 {
+	delete m_MainWeapon;
+	delete m_SubWeapon;
 }
 
-void Character::ShowCharacterInfo()
+void Character::GetCharacterInfo()
 {
-	cout << "=====info=====" << endl;
-	cout << "이름 : " << Name << "\t 직업 : " << Job << endl;
-	cout << "Att : " << Att << "\t CurHP / MaxHP : " << CurHP << " / " << MaxHP << endl;
+	cout << "===캐릭터 정보 ===" << endl;
+	cout << "캐릭터 이름 : " << m_Name << endl;
+	cout << "공격력 : " << m_Att << " 방어력 : " << m_Def << endl;
+	cout << "장착한 메인 무기 - ";
+	m_MainWeapon->GetMainWeapon();
+	cout << endl;
+	cout << "장착한 보조 무기 - ";
+	m_SubWeapon->GetSubWeapon();
+	cout << endl;
 }
 
-void Character::SetWeapon(Weapon * _weapon)
+void Character::GetMainWeapon()
 {
-	weapon = _weapon;
+	m_MainWeapon->GetMainWeapon();
 }
 
-Weapon * Character::GetWeapon()
+void Character::GetSubWeapon()
 {
-	return weapon;
+	m_SubWeapon->GetSubWeapon();
 }
 
-Knight::Knight(string name)
+Knight::Knight(WeaponFactory * m_WeaponFactory)
 {
-	Name = name;
-	Job = "기사";
-	Att = 5;
-	MaxHP = 50;
-	CurHP = MaxHP;
+	this->m_WeaponFactory = m_WeaponFactory;
+	m_Name = "기사";
 }
 
-bool Knight::EquipCheck()
+void Knight::Initialize()
 {
-	Sword* sword = dynamic_cast<Sword*>(GetWeapon());
-
-	if (sword == NULL)
-		return false;
-
-	return sword->Attack();
+	m_MainWeapon = m_WeaponFactory->CreateMainWeapon();
+	m_SubWeapon = m_WeaponFactory->CreateSubWeapon();
+	m_Att = 5;
+	m_Def = 10;
 }
 
-Archer::Archer(string name)
+Archer::Archer(WeaponFactory * m_WeaponFactory)
 {
-	Name = name;
-	Job = "궁수";
-	Att = 7;
-	MaxHP = 40;
-	CurHP = MaxHP;
+	this->m_WeaponFactory = m_WeaponFactory;
+	m_Name = "궁수";
 }
 
-bool Archer::EquipCheck()
+void Archer::Initialize()
 {
-	Bow* bow = dynamic_cast<Bow*>(GetWeapon());
-
-	if (bow == NULL)
-		return false;
-
-	return bow->Attack();
+	m_MainWeapon = m_WeaponFactory->CreateMainWeapon();
+	m_SubWeapon = m_WeaponFactory->CreateSubWeapon();
+	m_Att = 7;
+	m_Def = 7;
 }
 
-Wizard::Wizard(string name)
+Wizard::Wizard(WeaponFactory * m_WeaponFactory)
 {
-	Name = name;
-	Job = "마법사";
-	Att = 10;
-	MaxHP = 30;
-	CurHP = MaxHP;
+	this->m_WeaponFactory = m_WeaponFactory;
+	m_Name = "마법사";
 }
 
-bool Wizard::EquipCheck()
+void Wizard::Initialize()
 {
-	Staff* staff = dynamic_cast<Staff*>(GetWeapon());
-
-	if (staff == NULL)
-		return false;
-
-	return staff->Attack();
+	m_MainWeapon = m_WeaponFactory->CreateMainWeapon();
+	m_SubWeapon = m_WeaponFactory->CreateSubWeapon();
+	m_Att = 10;
+	m_Def = 5;
 }
