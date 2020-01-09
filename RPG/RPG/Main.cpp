@@ -1,8 +1,12 @@
 #include "CharacterFactory.h"
 #include "GameManager.h"
+#include <crtdbg.h>
 
 int main()
 {
+	_CrtSetDbgFlag(_CRTDBG_LEAK_CHECK_DF | _CRTDBG_ALLOC_MEM_DF);
+	//_crtBreakAlloc = 207;
+
 	//// Ãß»ó ÆÑÅä¸®
 	//CharacterFactory* m_KnightFactory = new KnightFactory;
 	//Character* m_Knight = m_KnightFactory->SpawnCharacter();

@@ -24,7 +24,6 @@ public:
 	void Finish();
 	Character* SetPlayer();
 	Character* SetNPC();
-	char SelectNPC();
 	bool CheckWinner(Character* player, Character* npc);
 };
 

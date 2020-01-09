@@ -51,6 +51,21 @@ int Character::GetCurHP()
 	return m_CurHP;
 }
 
+char Character::PlayerSelect()
+{
+	char select;
+	cout << "1.가위 2.바위 3.보" << endl;
+	cout << "선택: ";
+	cin >> select;
+	return select;
+}
+
+char Character::NPCSelect()
+{
+	srand((unsigned int)time(NULL));
+	return (rand() % 3) + 49;
+}
+
 Knight::Knight(WeaponFactory * m_WeaponFactory)
 {
 	this->m_WeaponFactory = m_WeaponFactory;
@@ -65,6 +80,7 @@ void Knight::Initialize()
 	m_Def = 10;
 	m_MaxHP = 50;
 	m_CurHP = m_MaxHP;
+	delete m_WeaponFactory;
 }
 
 Archer::Archer(WeaponFactory * m_WeaponFactory)
@@ -81,6 +97,7 @@ void Archer::Initialize()
 	m_Def = 7;
 	m_MaxHP = 40;
 	m_CurHP = m_MaxHP;
+	delete m_WeaponFactory;
 }
 
 Wizard::Wizard(WeaponFactory * m_WeaponFactory)
@@ -97,4 +114,5 @@ void Wizard::Initialize()
 	m_Def = 5;
 	m_MaxHP = 30;
 	m_CurHP = m_MaxHP;
+	delete m_WeaponFactory;
 }

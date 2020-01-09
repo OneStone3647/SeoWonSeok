@@ -23,6 +23,8 @@ public:
 	void SetDamage(int damage);
 	int GetAtt();
 	int GetCurHP();
+	char PlayerSelect();
+	char NPCSelect();
 
 public:
 	virtual void Initialize() = 0;

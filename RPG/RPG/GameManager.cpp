@@ -23,12 +23,11 @@ void GameManager::Update()
 		char NPCSelect;
 		system("cls");
 		m_Player->GetCharacterInfo();
+		cout << "===================" << endl;
 		m_NPC->GetCharacterInfo();
 		cout << endl << endl;
-		cout << "1.가위 2.바위 3.보" << endl;
-		cout << "선택: ";
-		cin >> PlayerSelect;
-		NPCSelect = SelectNPC();
+		PlayerSelect = m_Player->PlayerSelect();
+		NPCSelect = m_NPC->NPCSelect();
 
 		if (PlayerSelect == SELECT_SCISSORS || PlayerSelect == SELECT_ROCK || PlayerSelect == SELECT_PAPER)
 		{
@@ -110,6 +109,7 @@ Character * GameManager::SetPlayer()
 		break;
 	}
 	character = characterFactory->SpawnCharacter();
+	delete characterFactory;
 	return character;
 }
 
@@ -134,13 +134,8 @@ Character * GameManager::SetNPC()
 		break;
 	}
 	character = characterFactory->SpawnCharacter();
+	delete characterFactory;
 	return character;
-}
-
-char GameManager::SelectNPC()
-{
-	srand((unsigned int)time(NULL));
-	return (rand() % 3) + 49;
 }
 
 bool GameManager::CheckWinner(Character* player, Character* npc)
