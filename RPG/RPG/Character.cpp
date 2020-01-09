@@ -16,7 +16,7 @@ Character::~Character()
 void Character::GetCharacterInfo()
 {
 	cout << "===캐릭터 정보 ===" << endl;
-	cout << "캐릭터 이름 : " << m_Name << endl;
+	cout << "캐릭터 이름 : " << m_Name << "CurHP / MaxHP : " << m_CurHP << " / " << m_MaxHP << endl;
 	cout << "공격력 : " << m_Att << " 방어력 : " << m_Def << endl;
 	cout << "장착한 메인 무기 - ";
 	m_MainWeapon->GetMainWeapon();
@@ -36,6 +36,21 @@ void Character::GetSubWeapon()
 	m_SubWeapon->GetSubWeapon();
 }
 
+void Character::SetDamage(int damage)
+{
+	m_CurHP -= damage;
+}
+
+int Character::GetAtt()
+{
+	return m_Att;
+}
+
+int Character::GetCurHP()
+{
+	return m_CurHP;
+}
+
 Knight::Knight(WeaponFactory * m_WeaponFactory)
 {
 	this->m_WeaponFactory = m_WeaponFactory;
@@ -48,6 +63,8 @@ void Knight::Initialize()
 	m_SubWeapon = m_WeaponFactory->CreateSubWeapon();
 	m_Att = 5;
 	m_Def = 10;
+	m_MaxHP = 50;
+	m_CurHP = m_MaxHP;
 }
 
 Archer::Archer(WeaponFactory * m_WeaponFactory)
@@ -62,6 +79,8 @@ void Archer::Initialize()
 	m_SubWeapon = m_WeaponFactory->CreateSubWeapon();
 	m_Att = 7;
 	m_Def = 7;
+	m_MaxHP = 40;
+	m_CurHP = m_MaxHP;
 }
 
 Wizard::Wizard(WeaponFactory * m_WeaponFactory)
@@ -76,4 +95,6 @@ void Wizard::Initialize()
 	m_SubWeapon = m_WeaponFactory->CreateSubWeapon();
 	m_Att = 10;
 	m_Def = 5;
+	m_MaxHP = 30;
+	m_CurHP = m_MaxHP;
 }

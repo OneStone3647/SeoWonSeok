@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="Character.h" />
     <ClInclude Include="CharacterFactory.h" />
+    <ClInclude Include="GameManager.h" />
     <ClInclude Include="Mecro.h" />
     <ClInclude Include="MainWeapon.h" />
     <ClInclude Include="SubWeapon.h" />
@@ -29,6 +30,7 @@
   <ItemGroup>
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="CharacterFactory.cpp" />
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainWeapon.cpp" />
     <ClCompile Include="SubWeapon.cpp" />

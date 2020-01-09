@@ -7,6 +7,8 @@ protected:
 	string m_Name;
 	int m_Att;
 	int m_Def;
+	int m_CurHP;
+	int m_MaxHP;
 	MainWeapon* m_MainWeapon;
 	SubWeapon* m_SubWeapon;
 
@@ -18,6 +20,9 @@ public:
 	void GetCharacterInfo();
 	void GetMainWeapon();
 	void GetSubWeapon();
+	void SetDamage(int damage);
+	int GetAtt();
+	int GetCurHP();
 
 public:
 	virtual void Initialize() = 0;
