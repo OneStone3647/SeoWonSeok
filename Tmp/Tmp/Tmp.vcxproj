@@ -18,6 +18,21 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Data.cpp" />
+    <ClCompile Include="DataGraph.cpp" />
+    <ClCompile Include="DataTable.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Observer.cpp" />
+    <ClCompile Include="Subject.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Data.h" />
+    <ClInclude Include="DataGraph.h" />
+    <ClInclude Include="DataTable.h" />
+    <ClInclude Include="Observer.h" />
+    <ClInclude Include="Subject.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{679F9CF8-337D-4AB5-887B-7A7D696282DC}</ProjectGuid>
@@ -138,17 +153,6 @@
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="CharacterFactory.h" />
-    <ClInclude Include="JobClass.h" />
-    <ClInclude Include="Weapon.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="CharacterFactory.cpp" />
-    <ClCompile Include="JobClass.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Weapon.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
