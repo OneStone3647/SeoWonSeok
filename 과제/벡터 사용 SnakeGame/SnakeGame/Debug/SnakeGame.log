@@ -1,0 +1,6 @@
+﻿  GameManager.cpp
+d:\study\programing\seowonseok\과제\snakegame\snakegame\drawmanager.h(18): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
+d:\study\programing\seowonseok\과제\snakegame\snakegame\gamemanager.cpp(76): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _getch. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\conio.h(453): note: 'getch' 선언을 참조하십시오.
+d:\study\programing\seowonseok\과제\snakegame\snakegame\gamemanager.cpp(87): warning C4101: 'SnakeHead' :참조되지 않은 지역 변수입니다.
+  SnakeGame.vcxproj -> D:\Study\Programing\SeoWonSeok\과제\SnakeGame\Debug\SnakeGame.exe
