@@ -19,19 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Data.cpp" />
-    <ClCompile Include="DataGraph.cpp" />
-    <ClCompile Include="DataTable.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Observer.cpp" />
-    <ClCompile Include="Subject.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Data.h" />
-    <ClInclude Include="DataGraph.h" />
-    <ClInclude Include="DataTable.h" />
-    <ClInclude Include="Observer.h" />
-    <ClInclude Include="Subject.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
