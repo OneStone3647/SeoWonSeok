@@ -66,10 +66,6 @@ bool LandMine::SamePoint(list<Point>::iterator iter, Point point)
 	{
 		return true;
 	}
-	else if(LandMinePoint.size() == 1)
-	{
-		return false;
-	}
 	else
 	{
 		if (++iter != LandMinePoint.end())
