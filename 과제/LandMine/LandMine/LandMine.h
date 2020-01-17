@@ -16,7 +16,7 @@ class LandMine
 private:
 	int Horizon;
 	int Vertical;
-	int Grid[5][5];
+	int Grid[5][5] = { 0, };
 	list<Point> SearchPoint;
 	list<Point> LandMinePoint;
 	int MaxLandMineCount;
@@ -25,7 +25,6 @@ public:
 	~LandMine();
 
 public:
-	void SetMap();
 	void DrawMap();
 	void SetLandMine();
 	bool SamePoint(list<Point>::iterator iter, Point point);

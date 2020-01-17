@@ -5,5 +5,6 @@ void main()
 {
 	LandMine Mine;
 	Mine.SetLandMine();
+	Mine.SearchLandMine();
 	Mine.DrawMap();
 }

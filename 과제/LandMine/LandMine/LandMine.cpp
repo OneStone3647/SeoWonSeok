@@ -13,19 +13,6 @@ LandMine::~LandMine()
 {
 }
 
-void LandMine::SetMap()
-{
-	for (int i = 0; i < Vertical; i++)
-	{
-		for (int j = 0; j < Horizon; j++)
-		{
-			cout << "0";
-		}
-		cout << endl;
-	}
-	system("pause");
-}
-
 void LandMine::DrawMap()
 {
 	list<Point>::iterator iter = LandMinePoint.begin();
@@ -33,15 +20,7 @@ void LandMine::DrawMap()
 	{
 		for (int j = 0; j < Horizon; j++)
 		{
-			Point tmp = { i, j };
-			if (!SamePoint(iter, tmp))
-			{
-				cout << "0";
-			}
-			else
-			{
-				cout << "*";
-			}
+			cout << Grid[i][j];
 		}
 		cout << endl;
 	}
@@ -73,19 +52,33 @@ void LandMine::SetLandMine()
 			tmpLandMineCount++;
 		}
 	}
+
+	list<Point>::iterator iter;
+	for (iter = LandMinePoint.begin(); iter != LandMinePoint.end(); ++iter)
+	{
+		Grid[(*iter).X][(*iter).Y] = 7;
+	}
 }
 
 bool LandMine::SamePoint(list<Point>::iterator iter, Point point)
 {
-	if (!LandMinePoint.empty() && iter != LandMinePoint.end())
+	if ((*iter).X == point.X && (*iter).Y == point.Y)
 	{
-		if ((*iter).X == point.X && (*iter).Y == point.Y)
+		return true;
+	}
+	else if(LandMinePoint.size() == 1)
+	{
+		return false;
+	}
+	else
+	{
+		if (++iter != LandMinePoint.end())
 		{
-			return true;
+			return SamePoint(iter, point);
 		}
 		else
 		{
-			return SamePoint(++iter, point);
+			return false;
 		}
 	}
 }
@@ -101,4 +94,38 @@ void LandMine::SearchLandMine()
 	SearchPoint.push_back({ -1,1 });
 	SearchPoint.push_back({ 0,1 });
 	SearchPoint.push_back({ 1,1 });
+
+	list<Point>::iterator iter;
+	for (int i = 0; i < Vertical; i++)
+	{
+		for (int j = 0; j < Horizon; j++)
+		{
+			int findMineCount = 0;
+			// 지뢰일 경우
+			if (Grid[i][j] == 7)
+			{
+				continue;
+			}
+
+			for (iter = SearchPoint.begin(); iter != SearchPoint.end(); ++iter)
+			{
+				Point tmp = { i, j };
+				tmp.X += (*iter).X;
+				tmp.Y += (*iter).Y;
+
+				// 범위에서 벗어날 경우
+				if (tmp.X < 0 || tmp.Y < 0 || tmp.X > 4 || tmp.Y > 4)
+				{
+					continue;
+				}
+
+				// 지뢰를 찾을 경우
+				if (Grid[tmp.X][tmp.Y] == 7)
+				{
+					findMineCount++;
+				}
+			}
+			Grid[i][j] = findMineCount;
+		}
+	}
 }
