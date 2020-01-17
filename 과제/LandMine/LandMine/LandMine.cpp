@@ -56,6 +56,7 @@ void LandMine::SetLandMine()
 	list<Point>::iterator iter;
 	for (iter = LandMinePoint.begin(); iter != LandMinePoint.end(); ++iter)
 	{
+		// Áö·Ú ¸Å¼³
 		Grid[(*iter).X][(*iter).Y] = 7;
 	}
 }
