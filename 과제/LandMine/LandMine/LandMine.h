@@ -5,19 +5,30 @@
 
 using namespace std;
 
+struct Point
+{
+	int X;
+	int Y;
+};
+
 class LandMine
 {
 private:
 	int Horizon;
 	int Vertical;
-	list<char> Map;
-	int LandMineCount;
+	int Grid[5][5];
+	list<Point> SearchPoint;
+	list<Point> LandMinePoint;
+	int MaxLandMineCount;
 public:
 	LandMine();
 	~LandMine();
 
 public:
 	void SetMap();
+	void DrawMap();
 	void SetLandMine();
+	bool SamePoint(list<Point>::iterator iter, Point point);
+	void SearchLandMine();
 };
 
