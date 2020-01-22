@@ -55,6 +55,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 
 		DrawText(hdc, str, -1, &rt, DT_CENTER | DT_WORDBREAK | DT_VCENTER);
 
+		// ¿ø
 		int radius = 50;
 		for (int angle = 0; angle <= 360; angle++)
 		{
@@ -63,6 +64,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 			SetPixel(hdc, x + int(sin(angle*3.141592 / 180) * radius), y + int(cos(angle*3.141592/180) * radius), RGB(255, 0, 0));
 		}
 
+		// Å¸¿ø
 		int radiusX = 50;
 		int radiusY = 30;
 		for (int angle = 0; angle <= 360; angle++)
