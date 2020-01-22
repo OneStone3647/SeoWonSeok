@@ -63,11 +63,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 			SetPixel(hdc, x + int(sin(angle*3.141592 / 180) * radius), y + int(cos(angle*3.141592/180) * radius), RGB(255, 0, 0));
 		}
 
+		int radiusX = 50;
+		int radiusY = 30;
 		for (int angle = 0; angle <= 360; angle++)
 		{
-			int x = 500;
-			int y = 500;
-			SetPixel(hdc, x + int(sin(angle*3.141592 / 180) * radius), y + int(cos(angle*3.141592 / 180) * radius), RGB(255, 0, 0));
+			int x = 300;
+			int y = 300;
+			SetPixel(hdc, x + int(sin(angle*3.141592 / 180) * radiusX), y + int(cos(angle*3.141592 / 180) * radiusY), RGB(255, 0, 0));
+			radius--;
 		}
 
 		EndPaint(hWnd, &ps);
