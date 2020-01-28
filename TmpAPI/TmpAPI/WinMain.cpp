@@ -1,4 +1,5 @@
 #include <windows.h>
+
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 HINSTANCE g_hInst;
 LPCSTR IpszClass = TEXT("HelloWorld");
@@ -35,123 +36,38 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervInstance, LPSTR IpszCmd
 	return (int)Message.wParam;
 }
 
-// 초기 위치 설정
-int mX = 100;
-int mY = 100;
-int kX = 500;
-int kY = 500;
-bool bMessageFlag = true;			// true일 경우 원을 사각형으로, false일 경우 사각형을 원으로
-bool bRectFlag = false;
+int x = 10;
+int y = 10;
+
+void CALLBACK TimeProc(HWND hWnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+{
+	x+=30;
+	InvalidateRect(hWnd, NULL, TRUE);
+}
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
 	HDC hdc;
 	PAINTSTRUCT ps;
-	HPEN newPen, oldPen;
-	HBRUSH newBrush, oldBrush;
-
-	RECT rt = { 100, 100, 400, 400 };
+	SYSTEMTIME st;
+	static TCHAR sTime[128];
 
 	switch (iMessage)
 	{
-	case WM_LBUTTONDOWN:
-		if (bMessageFlag)
-		{
-			if (MessageBox(hWnd, TEXT("원을 사각형으로 바꾸시겠습니까?"), TEXT("Change Ellipse to Square"), MB_YESNO) == IDYES)
-			{
-				bMessageFlag = false;
-			}
-		}
-		else
-		{
-			if (MessageBox(hWnd, TEXT("사각형을 원으로 바꾸시겠습니까?"), TEXT("Change Square to Ellipse"), MB_YESNO) == IDYES)
-			{
-				bMessageFlag = true;
-			}
-		}
-		return 0;
-	case WM_RBUTTONDOWN:
-		if (MessageBox(hWnd, TEXT("마우스로 움직이는 도형을 가두겠습니까?"), TEXT("Set Rect"), MB_YESNO) == IDYES)
-		{
-			bRectFlag = true;
-		}
-		else
-		{
-			bRectFlag = false;
-		}
-		return 0;
-		// 키보드 화살표 입력
-	case WM_KEYDOWN:
-		switch (wParam)
-		{
-		case VK_LEFT:
-			kX -= 1;
-			break;
-		case VK_RIGHT:
-			kX += 1;
-			break;
-		case VK_UP:
-			kY -= 1;
-			break;
-		case VK_DOWN:
-			kY += 1;
-			break;
-		}
-		InvalidateRect(hWnd, NULL, TRUE);
-		return 0;
-		// 마우스 커서를 따라 다님
-	case WM_MOUSEMOVE:
-		mX = LOWORD(lParam);
-		mY = HIWORD(lParam);
-		if (bRectFlag)
-		{
-			if (mX + 50 > 400)
-			{
-				mX = 350;
-			}
-			if (mY + 50 > 400)
-			{
-				mY = 350;
-			}
-			if (mX - 50 < 100)
-			{
-				mX = 150;
-			}
-			if (mY - 50 < 100)
-			{
-				mY = 150;
-			}
-		}
-		InvalidateRect(hWnd, NULL, TRUE);
+	case WM_CREATE:
+		SetTimer(hWnd, 1, 1000, TimeProc);
+		SendMessage(hWnd, WM_TIMER, 1, 0);
 		return 0;
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
-		FrameRect(hdc, &rt, CreateSolidBrush(RGB(0, 100, 244)));
-		newPen = CreatePen(PS_SOLID, 1, RGB(125, 125, 0));
-		oldPen = (HPEN)SelectObject(hdc, newPen);
-		newBrush = CreateSolidBrush(RGB(0, 196, 196));
-		oldBrush = (HBRUSH)SelectObject(hdc, newBrush);
-		if (bMessageFlag)
-		{
-			Ellipse(hdc, mX - 50, mY - 50, mX + 50, mY + 50);
-			SelectObject(hdc, oldPen);
-			SelectObject(hdc, oldBrush);
-			Ellipse(hdc, kX - 50, kY - 50, kX + 50, kY + 50);
-		}
-		else
-		{
-			Rectangle(hdc, mX - 50, mY - 50, mX + 50, mY + 50);
-			SelectObject(hdc, oldPen);
-			SelectObject(hdc, oldBrush);
-			Rectangle(hdc, kX - 50, kY - 50, kX + 50, kY + 50);
-		}
-		DeleteObject(newPen);
-		DeleteObject(newBrush);
+		Ellipse(hdc, x, y, x + 50, y + 50);
 		EndPaint(hWnd, &ps);
 		return 0;
 	case WM_DESTROY:
+		KillTimer(hWnd, 1);
 		PostQuitMessage(0);
 		return 0;
 	}
+	
 	return (DefWindowProc(hWnd, iMessage, wParam, lParam));
 }

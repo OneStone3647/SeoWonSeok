@@ -1,2 +1,3 @@
 ﻿  WinMain.cpp
+c:\sos\seowonseok\tmpapi\tmpapi\winmain.cpp(52): warning C4101: 'st' :참조되지 않은 지역 변수입니다.
   TmpAPI.vcxproj -> C:\sos\SeoWonSeok\TmpAPI\x64\Debug\TmpAPI.exe
