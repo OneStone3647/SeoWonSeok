@@ -1,8 +1,9 @@
 #include <windows.h>
+#include <math.h>
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 HINSTANCE g_hInst;
-LPCSTR IpszClass = TEXT("HelloWorld");
+LPCSTR IpszClass = TEXT("Timer");
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervInstance, LPSTR IpszCmdParam, int nCmdShow)
 {
@@ -70,8 +71,8 @@ void Init()
 
 	bSearchFlag = true;
 
-	DC_X = 400;
-	DC_Y = 620;
+	DC_X = 300;
+	DC_Y = 420;
 
 	AC_X = 200;
 	AC_Y = 200;
@@ -117,6 +118,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	// 아날로그 시계 타이머
 	static TCHAR sTime[128];
 
+	HPEN NewPen, OldPen;
+
 	RECT rt = { SA_Top, SA_Left, SA_Right, SA_Bottom };
 
 	switch (iMessage)
@@ -144,21 +147,33 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		TextOut(hdc, DC_X, DC_Y, sTime, lstrlen(sTime));
 
 		// 아날로그 시계 몸체
-		Ellipse(hdc, AC_X, AC_Y, AC_X + 400, AC_Y + 400);
-		// 아날로그 시계 숫자
-		TextOut(hdc, AC_X + 200, AC_Y + 10, TEXT("12"), 2);
-		TextOut(hdc, AC_X + 280, AC_Y + 50, TEXT("11"), 2);
-		TextOut(hdc, AC_X + 330, AC_Y + 20, TEXT("10"), 2);
-		TextOut(hdc, AC_X + 390, AC_Y + 25, TEXT("9"), 1);
-		TextOut(hdc, AC_X + 200, AC_Y + 10, TEXT("8"), 1);
-		TextOut(hdc, AC_X + 200, AC_Y + 10, TEXT("7"), 1);
-		TextOut(hdc, AC_X + 200, AC_Y + 10, TEXT("6"), 1);
-		TextOut(hdc, AC_X + 200, AC_Y + 10, TEXT("5"), 1);
-		TextOut(hdc, AC_X + 200, AC_Y + 10, TEXT("4"), 1);
-		TextOut(hdc, AC_X + 200, AC_Y + 10, TEXT("3"), 1);
-		TextOut(hdc, AC_X + 200, AC_Y + 10, TEXT("2"), 1);
-		TextOut(hdc, AC_X + 200, AC_Y + 10, TEXT("1"), 1);
+		Ellipse(hdc, AC_X, AC_Y, AC_X + 200, AC_Y + 200);
+		// 아날로그 시계 숫자 그리기
+		for (int i = 0; i < 13; i++)
+		{
+			wsprintf(sTime, TEXT("%d"), i);
+			TextOut(hdc, int(AC_X + 100 + 100 * cos((270 + 30 * i) * 3.14 / 180)), int(AC_Y + 95 + 100 * sin((270 + 30 * i) * 3.14 / 180)), sTime, lstrlen(sTime));
+		}
 
+		// 시 침
+		NewPen = CreatePen(PS_SOLID, 3, RGB(0, 255, 0));
+		OldPen = (HPEN)SelectObject(hdc, NewPen);
+		MoveToEx(hdc, AC_X + 100, AC_Y + 100, NULL);
+		LineTo(hdc, int(AC_X + 100 + 55 * cos((270 + 30 * st.wHour + st.wMinute / 2) * 3.14 / 180)), int(AC_Y + 100 + 55 * sin((270 + 30 * st.wHour + st.wMinute / 2) * 3.14 / 180)));
+
+		// 분 침
+		NewPen = CreatePen(PS_SOLID, 2, RGB(0, 0, 255));
+		OldPen = (HPEN)SelectObject(hdc, NewPen);
+		MoveToEx(hdc, AC_X + 100, AC_Y + 100, NULL);
+		LineTo(hdc, int(AC_X + 100 + 90 * cos((270 + 6 * st.wMinute + st.wSecond / 10) * 3.14 / 180)), int(AC_Y + 100 + 90 * sin((270 + 6 * st.wMinute + st.wSecond / 10) * 3.14 / 180)));
+
+		// 초 침
+		NewPen = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
+		OldPen = (HPEN)SelectObject(hdc, NewPen);
+		MoveToEx(hdc, AC_X + 100, AC_Y + 100, NULL);
+		LineTo(hdc, int(AC_X + 100 + 80 * cos((270 + 6 * st.wSecond) * 3.14 / 180)), int(AC_Y + 100 + 80 * sin((270 + 6 * st.wSecond) * 3.14 / 180)));
+
+		DeleteObject(NewPen);
 		EndPaint(hWnd, &ps);
 		return 0;
 	case WM_DESTROY:
