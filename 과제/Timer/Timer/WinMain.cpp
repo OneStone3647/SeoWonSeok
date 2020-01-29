@@ -58,6 +58,9 @@ int DC_Y;
 int AC_X;
 int AC_Y;
 
+// 로컬 시계
+SYSTEMTIME st;
+
 // 초기화 함수
 void Init()
 {
@@ -105,6 +108,7 @@ void CALLBACK SearchEllipse(HWND hWnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime
 // 아날로그 시계
 void CALLBACK Clock(HWND hWnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 {
+	GetLocalTime(&st);
 	InvalidateRect(hWnd, NULL, TRUE);
 }
 
@@ -113,8 +117,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	HDC hdc;
 	PAINTSTRUCT ps;
 
-	// 로컬 시계
-	SYSTEMTIME st;
 	// 아날로그 시계 타이머
 	static TCHAR sTime[128];
 
@@ -141,13 +143,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		FrameRect(hdc, &rt, CreateSolidBrush(RGB(0, 100, 244)));
 		Ellipse(hdc, SE_X, SE_Y, SE_X + 50, SE_Y + 50);
 
-		// 디지털 시계	
-		GetLocalTime(&st);
+		// 디지털 시계
 		wsprintf(sTime, TEXT("%d:%d:%d"), st.wHour, st.wMinute, st.wSecond);
 		TextOut(hdc, DC_X, DC_Y, sTime, lstrlen(sTime));
 
-		// 아날로그 시계 몸체
+		// 아날로그 시계 몸체그리기
 		Ellipse(hdc, AC_X, AC_Y, AC_X + 200, AC_Y + 200);
+
 		// 아날로그 시계 숫자 그리기
 		for (int i = 0; i < 13; i++)
 		{
@@ -155,25 +157,24 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 			TextOut(hdc, int(AC_X + 100 + 100 * cos((270 + 30 * i) * 3.14 / 180)), int(AC_Y + 95 + 100 * sin((270 + 30 * i) * 3.14 / 180)), sTime, lstrlen(sTime));
 		}
 
-		// 시 침
+		// 시 침 그리기
 		NewPen = CreatePen(PS_SOLID, 3, RGB(0, 255, 0));
 		OldPen = (HPEN)SelectObject(hdc, NewPen);
-		MoveToEx(hdc, AC_X + 100, AC_Y + 100, NULL);
-		LineTo(hdc, int(AC_X + 100 + 55 * cos((270 + 30 * st.wHour + st.wMinute / 2) * 3.14 / 180)), int(AC_Y + 100 + 55 * sin((270 + 30 * st.wHour + st.wMinute / 2) * 3.14 / 180)));
+		DrawHour(hdc, AC_X, AC_Y);
+		DeleteObject(NewPen);
 
-		// 분 침
+		// 분 침 그리기
 		NewPen = CreatePen(PS_SOLID, 2, RGB(0, 0, 255));
 		OldPen = (HPEN)SelectObject(hdc, NewPen);
-		MoveToEx(hdc, AC_X + 100, AC_Y + 100, NULL);
-		LineTo(hdc, int(AC_X + 100 + 90 * cos((270 + 6 * st.wMinute + st.wSecond / 10) * 3.14 / 180)), int(AC_Y + 100 + 90 * sin((270 + 6 * st.wMinute + st.wSecond / 10) * 3.14 / 180)));
+		DrawMinute(hdc, AC_X, AC_Y);
+		DeleteObject(NewPen);
 
-		// 초 침
+		// 초 침 그리기
 		NewPen = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
 		OldPen = (HPEN)SelectObject(hdc, NewPen);
-		MoveToEx(hdc, AC_X + 100, AC_Y + 100, NULL);
-		LineTo(hdc, int(AC_X + 100 + 80 * cos((270 + 6 * st.wSecond) * 3.14 / 180)), int(AC_Y + 100 + 80 * sin((270 + 6 * st.wSecond) * 3.14 / 180)));
-
+		DrawSecond(hdc, AC_X, AC_Y);
 		DeleteObject(NewPen);
+
 		EndPaint(hWnd, &ps);
 		return 0;
 	case WM_DESTROY:
@@ -184,4 +185,22 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	}
 
 	return (DefWindowProc(hWnd, iMessage, wParam, lParam));
+}
+
+void DrawSecond(HDC hdc, int x, int y)
+{
+	MoveToEx(hdc, x + 100, y + 100, NULL);
+	LineTo(hdc, int(x + 100 + 80 * cos((270 + 6 * st.wSecond) * 3.14 / 180)), int(y + 100 + 80 * sin((270 + 6 * st.wSecond) * 3.14 / 180)));
+}
+
+void DrawMinute(HDC hdc, int x, int y)
+{
+	MoveToEx(hdc, x + 100, y + 100, NULL);
+	LineTo(hdc, int(x + 100 + 90 * cos((270 + 6 * st.wMinute + st.wSecond / 10) * 3.14 / 180)), int(y + 100 + 90 * sin((270 + 6 * st.wMinute + st.wSecond / 10) * 3.14 / 180)));
+}
+
+void DrawHour(HDC hdc, int x, int y)
+{
+	MoveToEx(hdc, x + 100, y + 100, NULL);
+	LineTo(hdc, int(x + 100 + 55 * cos((270 + 30 * st.wHour + st.wMinute / 2) * 3.14 / 180)), int(y + 100 + 55 * sin((270 + 30 * st.wHour + st.wMinute / 2) * 3.14 / 180)));
 }
