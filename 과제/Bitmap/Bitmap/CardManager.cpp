@@ -26,10 +26,11 @@ void CardManager::DrawCard(HINSTANCE g_hInst, HDC hdc, HDC CardDC)
 	for (int y = 0; y < 2; y++)
 	{
 		for (int x = 0; x < 5; x++)
-		{
-			tmpBitmap.SetLoadBitmap(g_hInst, BitmapCount);
-			newBitmap = tmpBitmap.GetBitmap();
-			oldBitmap = (HBITMAP)SelectObject(CardDC, newBitmap);
+		{	
+			// bitmap 클래스에서 처리
+			//tmpBitmap.SetLoadBitmap(g_hInst, BitmapCount);
+			//newBitmap = tmpBitmap.GetBitmap();
+			//oldBitmap = (HBITMAP)SelectObject(CardDC, newBitmap);
 			BitBlt(hdc, Card_X + (Card_Width * x), Card_Y + (Card_Height * y), Card_Width, Card_Height, CardDC, 0, 0, SRCCOPY);
 			SelectObject(CardDC, oldBitmap);
 			BitmapCount++;

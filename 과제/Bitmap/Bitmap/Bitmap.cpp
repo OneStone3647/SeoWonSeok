@@ -12,6 +12,13 @@ Bitmap::~Bitmap()
 {
 }
 
+void Bitmap::Init()
+{
+	tmpBitmap.SetLoadBitmap(g_hInst, BitmapCount);
+	newBitmap = tmpBitmap.GetBitmap();
+	oldBitmap = (HBITMAP)SelectObject(CardDC, newBitmap);
+}
+
 void Bitmap::Release()
 {
 	if (newBitmap != NULL)
@@ -28,4 +35,8 @@ void Bitmap::SetLoadBitmap(HINSTANCE g_hInst, int BitmapCount)
 		DeleteObject(newBitmap);
 	}
 	newBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP1 + BitmapCount));
+}
+
+void Bitmap::Draw()
+{
 }
