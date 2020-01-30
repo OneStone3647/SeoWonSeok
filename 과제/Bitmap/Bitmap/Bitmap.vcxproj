@@ -139,27 +139,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="DrawManager.cpp" />
+    <ClCompile Include="CardManager.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DrawManager.h" />
+    <ClInclude Include="CardManager.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Bitmap.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\RES\WinAPI\AnimalCard\00.bmp" />
-    <Image Include="..\..\..\RES\WinAPI\AnimalCard\01.bmp" />
-    <Image Include="..\..\..\RES\WinAPI\AnimalCard\02.bmp" />
-    <Image Include="..\..\..\RES\WinAPI\AnimalCard\03.bmp" />
-    <Image Include="..\..\..\RES\WinAPI\AnimalCard\04.bmp" />
-    <Image Include="..\..\..\RES\WinAPI\AnimalCard\05.bmp" />
-    <Image Include="..\..\..\RES\WinAPI\AnimalCard\06.bmp" />
-    <Image Include="..\..\..\RES\WinAPI\AnimalCard\07.bmp" />
-    <Image Include="..\..\..\RES\WinAPI\AnimalCard\08.bmp" />
-    <Image Include="..\..\..\RES\WinAPI\AnimalCard\09.bmp" />
+    <Image Include="00.bmp" />
+    <Image Include="01.bmp" />
+    <Image Include="02.bmp" />
+    <Image Include="03.bmp" />
+    <Image Include="04.bmp" />
+    <Image Include="05.bmp" />
+    <Image Include="06.bmp" />
+    <Image Include="07.bmp" />
+    <Image Include="08.bmp" />
+    <Image Include="09.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

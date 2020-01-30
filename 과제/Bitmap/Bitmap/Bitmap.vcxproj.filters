@@ -18,15 +18,15 @@
     <ClCompile Include="WinMain.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="DrawManager.cpp">
+    <ClCompile Include="CardManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="CardManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="DrawManager.h">
+    <ClInclude Include="resource.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -36,34 +36,34 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\RES\WinAPI\AnimalCard\00.bmp">
+    <Image Include="00.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="..\..\..\RES\WinAPI\AnimalCard\01.bmp">
+    <Image Include="01.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="..\..\..\RES\WinAPI\AnimalCard\02.bmp">
+    <Image Include="02.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="..\..\..\RES\WinAPI\AnimalCard\03.bmp">
+    <Image Include="03.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="..\..\..\RES\WinAPI\AnimalCard\04.bmp">
+    <Image Include="04.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="..\..\..\RES\WinAPI\AnimalCard\05.bmp">
+    <Image Include="05.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="..\..\..\RES\WinAPI\AnimalCard\06.bmp">
+    <Image Include="06.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="..\..\..\RES\WinAPI\AnimalCard\07.bmp">
+    <Image Include="07.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="..\..\..\RES\WinAPI\AnimalCard\08.bmp">
+    <Image Include="08.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="..\..\..\RES\WinAPI\AnimalCard\09.bmp">
+    <Image Include="09.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
   </ItemGroup>
