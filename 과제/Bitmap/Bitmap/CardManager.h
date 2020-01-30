@@ -1,7 +1,5 @@
 #pragma once
-#include <iostream>
-#include <Windows.h>
-#include "resource.h"
+#include "Bitmap.h"
 
 class CardManager
 {

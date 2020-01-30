@@ -21,66 +21,21 @@ CardManager::~CardManager()
 void CardManager::DrawCard(HINSTANCE g_hInst, HDC hdc, HDC CardDC)
 {
 	HBITMAP newBitmap, oldBitmap;
-
-	newBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP1));
-	oldBitmap = (HBITMAP)SelectObject(CardDC, newBitmap);
-	BitBlt(hdc, Card_X, Card_Y, Card_Width, Card_Height, CardDC, 0, 0, SRCCOPY);							// 메모리DC의 비트맵은 원형 그대로 hdc에 출력한다.
-	SelectObject(CardDC, oldBitmap);
-	DeleteObject(newBitmap);
-
-	newBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP2));
-	oldBitmap = (HBITMAP)SelectObject(CardDC, newBitmap);
-	BitBlt(hdc, Card_X + Card_Width, Card_Y, Card_Width, Card_Height, CardDC, 0, 0, SRCCOPY);
-	SelectObject(CardDC, oldBitmap);
-	DeleteObject(newBitmap);
-
-	newBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP3));
-	oldBitmap = (HBITMAP)SelectObject(CardDC, newBitmap);
-	BitBlt(hdc, Card_X + (Card_Width * 2), Card_Y, Card_Width, Card_Height, CardDC, 0, 0, SRCCOPY);
-	SelectObject(CardDC, oldBitmap);
-	DeleteObject(newBitmap);
-
-	newBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP4));
-	oldBitmap = (HBITMAP)SelectObject(CardDC, newBitmap);
-	BitBlt(hdc, Card_X + (Card_Width * 3), Card_Y, Card_Width, Card_Height, CardDC, 0, 0, SRCCOPY);
-	SelectObject(CardDC, oldBitmap);
-	DeleteObject(newBitmap);
-
-	newBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP5));
-	oldBitmap = (HBITMAP)SelectObject(CardDC, newBitmap);
-	BitBlt(hdc, Card_X + (Card_Width * 4), Card_Y, Card_Width, Card_Height, CardDC, 0, 0, SRCCOPY);
-	SelectObject(CardDC, oldBitmap);
-	DeleteObject(newBitmap);
-
-	newBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP6));
-	oldBitmap = (HBITMAP)SelectObject(CardDC, newBitmap);
-	BitBlt(hdc, Card_X, Card_Y + Card_Height, Card_Width, Card_Height, CardDC, 0, 0, SRCCOPY);
-	SelectObject(CardDC, oldBitmap);
-	DeleteObject(newBitmap);
-
-	newBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP7));
-	oldBitmap = (HBITMAP)SelectObject(CardDC, newBitmap);
-	BitBlt(hdc, Card_X + Card_Width, Card_Y + Card_Height, Card_Width, Card_Height, CardDC, 0, 0, SRCCOPY);
-	SelectObject(CardDC, oldBitmap);
-	DeleteObject(newBitmap);
-
-	newBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP8));
-	oldBitmap = (HBITMAP)SelectObject(CardDC, newBitmap);
-	BitBlt(hdc, Card_X + (Card_Width * 2), Card_Y + Card_Height, Card_Width, Card_Height, CardDC, 0, 0, SRCCOPY);
-	SelectObject(CardDC, oldBitmap);
-	DeleteObject(newBitmap);
-
-	newBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP9));
-	oldBitmap = (HBITMAP)SelectObject(CardDC, newBitmap);
-	BitBlt(hdc, Card_X + (Card_Width * 3), Card_Y + Card_Height, Card_Width, Card_Height, CardDC, 0, 0, SRCCOPY);
-	SelectObject(CardDC, oldBitmap);
-	DeleteObject(newBitmap);
-
-	newBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP10));
-	oldBitmap = (HBITMAP)SelectObject(CardDC, newBitmap);
-	BitBlt(hdc, Card_X + (Card_Width * 4), Card_Y + Card_Height, Card_Width, Card_Height, CardDC, 0, 0, SRCCOPY);
-	SelectObject(CardDC, oldBitmap);
-	DeleteObject(newBitmap);
+	Bitmap tmpBitmap;
+	int BitmapCount = 0;
+	for (int y = 0; y < 2; y++)
+	{
+		for (int x = 0; x < 5; x++)
+		{
+			tmpBitmap.SetLoadBitmap(g_hInst, BitmapCount);
+			newBitmap = tmpBitmap.GetBitmap();
+			oldBitmap = (HBITMAP)SelectObject(CardDC, newBitmap);
+			BitBlt(hdc, Card_X + (Card_Width * x), Card_Y + (Card_Height * y), Card_Width, Card_Height, CardDC, 0, 0, SRCCOPY);
+			SelectObject(CardDC, oldBitmap);
+			BitmapCount++;
+		}
+	}
+	tmpBitmap.Release();
 }
 
 void CardManager::CheckCard(HWND hWnd, int Mouse_X, int Mouse_Y)
