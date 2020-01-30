@@ -38,7 +38,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervInstance, LPSTR IpszCmd
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
-	HDC hdc, CardDC;
+	HDC hdc, MemDC;
 	PAINTSTRUCT ps;
 
 	int Mouse_X = 0;
@@ -55,11 +55,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		return 0;
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
-		CardDC = CreateCompatibleDC(hdc);		// hdc와 호환되는 CardDC를 만든다.
+		MemDC = CreateCompatibleDC(hdc);		// hdc와 호환되는 CardDC를 만든다.
 
-		CardManager::GetInstance()->DrawCard(g_hInst, hdc, CardDC);
+		CardManager::GetInstance()->DrawCard(g_hInst, hdc, MemDC);
 
-		DeleteDC(CardDC);
+		DeleteDC(MemDC);
 		EndPaint(hWnd, &ps);
 		return 0;
 	case WM_DESTROY:

@@ -32,7 +32,7 @@ private:
 public:
 	CardManager();
 	~CardManager();
-	void DrawCard(HINSTANCE g_hInst, HDC hdc, HDC CardDC);
+	void DrawCard(HINSTANCE g_hInst, HDC hdc, HDC MemDC);
 	void CheckCard(HWND hWnd, int Mouse_X, int Mouse_Y);
 };
 
