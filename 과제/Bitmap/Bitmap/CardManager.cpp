@@ -31,7 +31,7 @@ void CardManager::DrawCard(HINSTANCE g_hInst, HDC hdc, HDC MemDC)
 			BitmapCount++;
 		}
 	}
-	tmpBitmap.Release();
+	tmpBitmap.Release(MemDC);
 }
 
 void CardManager::CheckCard(HWND hWnd, int Mouse_X, int Mouse_Y)

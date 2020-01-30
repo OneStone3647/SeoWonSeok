@@ -12,11 +12,7 @@ public:
 	~Bitmap();
 public:
 	void Init(HINSTANCE g_hInst, HDC MemDC, int BitmapCount);
-	void Release();
-	void SetLoadBitmap(HINSTANCE g_hInst, int BitmapCount);
-	HBITMAP GetBitmap()
-	{
-		return newBitmap;
-	}
+	void Release(HDC MemDC);
+	void SetLoadBitmap(HINSTANCE g_hInst, HDC MemDC, int BitmapCount);
 };
 
