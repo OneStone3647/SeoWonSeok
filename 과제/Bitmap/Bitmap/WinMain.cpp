@@ -36,13 +36,13 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervInstance, LPSTR IpszCmd
 	return (int)Message.wParam;
 }
 
-int Mouse_X = 0;
-int Mouse_Y = 0;
-
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
 	HDC hdc, CardDC;
 	PAINTSTRUCT ps;
+
+	int Mouse_X = 0;
+	int Mouse_Y = 0;
 
 	switch (iMessage)
 	{

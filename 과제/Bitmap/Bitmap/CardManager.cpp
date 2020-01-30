@@ -1,6 +1,6 @@
 #include "CardManager.h"
 
-CardManager* CardManager::m_CManager = 0;
+CardManager* CardManager::m_CManager = NULL;
 
 CardManager::CardManager()
 {
