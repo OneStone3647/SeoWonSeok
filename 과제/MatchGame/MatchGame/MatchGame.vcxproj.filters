@@ -18,10 +18,10 @@
     <ClInclude Include="resource.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Bitmap.h">
+    <ClInclude Include="Card.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="BitmapManager.h">
+    <ClInclude Include="CardManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -69,10 +69,10 @@
     <ClCompile Include="WinMain.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Bitmap.cpp">
+    <ClCompile Include="Card.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="BitmapManager.cpp">
+    <ClCompile Include="CardManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

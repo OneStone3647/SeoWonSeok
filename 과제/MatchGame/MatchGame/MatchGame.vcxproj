@@ -139,8 +139,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Bitmap.h" />
-    <ClInclude Include="BitmapManager.h" />
+    <ClInclude Include="Card.h" />
+    <ClInclude Include="CardManager.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
@@ -160,8 +160,8 @@
     <Image Include="back.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Bitmap.cpp" />
-    <ClCompile Include="BitmapManager.cpp" />
+    <ClCompile Include="Card.cpp" />
+    <ClCompile Include="CardManager.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
