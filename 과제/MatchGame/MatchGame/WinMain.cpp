@@ -78,10 +78,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		SetTimer(hWnd, 1, 3000, SetCardBackFlag);
 		return 0;
 	case WM_LBUTTONDOWN:
-		Mouse_X = LOWORD(lParam);
-		Mouse_Y = HIWORD(lParam);
 		if (bStartGame)
 		{
+			Mouse_X = LOWORD(lParam);
+			Mouse_Y = HIWORD(lParam);
 			CardManager::GetInstance()->CheckCard(hWnd, g_hInst, bStartGame, Mouse_X, Mouse_Y, Card_X, Card_Y);
 		}
 		return 0;
