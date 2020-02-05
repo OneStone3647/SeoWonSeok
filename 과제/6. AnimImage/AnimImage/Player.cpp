@@ -4,6 +4,7 @@ Player* Player::m_This = NULL;
 int Player::m_X = 100;
 int Player::m_Y = 100;
 int Player::m_Frame = 0;
+bool Player::m_bJump = false;
 
 Player::Player()
 {
@@ -40,11 +41,14 @@ void Player::Input(WPARAM wParam)
 		SetFrame(CHARACTERPOSITION_RIGHT);
 		break;
 	case VK_SPACE:
-		m_Y -= 40;
-		m_Frame = 1;
-		m_bJump = true;
-		InvalidateRect(m_hWnd, NULL, TRUE);
-		SetTimer(m_hWnd, 1, 250, Jump);
+		if (m_bJump != true)
+		{
+			m_Y -= 40;
+			m_Frame = 1;
+			m_bJump = true;
+			InvalidateRect(m_hWnd, NULL, TRUE);
+			SetTimer(m_hWnd, 1, 250, Jump);
+		}
 		break;
 	}
 }
@@ -65,6 +69,7 @@ void Player::Jump(HWND hWnd, UINT uMsg, UINT idEvent, DWORD dwTime)
 	m_Frame = 0;
 	KillTimer(hWnd, 1);
 	InvalidateRect(hWnd, NULL, TRUE);
+	m_bJump = false;
 }
 
 void Player::Release()

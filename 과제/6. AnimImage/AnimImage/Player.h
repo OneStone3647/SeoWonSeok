@@ -30,7 +30,7 @@ private:
 	static int m_Y;
 	static int m_Frame;
 	CHARACTERPOSITION m_Position;		// 캐릭터 자세 이미지
-	bool m_bJump;								// 점프하면 true;
+	static bool m_bJump;				// 점프하면 true;
 	int m_JumpStartTime;
 	int m_JumpEndTime;
 
