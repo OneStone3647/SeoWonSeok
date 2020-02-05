@@ -1,6 +1,5 @@
 #include "Player.h"
 
-Player* Player::m_This = NULL;
 int Player::m_X = 100;
 int Player::m_Y = 100;
 int Player::m_Frame = 0;
@@ -70,11 +69,6 @@ void Player::Jump(HWND hWnd, UINT uMsg, UINT idEvent, DWORD dwTime)
 	KillTimer(hWnd, 1);
 	InvalidateRect(hWnd, NULL, TRUE);
 	m_bJump = false;
-}
-
-void Player::Release()
-{
-	delete m_This;
 }
 
 

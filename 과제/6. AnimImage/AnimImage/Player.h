@@ -12,19 +12,6 @@ enum CHARACTERPOSITION
 class Player
 {
 private:
-	static Player* m_This;
-
-public:
-	static Player* GetInstance()
-	{
-		if (m_This == NULL)
-		{
-			m_This = new Player;
-		}
-		return m_This;
-	}
-
-private:
 	HWND m_hWnd;
 	static int m_X;
 	static int m_Y;
@@ -41,7 +28,6 @@ public:
 	void Input(WPARAM wParam);
 	void SetFrame(CHARACTERPOSITION Position);
 	static void CALLBACK Jump(HWND hWnd, UINT uMsg, UINT idEvent, DWORD dwTime);
-	void Release();
 
 	~Player();
 

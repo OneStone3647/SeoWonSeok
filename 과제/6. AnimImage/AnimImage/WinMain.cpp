@@ -37,6 +37,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 	return (int)Message.wParam;
 }
 
+Player m_Player;
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
 	HDC hdc;
@@ -50,10 +52,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	switch (iMessage)
 	{
 	case WM_CREATE:
-		Player::GetInstance()->Init(hWnd);
+		m_Player.Init(hWnd);
 		return 0;
 	case WM_KEYDOWN:
-		Player::GetInstance()->Input(wParam);
+		m_Player.Input(wParam);
 		InvalidateRect(hWnd, NULL, TRUE);
 		return 0;
 	case WM_PAINT:
@@ -71,8 +73,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		bX = Bit.bmWidth;
 		bY = Bit.bmHeight;
 
-		TransparentBlt(hdc, Player::GetInstance()->GetPlayerX(), Player::GetInstance()->GetPlayerY(), bX / 4, bY / 4,
-			MemDC, (bX / 4) * Player::GetInstance()->GetFrame(), (bY / 4) * Player::GetInstance()->GetPalyerPosition(), bX / 4, bY / 4, RGB(255, 0, 255));
+		TransparentBlt(hdc, m_Player.GetPlayerX(), m_Player.GetPlayerY(), bX / 4, bY / 4,
+			MemDC, (bX / 4) * m_Player.GetFrame(), (bY / 4) * m_Player.GetPalyerPosition(), bX / 4, bY / 4, RGB(255, 0, 255));
 
 		SelectObject(MemDC, OldBitmap);
 		DeleteObject(Image);
@@ -82,7 +84,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	case WM_DESTROY:
-		Player::GetInstance()->Release();
 		PostQuitMessage(0);
 		return 0;
 	}
