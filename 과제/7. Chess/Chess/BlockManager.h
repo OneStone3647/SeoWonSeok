@@ -19,8 +19,10 @@ public:
 
 	void Init(HWND hWnd, HINSTANCE hInst);
 	void SetField();
-	void DrawField(HDC hdc);
-	void DrawInitPiece(HDC hdc);
+	void DrawField();
+	void SetPiece();
+	void DrawPiece(BLOCKTYPE blockType, PIECETYPE pieceType, int x, int y);
+	void DrawInitPiece();
 
 	~BlockManager();
 };

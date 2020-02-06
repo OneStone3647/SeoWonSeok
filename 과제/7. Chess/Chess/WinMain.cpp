@@ -69,7 +69,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
 
-		m_BlockManager.DrawField(hdc);
+		m_BlockManager.DrawField();
+		m_BlockManager.DrawInitPiece();
 
 		EndPaint(hWnd, &ps);
 		return 0;

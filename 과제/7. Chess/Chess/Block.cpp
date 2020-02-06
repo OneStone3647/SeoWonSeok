@@ -14,7 +14,7 @@ void Block::Init(HDC hdc, HINSTANCE hInst, BLOCKTYPE blockType, PIECETYPE pieceT
 
 	SetBlockType(blockType);
 	// 블록의 타입이 검은색 말 또는 흰색 말일 경우
-	if (m_BlockType == BLOCKTYPE_BLACK || m_BlockType == BLOCKTYPE_WITHE)
+	if (m_BlockType == BLOCKTYPE_BLACK || m_BlockType == BLOCKTYPE_WHITE)
 	{
 		SetPieceType(pieceType);
 	}
@@ -59,28 +59,28 @@ void Block::SetPieceType(PIECETYPE pieceType)
 	{
 		switch (m_PieceType)
 		{
-		case PIECETYPE_KING:
-			m_NewBitmap = (HBITMAP)LoadImage(NULL, TEXT("block_b_05.bmp"),
-				IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
-			break;
-		case PIECETYPE_QUEEN:
-			m_NewBitmap = (HBITMAP)LoadImage(NULL, TEXT("block_b_04.bmp"),
-				IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
-			break;
-		case PIECETYPE_BISHOP:
-			m_NewBitmap = (HBITMAP)LoadImage(NULL, TEXT("block_b_02.bmp"),
+		case PIECETYPE_PAWN:
+			m_NewBitmap = (HBITMAP)LoadImage(NULL, TEXT("block_b_00.bmp"),
 				IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
 			break;
 		case PIECETYPE_KNIGHT:
 			m_NewBitmap = (HBITMAP)LoadImage(NULL, TEXT("block_b_01.bmp"),
 				IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
 			break;
+		case PIECETYPE_BISHOP:
+			m_NewBitmap = (HBITMAP)LoadImage(NULL, TEXT("block_b_02.bmp"),
+				IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
+			break;
 		case PIECETYPE_ROOK:
 			m_NewBitmap = (HBITMAP)LoadImage(NULL, TEXT("block_b_03.bmp"),
 				IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
 			break;
-		case PIECETYPE_PAWN:
-			m_NewBitmap = (HBITMAP)LoadImage(NULL, TEXT("block_b_00.bmp"),
+		case PIECETYPE_QUEEN:
+			m_NewBitmap = (HBITMAP)LoadImage(NULL, TEXT("block_b_04.bmp"),
+				IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
+			break;
+		case PIECETYPE_KING:
+			m_NewBitmap = (HBITMAP)LoadImage(NULL, TEXT("block_b_05.bmp"),
 				IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
 			break;
 		}
@@ -90,28 +90,28 @@ void Block::SetPieceType(PIECETYPE pieceType)
 	{
 		switch (m_PieceType)
 		{
-		case PIECETYPE_KING:
-			m_NewBitmap = (HBITMAP)LoadImage(NULL, TEXT("block_w_05.bmp"),
-				IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
-			break;
-		case PIECETYPE_QUEEN:
-			m_NewBitmap = (HBITMAP)LoadImage(NULL, TEXT("block_w_04.bmp"),
-				IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
-			break;
-		case PIECETYPE_BISHOP:
-			m_NewBitmap = (HBITMAP)LoadImage(NULL, TEXT("block_w_02.bmp"),
+		case PIECETYPE_PAWN:
+			m_NewBitmap = (HBITMAP)LoadImage(NULL, TEXT("block_w_00.bmp"),
 				IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
 			break;
 		case PIECETYPE_KNIGHT:
 			m_NewBitmap = (HBITMAP)LoadImage(NULL, TEXT("block_w_01.bmp"),
 				IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
 			break;
+		case PIECETYPE_BISHOP:
+			m_NewBitmap = (HBITMAP)LoadImage(NULL, TEXT("block_w_02.bmp"),
+				IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
+			break;
 		case PIECETYPE_ROOK:
 			m_NewBitmap = (HBITMAP)LoadImage(NULL, TEXT("block_w_03.bmp"),
 				IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
 			break;
-		case PIECETYPE_PAWN:
-			m_NewBitmap = (HBITMAP)LoadImage(NULL, TEXT("block_w_00.bmp"),
+		case PIECETYPE_QUEEN:
+			m_NewBitmap = (HBITMAP)LoadImage(NULL, TEXT("block_w_04.bmp"),
+				IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
+			break;
+		case PIECETYPE_KING:
+			m_NewBitmap = (HBITMAP)LoadImage(NULL, TEXT("block_w_05.bmp"),
 				IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
 			break;
 		}
@@ -123,12 +123,12 @@ void Block::Draw(HDC hdc, int x, int y)
 	// 블록의 타입이 판일 경우 원본 그대로 그린다.
 	if (m_BlockType == BLOCKTYPE_FIELD01 || m_BlockType == BLOCKTYPE_FIELD02)
 	{
-		BitBlt(hdc, x, y, BLOCKX, BLOCKY, MemDC, 0, 0, SRCCOPY);
+		BitBlt(hdc, BLOCKX * x, BLOCKX *y, BLOCKX, BLOCKY, MemDC, 0, 0, SRCCOPY);
 	}
 	// 아닐 경우RGB(255, 0, 255)(핑크색)을 투명하게 만들고 그린다.
 	else
 	{
-		TransparentBlt(hdc, x, y, BLOCKX, BLOCKY, MemDC, 0, 0, BLOCKX, BLOCKY, RGB(255, 0, 255));
+		TransparentBlt(hdc, BLOCKX * x, BLOCKX * y, BLOCKX, BLOCKY, MemDC, 0, 0, BLOCKX, BLOCKY, RGB(255, 0, 255));
 	}
 }
 
