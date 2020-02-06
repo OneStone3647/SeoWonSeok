@@ -1,0 +1,70 @@
+﻿  Block.cpp
+  BlockManager.cpp
+d:\study\programing\seowonseok\과제\chess\chess\player.h(25): error C2011: 'Player': 'class' 형식 재정의
+  d:\study\programing\seowonseok\과제\chess\chess\player.h(6): note: 'Player' 선언을 참조하십시오.
+d:\study\programing\seowonseok\과제\chess\chess\blockmanager.h(27): error C2011: 'BlockManager': 'class' 형식 재정의
+  d:\study\programing\seowonseok\과제\chess\chess\blockmanager.h(4): note: 'BlockManager' 선언을 참조하십시오.
+d:\study\programing\seowonseok\과제\chess\chess\blockmanager.cpp(5): error C2027: 정의되지 않은 형식 'BlockManager'을(를) 사용했습니다.
+  d:\study\programing\seowonseok\과제\chess\chess\blockmanager.h(4): note: 'BlockManager' 선언을 참조하십시오.
+d:\study\programing\seowonseok\과제\chess\chess\blockmanager.cpp(6): error C4430: 형식 지정자가 없습니다. int로 가정합니다. 참고: C++에서는 기본 int를 지원하지 않습니다.
+d:\study\programing\seowonseok\과제\chess\chess\blockmanager.cpp(7): warning C4508: '{ctor}': 함수는 값을 반환해야 하므로 'void' 반환 형식으로 간주됩니다.
+d:\study\programing\seowonseok\과제\chess\chess\blockmanager.cpp(9): error C2027: 정의되지 않은 형식 'BlockManager'을(를) 사용했습니다.
+  d:\study\programing\seowonseok\과제\chess\chess\blockmanager.h(4): note: 'BlockManager' 선언을 참조하십시오.
+d:\study\programing\seowonseok\과제\chess\chess\blockmanager.cpp(11): error C2065: 'hdc': 선언되지 않은 식별자입니다.
+d:\study\programing\seowonseok\과제\chess\chess\blockmanager.cpp(12): error C2065: 'm_hInst': 선언되지 않은 식별자입니다.
+d:\study\programing\seowonseok\과제\chess\chess\blockmanager.cpp(14): error C2065: 'm_Field1': 선언되지 않은 식별자입니다.
+d:\study\programing\seowonseok\과제\chess\chess\blockmanager.cpp(15): error C2065: 'm_Field1': 선언되지 않은 식별자입니다.
+d:\study\programing\seowonseok\과제\chess\chess\blockmanager.cpp(16): error C2065: 'm_Field1': 선언되지 않은 식별자입니다.
+d:\study\programing\seowonseok\과제\chess\chess\blockmanager.cpp(17): error C2065: 'm_Field1': 선언되지 않은 식별자입니다.
+d:\study\programing\seowonseok\과제\chess\chess\blockmanager.cpp(17): error C3861: 'SetFieldBlock': 식별자를 찾을 수 없습니다.
+d:\study\programing\seowonseok\과제\chess\chess\blockmanager.cpp(19): error C2065: 'm_Field2': 선언되지 않은 식별자입니다.
+d:\study\programing\seowonseok\과제\chess\chess\blockmanager.cpp(20): error C2065: 'm_Field2': 선언되지 않은 식별자입니다.
+d:\study\programing\seowonseok\과제\chess\chess\blockmanager.cpp(21): error C2065: 'm_Field2': 선언되지 않은 식별자입니다.
+d:\study\programing\seowonseok\과제\chess\chess\blockmanager.cpp(22): error C2065: 'm_Field2': 선언되지 않은 식별자입니다.
+d:\study\programing\seowonseok\과제\chess\chess\blockmanager.cpp(22): error C3861: 'SetFieldBlock': 식별자를 찾을 수 없습니다.
+d:\study\programing\seowonseok\과제\chess\chess\blockmanager.cpp(25): error C2027: 정의되지 않은 형식 'BlockManager'을(를) 사용했습니다.
+  d:\study\programing\seowonseok\과제\chess\chess\blockmanager.h(4): note: 'BlockManager' 선언을 참조하십시오.
+d:\study\programing\seowonseok\과제\chess\chess\blockmanager.cpp(26): error C4430: 형식 지정자가 없습니다. int로 가정합니다. 참고: C++에서는 기본 int를 지원하지 않습니다.
+d:\study\programing\seowonseok\과제\chess\chess\blockmanager.cpp(27): warning C4508: '{dtor}': 함수는 값을 반환해야 하므로 'void' 반환 형식으로 간주됩니다.
+d:\study\programing\seowonseok\과제\chess\chess\blockmanager.cpp(30): error C2027: 정의되지 않은 형식 'BlockManager'을(를) 사용했습니다.
+  d:\study\programing\seowonseok\과제\chess\chess\blockmanager.h(4): note: 'BlockManager' 선언을 참조하십시오.
+d:\study\programing\seowonseok\과제\chess\chess\blockmanager.cpp(31): error C4430: 형식 지정자가 없습니다. int로 가정합니다. 참고: C++에서는 기본 int를 지원하지 않습니다.
+d:\study\programing\seowonseok\과제\chess\chess\blockmanager.cpp(31): error C2084: 'int {ctor}(void)' 함수에 이미 본문이 있습니다.
+  d:\study\programing\seowonseok\과제\chess\chess\blockmanager.cpp(5): note: '{ctor}'의 이전 정의를 참조하십시오.
+d:\study\programing\seowonseok\과제\chess\chess\blockmanager.cpp(35): error C2027: 정의되지 않은 형식 'BlockManager'을(를) 사용했습니다.
+  d:\study\programing\seowonseok\과제\chess\chess\blockmanager.h(4): note: 'BlockManager' 선언을 참조하십시오.
+d:\study\programing\seowonseok\과제\chess\chess\blockmanager.cpp(36): error C4430: 형식 지정자가 없습니다. int로 가정합니다. 참고: C++에서는 기본 int를 지원하지 않습니다.
+d:\study\programing\seowonseok\과제\chess\chess\blockmanager.cpp(36): error C2084: 'int {dtor}(void)' 함수에 이미 본문이 있습니다.
+  d:\study\programing\seowonseok\과제\chess\chess\blockmanager.cpp(25): note: '{dtor}'의 이전 정의를 참조하십시오.
+  Player.cpp
+d:\study\programing\seowonseok\과제\chess\chess\player.h(25): error C2011: 'Player': 'class' 형식 재정의
+  d:\study\programing\seowonseok\과제\chess\chess\player.h(6): note: 'Player' 선언을 참조하십시오.
+d:\study\programing\seowonseok\과제\chess\chess\player.cpp(5): error C2027: 정의되지 않은 형식 'Player'을(를) 사용했습니다.
+  d:\study\programing\seowonseok\과제\chess\chess\player.h(6): note: 'Player' 선언을 참조하십시오.
+d:\study\programing\seowonseok\과제\chess\chess\player.cpp(6): error C4430: 형식 지정자가 없습니다. int로 가정합니다. 참고: C++에서는 기본 int를 지원하지 않습니다.
+d:\study\programing\seowonseok\과제\chess\chess\player.cpp(7): warning C4508: '{ctor}': 함수는 값을 반환해야 하므로 'void' 반환 형식으로 간주됩니다.
+d:\study\programing\seowonseok\과제\chess\chess\player.cpp(9): error C2027: 정의되지 않은 형식 'Player'을(를) 사용했습니다.
+  d:\study\programing\seowonseok\과제\chess\chess\player.h(6): note: 'Player' 선언을 참조하십시오.
+d:\study\programing\seowonseok\과제\chess\chess\player.cpp(13): error C2065: 'm_Piece': 선언되지 않은 식별자입니다.
+d:\study\programing\seowonseok\과제\chess\chess\player.cpp(14): error C2065: 'm_hWnd': 선언되지 않은 식별자입니다.
+d:\study\programing\seowonseok\과제\chess\chess\player.cpp(17): error C2027: 정의되지 않은 형식 'Player'을(를) 사용했습니다.
+  d:\study\programing\seowonseok\과제\chess\chess\player.h(6): note: 'Player' 선언을 참조하십시오.
+d:\study\programing\seowonseok\과제\chess\chess\player.cpp(19): error C2065: 'm_X': 선언되지 않은 식별자입니다.
+d:\study\programing\seowonseok\과제\chess\chess\player.cpp(20): error C2065: 'm_Y': 선언되지 않은 식별자입니다.
+d:\study\programing\seowonseok\과제\chess\chess\player.cpp(24): error C2027: 정의되지 않은 형식 'Player'을(를) 사용했습니다.
+  d:\study\programing\seowonseok\과제\chess\chess\player.h(6): note: 'Player' 선언을 참조하십시오.
+d:\study\programing\seowonseok\과제\chess\chess\player.cpp(25): error C4430: 형식 지정자가 없습니다. int로 가정합니다. 참고: C++에서는 기본 int를 지원하지 않습니다.
+d:\study\programing\seowonseok\과제\chess\chess\player.cpp(26): warning C4508: '{dtor}': 함수는 값을 반환해야 하므로 'void' 반환 형식으로 간주됩니다.
+d:\study\programing\seowonseok\과제\chess\chess\player.cpp(29): error C2027: 정의되지 않은 형식 'Player'을(를) 사용했습니다.
+  d:\study\programing\seowonseok\과제\chess\chess\player.h(6): note: 'Player' 선언을 참조하십시오.
+d:\study\programing\seowonseok\과제\chess\chess\player.cpp(30): error C4430: 형식 지정자가 없습니다. int로 가정합니다. 참고: C++에서는 기본 int를 지원하지 않습니다.
+d:\study\programing\seowonseok\과제\chess\chess\player.cpp(30): error C2084: 'int {ctor}(void)' 함수에 이미 본문이 있습니다.
+  d:\study\programing\seowonseok\과제\chess\chess\player.cpp(5): note: '{ctor}'의 이전 정의를 참조하십시오.
+d:\study\programing\seowonseok\과제\chess\chess\player.cpp(34): error C2027: 정의되지 않은 형식 'Player'을(를) 사용했습니다.
+  d:\study\programing\seowonseok\과제\chess\chess\player.h(6): note: 'Player' 선언을 참조하십시오.
+d:\study\programing\seowonseok\과제\chess\chess\player.cpp(35): error C4430: 형식 지정자가 없습니다. int로 가정합니다. 참고: C++에서는 기본 int를 지원하지 않습니다.
+d:\study\programing\seowonseok\과제\chess\chess\player.cpp(35): error C2084: 'int {dtor}(void)' 함수에 이미 본문이 있습니다.
+  d:\study\programing\seowonseok\과제\chess\chess\player.cpp(24): note: '{dtor}'의 이전 정의를 참조하십시오.
+  WinMain.cpp
+d:\study\programing\seowonseok\과제\chess\chess\winmain.cpp(44): warning C4101: 'bStartGame' :참조되지 않은 지역 변수입니다.
+  코드를 생성하고 있습니다...

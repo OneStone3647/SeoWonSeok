@@ -1,0 +1,3 @@
+﻿  WinMain.cpp
+c:\sos\seowonseok\과제\chess\chess\winmain.cpp(44): warning C4101: 'bStartGame' :참조되지 않은 지역 변수입니다.
+  Chess.vcxproj -> C:\sos\SeoWonSeok\과제\Chess\Debug\Chess.exe
