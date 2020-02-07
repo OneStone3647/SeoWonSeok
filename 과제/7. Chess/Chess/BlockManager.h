@@ -1,5 +1,5 @@
 #pragma once
-#include "Block.h"
+#include "Piece.h"
 
 #define FIELDMAX 3		// 필드의 종류
 #define PIECEMAX 6		// 말의 종류
@@ -21,8 +21,8 @@ public:
 	void SetField();
 	void DrawField();
 	void SetPiece();
-	void DrawPiece(BLOCKTYPE blockType, PIECETYPE pieceType, int x, int y);
-	void DrawInitPiece();
+	void DrawPiece(PIECECOLOR pieceColor, PIECETYPE pieceType, int x, int y);
+	void DrawInitPiece(vector<Piece*> pieceList);
 
 	~BlockManager();
 };

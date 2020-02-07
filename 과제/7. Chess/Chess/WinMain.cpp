@@ -1,4 +1,5 @@
 #include "BlockManager.h"
+#include "Player.h"
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 HINSTANCE g_hInst;
@@ -38,7 +39,16 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervInstance, LPSTR IpszCmd
 	return (int)Message.wParam;
 }
 
-BlockManager m_BlockManager;
+BlockManager* m_BlockManager = new BlockManager;
+Player* m_PlayerBlack = new Player;
+Player* m_PlayerWhite = new Player;
+
+void Release()
+{
+	delete m_BlockManager;
+	delete m_PlayerBlack;
+	delete m_PlayerWhite;
+}
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
@@ -62,19 +72,25 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		// 2, 3, 4 ,5번째 인자 : left, top, right, bottom
 		// 6 번째 인자 : TRUE일 경우 윈도우가 이동된 후 WM)PAINT 메시지로 윈도우를 새로 그린다.
 		MoveWindow(hWnd, x, y - 30, width - 22, height + 22, TRUE);
-		m_BlockManager.Init(hWnd, g_hInst);
+		m_BlockManager->Init(hWnd, g_hInst);
+		m_PlayerBlack->Init();
+		m_PlayerBlack->SetPiece(PIECECOLOR_BLACK);
+		m_PlayerWhite->Init();
+		m_PlayerWhite->SetPiece(PIECECOLOR_WHITE);
 		return 0;
 	case WM_LBUTTONDOWN:
 		return 0;
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
 
-		m_BlockManager.DrawField();
-		m_BlockManager.DrawInitPiece();
+		m_BlockManager->DrawField();
+		m_BlockManager->DrawInitPiece(m_PlayerBlack->GetPieceList());
+		m_BlockManager->DrawInitPiece(m_PlayerWhite->GetPieceList());
 
 		EndPaint(hWnd, &ps);
 		return 0;
 	case WM_DESTROY:
+		Release();
 		PostQuitMessage(0);
 		return 0;
 	}

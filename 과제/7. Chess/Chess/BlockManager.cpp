@@ -84,56 +84,71 @@ void BlockManager::SetPiece()
 	m_WhitePiece[PIECETYPE_KING].Init(hdc, m_hInst, BLOCKTYPE_WHITE, PIECETYPE_KING);
 }
 
-void BlockManager::DrawPiece(BLOCKTYPE blockType, PIECETYPE pieceType, int x, int y)
+void BlockManager::DrawPiece(PIECECOLOR pieceColor, PIECETYPE pieceType, int x, int y)
 {
-	switch (blockType)
+	switch (pieceColor)
 	{
-	case BLOCKTYPE_BLACK:
+	case PIECECOLOR_BLACK:
 		m_BlackPiece[pieceType].Draw(hdc, x, y);
 		break;
-	case BLOCKTYPE_WHITE:
+	case PIECECOLOR_WHITE:
 		m_WhitePiece[pieceType].Draw(hdc, x, y);
 		break;
 	}
 }
 
-void BlockManager::DrawInitPiece()
+void BlockManager::DrawInitPiece(vector<Piece*> pieceList)
 {
-	// Æù
-	for (int i = 0; i < 8; i++)
+	// ¹éÅÍ°¡ ºñ¾îÀÖÁö ¾ÊÀ¸¸é ±×¸°´Ù.
+	if (!pieceList.empty())
 	{
-		DrawPiece(BLOCKTYPE_BLACK, PIECETYPE_PAWN, i, 6);
-		DrawPiece(BLOCKTYPE_WHITE, PIECETYPE_PAWN, i, 1);
+		for (int i = 0; i < PIECEMAX; i++)
+		{
+			DrawPiece(pieceList[i]->GetPieceColor(), pieceList[i]->GetPieceType(), pieceList[i]->GetPoint().x, pieceList[i]->GetPoint().y);
+		}
 	}
-
-	// ³ªÀÌÆ®
-	DrawPiece(BLOCKTYPE_BLACK, PIECETYPE_KNIGHT, 1, 7);
-	DrawPiece(BLOCKTYPE_BLACK, PIECETYPE_KNIGHT, 6, 7);
-	DrawPiece(BLOCKTYPE_WHITE, PIECETYPE_KNIGHT, 1, 0);
-	DrawPiece(BLOCKTYPE_WHITE, PIECETYPE_KNIGHT, 6, 0);
-
-	// ºñ¼ó
-	DrawPiece(BLOCKTYPE_BLACK, PIECETYPE_BISHOP, 2, 7);
-	DrawPiece(BLOCKTYPE_BLACK, PIECETYPE_BISHOP, 5, 7);
-	DrawPiece(BLOCKTYPE_WHITE, PIECETYPE_BISHOP, 2, 0);
-	DrawPiece(BLOCKTYPE_WHITE, PIECETYPE_BISHOP, 5, 0);
-
-	// ·è
-	DrawPiece(BLOCKTYPE_BLACK, PIECETYPE_ROOK, 0, 7);
-	DrawPiece(BLOCKTYPE_BLACK, PIECETYPE_ROOK, 7, 7);
-	DrawPiece(BLOCKTYPE_WHITE, PIECETYPE_ROOK, 0, 0);
-	DrawPiece(BLOCKTYPE_WHITE, PIECETYPE_ROOK, 7, 0);
-
-	// Äý
-	DrawPiece(BLOCKTYPE_BLACK, PIECETYPE_QUEEN, 3, 7);
-	DrawPiece(BLOCKTYPE_WHITE, PIECETYPE_QUEEN, 4, 0);
-
-	// Å·
-	DrawPiece(BLOCKTYPE_BLACK, PIECETYPE_KING, 4, 7);
-	DrawPiece(BLOCKTYPE_WHITE, PIECETYPE_KING, 3, 0);
 }
+
+//void BlockManager::DrawInitPiece()
+//{
+//	// Æù
+//	for (int i = 0; i < 8; i++)
+//	{
+//		DrawPiece(BLOCKTYPE_BLACK, PIECETYPE_PAWN, i, 6);
+//		DrawPiece(BLOCKTYPE_WHITE, PIECETYPE_PAWN, i, 1);
+//	}
+//
+//	// ³ªÀÌÆ®
+//	DrawPiece(BLOCKTYPE_BLACK, PIECETYPE_KNIGHT, 1, 7);
+//	DrawPiece(BLOCKTYPE_BLACK, PIECETYPE_KNIGHT, 6, 7);
+//	DrawPiece(BLOCKTYPE_WHITE, PIECETYPE_KNIGHT, 1, 0);
+//	DrawPiece(BLOCKTYPE_WHITE, PIECETYPE_KNIGHT, 6, 0);
+//
+//	// ºñ¼ó
+//	DrawPiece(BLOCKTYPE_BLACK, PIECETYPE_BISHOP, 2, 7);
+//	DrawPiece(BLOCKTYPE_BLACK, PIECETYPE_BISHOP, 5, 7);
+//	DrawPiece(BLOCKTYPE_WHITE, PIECETYPE_BISHOP, 2, 0);
+//	DrawPiece(BLOCKTYPE_WHITE, PIECETYPE_BISHOP, 5, 0);
+//
+//	// ·è
+//	DrawPiece(BLOCKTYPE_BLACK, PIECETYPE_ROOK, 0, 7);
+//	DrawPiece(BLOCKTYPE_BLACK, PIECETYPE_ROOK, 7, 7);
+//	DrawPiece(BLOCKTYPE_WHITE, PIECETYPE_ROOK, 0, 0);
+//	DrawPiece(BLOCKTYPE_WHITE, PIECETYPE_ROOK, 7, 0);
+//
+//	// Äý
+//	DrawPiece(BLOCKTYPE_BLACK, PIECETYPE_QUEEN, 3, 7);
+//	DrawPiece(BLOCKTYPE_WHITE, PIECETYPE_QUEEN, 4, 0);
+//
+//	// Å·
+//	DrawPiece(BLOCKTYPE_BLACK, PIECETYPE_KING, 4, 7);
+//	DrawPiece(BLOCKTYPE_WHITE, PIECETYPE_KING, 3, 0);
+//}
 
 
 BlockManager::~BlockManager()
 {
+	delete[] m_Field;
+	delete[] m_BlackPiece;
+	delete[] m_WhitePiece;
 }
