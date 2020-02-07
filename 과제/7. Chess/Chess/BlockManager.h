@@ -1,8 +1,8 @@
 #pragma once
 #include "Piece.h"
 
-#define FIELDMAX 3		// 필드의 종류
-#define PIECEMAX 6		// 말의 종류
+#define FIELDCOUNTMAX 3		// 필드의 종류
+#define PIECECOUNTMAX 6		// 말의 종류
 
 class BlockManager
 {

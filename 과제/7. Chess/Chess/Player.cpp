@@ -38,16 +38,16 @@ void Player::SetPiece(PIECECOLOR pieceColor)
 	// 나이트 저장
 	for (int x = 1; x <= 6; x += 5)
 	{
-		Piece* tmpPiece = new Knight;
+		Piece* tmpKnight = new Knight;
 		switch (pieceColor)
 		{
 		case PIECECOLOR_BLACK:
-			tmpPiece->Init(pieceColor, x, 7);
-			m_PieceList.push_back(tmpPiece);
+			tmpKnight->Init(pieceColor, x, 7);
+			m_PieceList.push_back(tmpKnight);
 			break;
 		case PIECECOLOR_WHITE:
-			tmpPiece->Init(pieceColor, x, 0);
-			m_PieceList.push_back(tmpPiece);
+			tmpKnight->Init(pieceColor, x, 0);
+			m_PieceList.push_back(tmpKnight);
 			break;
 		}
 	}
@@ -55,16 +55,16 @@ void Player::SetPiece(PIECECOLOR pieceColor)
 	// 비숍 저장
 	for (int x = 2; x <= 5; x += 3)
 	{
-		Piece* tmpPiece = new Bishop;
+		Piece* tmpBishop = new Bishop;
 		switch (pieceColor)
 		{
 		case PIECECOLOR_BLACK:
-			tmpPiece->Init(pieceColor, x, 7);
-			m_PieceList.push_back(tmpPiece);
+			tmpBishop->Init(pieceColor, x, 7);
+			m_PieceList.push_back(tmpBishop);
 			break;
 		case PIECECOLOR_WHITE:
-			tmpPiece->Init(pieceColor, x, 0);
-			m_PieceList.push_back(tmpPiece);
+			tmpBishop->Init(pieceColor, x, 0);
+			m_PieceList.push_back(tmpBishop);
 			break;
 		}
 	}
@@ -72,16 +72,16 @@ void Player::SetPiece(PIECECOLOR pieceColor)
 	// 룩 저장
 	for (int x = 0; x <= 7; x += 7)
 	{
-		Piece* tmpPiece = new Rook;
+		Piece* tmpRook = new Rook;
 		switch (pieceColor)
 		{
 		case PIECECOLOR_BLACK:
-			tmpPiece->Init(pieceColor, x, 7);
-			m_PieceList.push_back(tmpPiece);
+			tmpRook->Init(pieceColor, x, 7);
+			m_PieceList.push_back(tmpRook);
 			break;
 		case PIECECOLOR_WHITE:
-			tmpPiece->Init(pieceColor, x, 0);
-			m_PieceList.push_back(tmpPiece);
+			tmpRook->Init(pieceColor, x, 0);
+			m_PieceList.push_back(tmpRook);
 			break;
 		}
 	}

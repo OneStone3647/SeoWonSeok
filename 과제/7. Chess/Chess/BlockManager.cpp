@@ -18,14 +18,14 @@ void BlockManager::Init(HWND hWnd, HINSTANCE hInst)
 	{
 		delete[] m_Field;
 	}
-	m_Field = new Block[FIELDMAX];
+	m_Field = new Block[FIELDCOUNTMAX];
 	SetField();
 
 	if (m_BlackPiece != NULL)
 	{
 		delete[] m_BlackPiece;
 	}
-	m_BlackPiece = new Block[PIECEMAX];
+	m_BlackPiece = new Block[PIECECOUNTMAX];
 	if (m_WhitePiece != NULL)
 	{
 		delete[] m_WhitePiece;
@@ -108,43 +108,6 @@ void BlockManager::DrawInitPiece(vector<Piece*> pieceList)
 		}
 	}
 }
-
-//void BlockManager::DrawInitPiece()
-//{
-//	// Æù
-//	for (int i = 0; i < 8; i++)
-//	{
-//		DrawPiece(BLOCKTYPE_BLACK, PIECETYPE_PAWN, i, 6);
-//		DrawPiece(BLOCKTYPE_WHITE, PIECETYPE_PAWN, i, 1);
-//	}
-//
-//	// ³ªÀÌÆ®
-//	DrawPiece(BLOCKTYPE_BLACK, PIECETYPE_KNIGHT, 1, 7);
-//	DrawPiece(BLOCKTYPE_BLACK, PIECETYPE_KNIGHT, 6, 7);
-//	DrawPiece(BLOCKTYPE_WHITE, PIECETYPE_KNIGHT, 1, 0);
-//	DrawPiece(BLOCKTYPE_WHITE, PIECETYPE_KNIGHT, 6, 0);
-//
-//	// ºñ¼ó
-//	DrawPiece(BLOCKTYPE_BLACK, PIECETYPE_BISHOP, 2, 7);
-//	DrawPiece(BLOCKTYPE_BLACK, PIECETYPE_BISHOP, 5, 7);
-//	DrawPiece(BLOCKTYPE_WHITE, PIECETYPE_BISHOP, 2, 0);
-//	DrawPiece(BLOCKTYPE_WHITE, PIECETYPE_BISHOP, 5, 0);
-//
-//	// ·è
-//	DrawPiece(BLOCKTYPE_BLACK, PIECETYPE_ROOK, 0, 7);
-//	DrawPiece(BLOCKTYPE_BLACK, PIECETYPE_ROOK, 7, 7);
-//	DrawPiece(BLOCKTYPE_WHITE, PIECETYPE_ROOK, 0, 0);
-//	DrawPiece(BLOCKTYPE_WHITE, PIECETYPE_ROOK, 7, 0);
-//
-//	// Äý
-//	DrawPiece(BLOCKTYPE_BLACK, PIECETYPE_QUEEN, 3, 7);
-//	DrawPiece(BLOCKTYPE_WHITE, PIECETYPE_QUEEN, 4, 0);
-//
-//	// Å·
-//	DrawPiece(BLOCKTYPE_BLACK, PIECETYPE_KING, 4, 7);
-//	DrawPiece(BLOCKTYPE_WHITE, PIECETYPE_KING, 3, 0);
-//}
-
 
 BlockManager::~BlockManager()
 {
