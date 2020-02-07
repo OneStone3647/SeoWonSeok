@@ -11,6 +11,7 @@ void Piece::Init(PIECECOLOR pieceColor, int x, int y)
 	m_PieceColor = pieceColor;
 	m_Point.x = x;
 	m_Point.y = y;
+	m_Rect = { BLOCKX * x, BLOCKY * y, (BLOCKX * x) + BLOCKX, (BLOCKY * y) + BLOCKY };
 }
 
 Piece::~Piece()

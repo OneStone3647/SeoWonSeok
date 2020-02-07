@@ -5,6 +5,7 @@
 Player::Player()
 {
 	m_PieceList.reserve(PIECEMAX);
+	m_SelectPiece = NULL;
 }
 
 void Player::Init()
@@ -113,6 +114,24 @@ void Player::SetPiece(PIECECOLOR pieceColor)
 		m_PieceList.push_back(tmpKing);
 		break;
 	}
+}
+
+// 마우스의 포인트에 맞는 말의 포인트를 찾을 경우 말의 포인트를 반환
+bool Player::SearchPiecePOINT(int x, int y)
+{
+	POINT NewPoint;
+	NewPoint.x = x;
+	NewPoint.y = y;
+	vector<Piece*>::size_type i = 0;
+	for (i; i < m_PieceList.size(); ++i)
+	{
+		if (PtInRect(&(m_PieceList[i]->GetRect()), NewPoint))
+		{
+			m_SelectPiece = m_PieceList[i];
+			return true;
+		}
+	}
+	return false;
 }
 
 void Player::Input()

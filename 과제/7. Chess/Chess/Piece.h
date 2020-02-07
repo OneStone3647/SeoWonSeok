@@ -19,13 +19,13 @@ protected:
 	PIECECOLOR m_PieceColor;
 	PIECETYPE m_PieceType;
 	POINT m_Point;
+	RECT m_Rect;
 
 public:
 	Piece();
 
 	void Init(PIECECOLOR pieceColor, int x, int y);
 	virtual void Move() = 0;
-
 	~Piece();
 
 public:
@@ -40,6 +40,10 @@ public:
 	inline POINT GetPoint()
 	{
 		return m_Point;
+	}
+	inline RECT GetRect()
+	{
+		return m_Rect;
 	}
 };
 

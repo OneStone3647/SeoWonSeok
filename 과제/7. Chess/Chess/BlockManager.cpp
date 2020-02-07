@@ -67,6 +67,11 @@ void BlockManager::DrawField()
 	}
 }
 
+void BlockManager::DrawSelectField(POINT point)
+{
+	m_Field[BLOCKTYPE_FIELD03].Draw(hdc, point.x, point.y);
+}
+
 void BlockManager::SetPiece()
 {
 	m_BlackPiece[PIECETYPE_PAWN].Init(hdc, m_hInst, BLOCKTYPE_BLACK, PIECETYPE_PAWN);

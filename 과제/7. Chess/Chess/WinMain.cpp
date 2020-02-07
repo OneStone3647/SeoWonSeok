@@ -65,6 +65,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	x = (rtDesk.right - width) / 2;
 	y = (rtDesk.bottom - height) / 2;
 
+	POINT Mouse;
+
 	switch (iMessage)
 	{
 	case WM_CREATE:
@@ -79,6 +81,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		m_PlayerWhite->SetPiece(PIECECOLOR_WHITE);
 		return 0;
 	case WM_LBUTTONDOWN:
+		Mouse.x = LOWORD(lParam);
+		Mouse.y = HIWORD(lParam);
+		if (m_PlayerBlack->SearchPiecePOINT(Mouse.x, Mouse.y))
+		{
+			m_BlockManager->DrawSelectField(m_PlayerBlack->GetSelectPiece()->GetPoint());
+		}
 		return 0;
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);

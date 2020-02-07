@@ -9,8 +9,6 @@ Block::Block()
 void Block::Init(HDC hdc, HINSTANCE hInst, BLOCKTYPE blockType, PIECETYPE pieceType)
 {
 	MemDC = CreateCompatibleDC(hdc);
-	m_X = 0;
-	m_Y = 0;
 
 	SetBlockType(blockType);
 	// 블록의 타입이 검은색 말 또는 흰색 말일 경우

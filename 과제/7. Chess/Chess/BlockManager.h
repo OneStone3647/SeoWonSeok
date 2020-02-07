@@ -20,6 +20,7 @@ public:
 	void Init(HWND hWnd, HINSTANCE hInst);
 	void SetField();
 	void DrawField();
+	void DrawSelectField(POINT point);
 	void SetPiece();
 	void DrawPiece(PIECECOLOR pieceColor, PIECETYPE pieceType, int x, int y);
 	void DrawInitPiece(vector<Piece*> pieceList);

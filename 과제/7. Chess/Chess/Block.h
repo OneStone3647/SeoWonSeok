@@ -34,8 +34,6 @@ private:
 
 	BLOCKTYPE	m_BlockType;
 	PIECETYPE	m_PieceType;
-	int			m_X;
-	int			m_Y;
 
 	HBITMAP		m_NewBitmap;
 	HBITMAP		m_OldBitmap;

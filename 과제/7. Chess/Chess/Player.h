@@ -5,18 +5,25 @@ class Player
 {
 private:
 	vector<Piece*> m_PieceList;
-
+	Piece* m_SelectPiece;
 public:
 	Player();
 
 	void Init();
 	void SetPiece(PIECECOLOR pieceColor);
-	vector<Piece*> GetPieceList()
-	{
-		return m_PieceList;
-	}
+	bool SearchPiecePOINT(int x, int y);
 	void Input();
 
 	~Player();
+
+public:
+	inline	vector<Piece*> GetPieceList()
+	{
+		return m_PieceList;
+	}
+	inline Piece* GetSelectPiece()
+	{
+		return m_SelectPiece;
+	}
 };
 
