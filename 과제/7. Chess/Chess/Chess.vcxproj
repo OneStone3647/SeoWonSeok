@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="BlockManager.cpp" />
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Piece.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="WinMain.cpp" />
@@ -28,6 +29,7 @@
   <ItemGroup>
     <ClInclude Include="Block.h" />
     <ClInclude Include="BlockManager.h" />
+    <ClInclude Include="GameManager.h" />
     <ClInclude Include="Piece.h" />
     <ClInclude Include="Player.h" />
   </ItemGroup>

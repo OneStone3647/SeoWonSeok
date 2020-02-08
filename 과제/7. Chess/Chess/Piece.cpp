@@ -25,8 +25,10 @@ Pawn::Pawn()
 	m_PieceType = PIECETYPE_PAWN;
 }
 
-void Pawn::Move()
+void Pawn::Move(POINT point)
 {
+	SetPoint(point);
+	SetRect();
 }
 
 Pawn::~Pawn()
@@ -40,8 +42,10 @@ Knight::Knight()
 	m_PieceType = PIECETYPE_KNIGHT;
 }
 
-void Knight::Move()
+void Knight::Move(POINT point)
 {
+	SetPoint(point);
+	SetRect();
 }
 
 Knight::~Knight()
@@ -55,8 +59,10 @@ Bishop::Bishop()
 	m_PieceType = PIECETYPE_BISHOP;
 }
 
-void Bishop::Move()
+void Bishop::Move(POINT point)
 {
+	SetPoint(point);
+	SetRect();
 }
 
 Bishop::~Bishop()
@@ -70,8 +76,10 @@ Rook::Rook()
 	m_PieceType = PIECETYPE_ROOK;
 }
 
-void Rook::Move()
+void Rook::Move(POINT point)
 {
+	SetPoint(point);
+	SetRect();
 }
 
 Rook::~Rook()
@@ -85,8 +93,10 @@ Queen::Queen()
 	m_PieceType = PIECETYPE_QUEEN;
 }
 
-void Queen::Move()
+void Queen::Move(POINT point)
 {
+	SetPoint(point);
+	SetRect();
 }
 
 Queen::~Queen()
@@ -100,8 +110,10 @@ King::King()
 	m_PieceType = PIECETYPE_KING;
 }
 
-void King::Move()
+void King::Move(POINT point)
 {
+	SetPoint(point);
+	SetRect();
 }
 
 King::~King()

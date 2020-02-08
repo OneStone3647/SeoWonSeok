@@ -1,6 +1,6 @@
 #include "BlockManager.h"
 
-
+BlockManager* BlockManager::m_This = NULL;
 
 BlockManager::BlockManager()
 {
@@ -41,7 +41,7 @@ void BlockManager::SetField()
 	m_Field[BLOCKTYPE_FIELD03].Init(hdc, m_hInst, BLOCKTYPE_FIELD03);
 }
 
-void BlockManager::DrawField()
+void BlockManager::DrawAllField()
 {
 	for (int y = 0; y < 8; y += 2)
 	{
@@ -67,6 +67,44 @@ void BlockManager::DrawField()
 	}
 }
 
+void BlockManager::DeletePiece(POINT point)
+{
+	// Â¦¼ö ¿­
+	if (point.x % 2 == 0)
+	{
+		// Â¦¼ö Çà
+		if (point.y % 2 == 0)
+		{
+			m_Field[BLOCKTYPE_FIELD01].Draw(hdc, point.x, point.y);
+		}
+		// È¦¼ö Çà
+		else
+		{
+			m_Field[BLOCKTYPE_FIELD02].Draw(hdc, point.x, point.y);
+		}
+	}
+	// È¦¼ö ¿­
+	else
+	{
+		// Â¦¼ö Çà
+		if (point.y % 2 == 0)
+		{
+			m_Field[BLOCKTYPE_FIELD02].Draw(hdc, point.x, point.y);
+		}
+		// È¦¼ö Çà
+		else
+		{
+			m_Field[BLOCKTYPE_FIELD01].Draw(hdc, point.x, point.y);
+		}
+	}
+}
+
+void BlockManager::InitSelectField(PIECECOLOR pieceColor, PIECETYPE pieceType, POINT point)
+{
+	DeletePiece(point);
+	DrawPiece(pieceColor, pieceType, point);
+}
+
 void BlockManager::DrawSelectField(POINT point)
 {
 	m_Field[BLOCKTYPE_FIELD03].Draw(hdc, point.x, point.y);
@@ -89,15 +127,15 @@ void BlockManager::SetPiece()
 	m_WhitePiece[PIECETYPE_KING].Init(hdc, m_hInst, BLOCKTYPE_WHITE, PIECETYPE_KING);
 }
 
-void BlockManager::DrawPiece(PIECECOLOR pieceColor, PIECETYPE pieceType, int x, int y)
+void BlockManager::DrawPiece(PIECECOLOR pieceColor, PIECETYPE pieceType, POINT point)
 {
 	switch (pieceColor)
 	{
 	case PIECECOLOR_BLACK:
-		m_BlackPiece[pieceType].Draw(hdc, x, y);
+		m_BlackPiece[pieceType].Draw(hdc, point.x, point.y);
 		break;
 	case PIECECOLOR_WHITE:
-		m_WhitePiece[pieceType].Draw(hdc, x, y);
+		m_WhitePiece[pieceType].Draw(hdc, point.x, point.y);
 		break;
 	}
 }
@@ -109,9 +147,14 @@ void BlockManager::DrawInitPiece(vector<Piece*> pieceList)
 	{
 		for (int i = 0; i < PIECEMAX; i++)
 		{
-			DrawPiece(pieceList[i]->GetPieceColor(), pieceList[i]->GetPieceType(), pieceList[i]->GetPoint().x, pieceList[i]->GetPoint().y);
+			DrawPiece(pieceList[i]->GetPieceColor(), pieceList[i]->GetPieceType(), pieceList[i]->GetPoint());
 		}
 	}
+}
+
+void BlockManager::Release()
+{
+	delete m_This;
 }
 
 BlockManager::~BlockManager()

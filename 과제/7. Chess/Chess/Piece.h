@@ -25,7 +25,7 @@ public:
 	Piece();
 
 	void Init(PIECECOLOR pieceColor, int x, int y);
-	virtual void Move() = 0;
+	virtual void Move(POINT point) = 0;
 	~Piece();
 
 public:
@@ -41,9 +41,17 @@ public:
 	{
 		return m_Point;
 	}
+	inline void SetPoint(POINT point)
+	{
+		m_Point = point;
+	}
 	inline RECT GetRect()
 	{
 		return m_Rect;
+	}
+	inline void SetRect()
+	{
+		m_Rect = { BLOCKX * m_Point.x, BLOCKY * m_Point.y, (BLOCKX * m_Point.x) + BLOCKX, (BLOCKY * m_Point.y) + BLOCKY };
 	}
 };
 
@@ -53,7 +61,7 @@ class Pawn : public Piece
 public:
 	Pawn();
 
-	void Move();
+	void Move(POINT point);
 
 	~Pawn();
 };
@@ -64,7 +72,7 @@ class Knight : public Piece
 public:
 	Knight();
 
-	void Move();
+	void Move(POINT point);
 
 	~Knight();
 };
@@ -75,7 +83,7 @@ class Bishop : public Piece
 public:
 	Bishop();
 
-	void Move();
+	void Move(POINT point);
 
 	~Bishop();
 };
@@ -86,7 +94,7 @@ class Rook : public Piece
 public:
 	Rook();
 
-	void Move();
+	void Move(POINT point);
 
 	~Rook();
 };
@@ -97,7 +105,7 @@ class Queen : public Piece
 public:
 	Queen();
 
-	void Move();
+	void Move(POINT point);
 
 	~Queen();
 };
@@ -108,7 +116,7 @@ class King : public Piece
 public:
 	King();
 
-	void Move();
+	void Move(POINT point);
 
 	~King();
 };
