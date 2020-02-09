@@ -1,11 +1,11 @@
 #pragma once
 #include <Windows.h>
-#include <vector>
 #include "Block.h"
 
-using namespace std;
-
 #define PIECEMAX 16		// 말 최대 개수
+
+// 절대값을 구하는 매크로.
+#define ABVALUE(x) ((x) < 0 ? -(x) : (x))
 
 enum PIECECOLOR
 {
@@ -20,12 +20,13 @@ protected:
 	PIECETYPE m_PieceType;
 	POINT m_Point;
 	RECT m_Rect;
+	bool m_bLive;
 
 public:
 	Piece();
 
 	void Init(PIECECOLOR pieceColor, int x, int y);
-	virtual void Move(POINT point) = 0;
+	virtual bool Move(POINT point);
 	~Piece();
 
 public:
@@ -61,7 +62,7 @@ class Pawn : public Piece
 public:
 	Pawn();
 
-	void Move(POINT point);
+	bool Move(POINT point);
 
 	~Pawn();
 };
@@ -72,7 +73,7 @@ class Knight : public Piece
 public:
 	Knight();
 
-	void Move(POINT point);
+	bool Move(POINT point);
 
 	~Knight();
 };
@@ -83,7 +84,7 @@ class Bishop : public Piece
 public:
 	Bishop();
 
-	void Move(POINT point);
+	bool Move(POINT point);
 
 	~Bishop();
 };
@@ -94,7 +95,7 @@ class Rook : public Piece
 public:
 	Rook();
 
-	void Move(POINT point);
+	bool Move(POINT point);
 
 	~Rook();
 };
@@ -105,7 +106,7 @@ class Queen : public Piece
 public:
 	Queen();
 
-	void Move(POINT point);
+	bool Move(POINT point);
 
 	~Queen();
 };
@@ -116,7 +117,7 @@ class King : public Piece
 public:
 	King();
 
-	void Move(POINT point);
+	bool Move(POINT point);
 
 	~King();
 };

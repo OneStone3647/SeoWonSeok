@@ -1,5 +1,8 @@
 #pragma once
 #include "Piece.h"
+#include <vector>
+
+using namespace std;
 
 #define FIELDCOUNTMAX 3		// 필드의 종류
 #define PIECECOUNTMAX 6		// 말의 종류

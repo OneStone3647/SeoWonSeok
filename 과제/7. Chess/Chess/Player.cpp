@@ -180,19 +180,21 @@ void Player::Input(LPARAM lParam)
 	// 선택한 말이 있을 경우
 	else
 	{
-		// 이동하는 좌표에 자신의 말이 없을 경우
-		if (!CheckPieceInPoint(MousePoint.x, MousePoint.y))
+		// 이동하는 좌표에 자신의 말이 없고 움직일 수 있는 좌표일 경우
+		if (!CheckPieceInPoint(MousePoint.x, MousePoint.y) && m_SelectPiece->Move(m_SelectPoint))
 		{
 			BlockManager::GetInstance()->DeletePiece(m_SelectPiece->GetPoint());
-			m_SelectPiece->Move(m_SelectPoint);
+			m_SelectPiece->SetPoint(m_SelectPoint);
+			m_SelectPiece->SetRect();
 			BlockManager::GetInstance()->DrawPiece(m_SelectPiece->GetPieceColor(), m_SelectPiece->GetPieceType(), m_SelectPoint);
+			m_SelectPiece = NULL;
 		}
-		// 이동하는 좌표에 자신의 말이 있을 경우 선택한 말을 초기화 한다.
+		// 이동하는 좌표에 자신의 말이 있거나 움직일 수 없는 좌표일 경우 선택한 말을 초기화 한다.
 		else
 		{
 			BlockManager::GetInstance()->InitSelectField(m_SelectPiece->GetPieceColor(), m_SelectPiece->GetPieceType(), m_SelectPiece->GetPoint());
+			m_SelectPiece = NULL;
 		}
-		m_SelectPiece = NULL;
 	}
 }
 

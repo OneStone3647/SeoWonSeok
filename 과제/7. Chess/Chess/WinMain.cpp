@@ -81,6 +81,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		m_PlayerWhite->SetPiece(PIECECOLOR_WHITE);
 
 		return 0;
+	case WM_RBUTTONDOWN:
+
+		m_PlayerWhite->Input(lParam);
+
+		return 0;
 	case WM_LBUTTONDOWN:
 
 		m_PlayerBlack->Input(lParam);
