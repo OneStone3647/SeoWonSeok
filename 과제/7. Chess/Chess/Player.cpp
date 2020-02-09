@@ -19,6 +19,8 @@ void Player::Init()
 
 	m_SelectPoint.x = 0;
 	m_SelectPoint.y = 0;
+
+	m_State = STATE_IDLE;
 }
 
 void Player::SetPiece(PIECECOLOR pieceColor)
@@ -161,6 +163,8 @@ void Player::SetSelecetPoint(int x, int y)
 
 void Player::Input(LPARAM lParam)
 {
+	m_State = STATE_PLAY;
+
 	POINT MousePoint;
 	MousePoint.x = LOWORD(lParam);
 	MousePoint.y = HIWORD(lParam);
@@ -188,6 +192,7 @@ void Player::Input(LPARAM lParam)
 			m_SelectPiece->SetRect();
 			BlockManager::GetInstance()->DrawPiece(m_SelectPiece->GetPieceColor(), m_SelectPiece->GetPieceType(), m_SelectPoint);
 			m_SelectPiece = NULL;
+			m_State = STATE_IDLE;
 		}
 		// 이동하는 좌표에 자신의 말이 있거나 움직일 수 없는 좌표일 경우 선택한 말을 초기화 한다.
 		else

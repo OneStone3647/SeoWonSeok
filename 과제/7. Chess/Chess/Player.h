@@ -1,12 +1,19 @@
 #pragma once
 #include "BlockManager.h"
 
+enum STATE
+{
+	STATE_IDLE = 0,
+	STATE_PLAY
+};
+
 class Player
 {
 private:
 	vector<Piece*> m_PieceList;
 	Piece* m_SelectPiece;
 	POINT m_SelectPoint;
+	STATE m_State;
 
 public:
 	Player();
@@ -32,6 +39,10 @@ public:
 	inline POINT GetSelectPoint()
 	{
 		return m_SelectPoint;
+	}
+	inline STATE GetState()
+	{
+		return m_State;
 	}
 };
 

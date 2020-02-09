@@ -27,6 +27,7 @@ public:
 
 	void Init(PIECECOLOR pieceColor, int x, int y);
 	virtual bool Move(POINT point);
+	virtual bool Attack(POINT point);
 	~Piece();
 
 public:
@@ -53,6 +54,14 @@ public:
 	inline void SetRect()
 	{
 		m_Rect = { BLOCKX * m_Point.x, BLOCKY * m_Point.y, (BLOCKX * m_Point.x) + BLOCKX, (BLOCKY * m_Point.y) + BLOCKY };
+	}
+	inline void SetLiveFlag(bool bFlag)
+	{
+		m_bLive = bFlag;
+	}
+	inline bool GetLiveFlag()
+	{
+		return m_bLive;
 	}
 };
 

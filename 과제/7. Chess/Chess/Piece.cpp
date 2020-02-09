@@ -30,6 +30,11 @@ bool Piece::Move(POINT point)
 	return false;
 }
 
+bool Piece::Attack(POINT point)
+{
+	return false;
+}
+
 Piece::~Piece()
 {
 }

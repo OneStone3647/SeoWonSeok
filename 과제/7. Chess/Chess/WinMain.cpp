@@ -1,4 +1,4 @@
-#include "Player.h"
+#include "GameManager.h"
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 HINSTANCE g_hInst;
@@ -38,16 +38,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervInstance, LPSTR IpszCmd
 	return (int)Message.wParam;
 }
 
-Player* m_PlayerBlack = new Player;
-Player* m_PlayerWhite = new Player;
-
-bool bFirstPlay;
-
-void Release()
-{
-	delete m_PlayerBlack;
-	delete m_PlayerWhite;
-}
+GameManager GManager;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
@@ -67,49 +58,34 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	switch (iMessage)
 	{
 	case WM_CREATE:
-
 		// 1번째 인자 : 크기를 변경할 윈도우의 핸들
 		// 2, 3, 4 ,5번째 인자 : left, top, right, bottom
 		// 6 번째 인자 : TRUE일 경우 윈도우가 이동된 후 WM)PAINT 메시지로 윈도우를 새로 그린다.
 		MoveWindow(hWnd, x, y - 30, width - 22, height + 22, TRUE);
 
-		bFirstPlay = true;
-		BlockManager::GetInstance()->Init(hWnd, g_hInst);
-		m_PlayerBlack->Init();
-		m_PlayerBlack->SetPiece(PIECECOLOR_BLACK);
-		m_PlayerWhite->Init();
-		m_PlayerWhite->SetPiece(PIECECOLOR_WHITE);
-
-		return 0;
-	case WM_RBUTTONDOWN:
-
-		m_PlayerWhite->Input(lParam);
+		GManager.Init(hWnd, g_hInst);
 
 		return 0;
 	case WM_LBUTTONDOWN:
-
-		m_PlayerBlack->Input(lParam);
+		GManager.Input(lParam);
 
 		return 0;
 	case WM_PAINT:
-
 		hdc = BeginPaint(hWnd, &ps);
 
-		if (bFirstPlay)
+		if (GManager.GetFirstPlayFlag())
 		{
 			BlockManager::GetInstance()->DrawAllField();
-			BlockManager::GetInstance()->DrawInitPiece(m_PlayerBlack->GetPieceList());
-			BlockManager::GetInstance()->DrawInitPiece(m_PlayerWhite->GetPieceList());
-			bFirstPlay = false;
+			BlockManager::GetInstance()->DrawInitPiece(GManager.GetPlayerBlack()->GetPieceList());
+			BlockManager::GetInstance()->DrawInitPiece(GManager.GetPlayerWhite()->GetPieceList());
+			GManager.SetFirstplayFlag(false);
 		}
 
 		EndPaint(hWnd, &ps);
 
 		return 0;
 	case WM_DESTROY:
-
-		BlockManager::GetInstance()->Release();
-		Release();
+		GManager.Release();
 		PostQuitMessage(0);
 
 		return 0;
