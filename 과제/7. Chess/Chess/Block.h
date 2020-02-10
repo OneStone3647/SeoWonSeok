@@ -1,49 +1,45 @@
 #pragma once
-#include <Windows.h>
+#include "Mecro.h"
 
-#define BLOCKX 125
-#define BLOCKY 125
-
+// 블록의 종류
 enum BLOCKTYPE
 {
 	BLOCKTYPE_FIELD01 = 0,
 	BLOCKTYPE_FIELD02,
-	BLOCKTYPE_FIELD03,
-	BLOCKTYPE_BLACK,
-	BLOCKTYPE_WHITE
+	BLOCKTYPE_FIELD03,		// 선택 블록
+	BLOCKTYPE_BLACK,		// 검은색 피스
+	BLOCKTYPE_WHITE			// 흰색 피스
 };
 
-// 체스말 enum
-enum PIECETYPE
+// 피스의 종류
+enum BLOCKPIECETYPE
 {
-	PIECETYPE_PAWN = 0,
-	PIECETYPE_KNIGHT,
-	PIECETYPE_BISHOP,
-	PIECETYPE_ROOK,
-	PIECETYPE_QUEEN,
-	PIECETYPE_KING,
-	PIECETYPE_NONE
+	BLOCKPIECETYPE_PAWN = 0,
+	BLOCKPIECETYPE_KNIGHT,
+	BLOCKPIECETYPE_BISHOP,
+	BLOCKPIECETYPE_ROOK,
+	BLOCKPIECETYPE_QUEEN,
+	BLOCKPIECETYPE_KING,
+	BLOCKPIECETYPE_NONE			// BLOCKTYPE이 BLOCKTYPE_BLACK 또는 BLOCKTYPE_WHITE일 경우에 해당
 };
 
 class Block
 {
-protected:
-	HDC			MemDC;
-
 private:
+	HDC				MemDC;
 
-	BLOCKTYPE	m_BlockType;
-	PIECETYPE	m_PieceType;
+	BLOCKTYPE		m_BlockType;
+	BLOCKPIECETYPE	m_BlockPieceType;
 
-	HBITMAP		m_NewBitmap;
-	HBITMAP		m_OldBitmap;
+	HBITMAP			m_NewBitmap;
+	HBITMAP			m_OldBitmap;
 
 public:
 	Block();
 
-	void Init(HDC hdc, HINSTANCE hInst, BLOCKTYPE blockType, PIECETYPE pieceType = PIECETYPE_NONE);
+	void Init(HDC hdc, HINSTANCE hInst, BLOCKTYPE blockType, BLOCKPIECETYPE blockPieceType = BLOCKPIECETYPE_NONE);
 	void SetBlockType(BLOCKTYPE blockType);
-	void SetPieceType(PIECETYPE pieceType);
+	void SetBlockPieceType(BLOCKPIECETYPE blockPieceType);
 	void Draw(HDC hdc, int x, int y);
 
 	~Block();

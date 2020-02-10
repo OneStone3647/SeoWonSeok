@@ -4,78 +4,113 @@
 
 GameManager::GameManager()
 {
+	m_BlockManager = NULL;
 	m_PlayerBlack = NULL;
 	m_PlayerWhite = NULL;
+	m_Board = NULL;
 }
 
+// 초기화
 void GameManager::Init(HWND hWnd, HINSTANCE hInst)
 {
-	BlockManager::GetInstance()->Init(hWnd, hInst);
-
 	m_bFirstPlay = true;
+	// 검은색 플레이어가 먼저 시작한다.
 	m_Turn = TURN_BLACK;
+
+	if (m_BlockManager != NULL)
+	{
+		delete m_BlockManager;
+	}
+	m_BlockManager = new BlockManager;
 
 	if (m_PlayerBlack != NULL)
 	{
 		delete m_PlayerBlack;
 	}
 	m_PlayerBlack = new Player;
-	m_PlayerBlack->Init();
-	m_PlayerBlack->SetPiece(PIECECOLOR_BLACK);
+	m_PlayerBlack->Init(PLAYERCOLOR_BLACK);
 
 	if (m_PlayerWhite != NULL)
 	{
 		delete m_PlayerWhite;
 	}
 	m_PlayerWhite = new Player;
-	m_PlayerWhite->Init();
-	m_PlayerWhite->SetPiece(PIECECOLOR_WHITE);
+	m_PlayerWhite->Init(PLAYERCOLOR_WHITE);
+
+	SetBoardInit();
 }
 
-void GameManager::Input(LPARAM lParam)
+// 보드 설정
+void GameManager::SetBoardInit()
 {
-	switch (m_Turn)
+	// enum 이중 배열 동적할당
+	// 보드위에서 피스가 움직을 수 있는 범위를 찾기 위해
+	// 플레이어 자신의 피스 목록뿐만 아니라 적의 피스 목록까지 전부 탐색해야하기 때문에
+	// 단순히 보드위에서 피스가 움직일 수 있는 범위안에
+	// 무슨 색의 피스가 있는지 없는지만 판단하기 위해 사용한다.
+	if (m_Board != NULL)
 	{
-	case TURN_BLACK:
-		m_PlayerBlack->Input(lParam);
-		if (m_PlayerBlack->GetState() == STATE_IDLE)
+		for (int i = 0; i < BOARDY; i++)
 		{
-			m_Turn = TURN_WHITE;
+			delete[] m_Board[i];
 		}
-		break;
-	case TURN_WHITE:
-		m_PlayerWhite->Input(lParam);
-		if (m_PlayerWhite->GetState() == STATE_IDLE)
-		{
-			m_Turn = TURN_BLACK;
-		}
-		break;
+		delete m_Board;
 	}
+	m_Board = new BOARD*[BOARDY];
+	for (int i = 0; i < BOARDY; i++)
+	{
+		m_Board[i] = new BOARD[BOARDX];
+	}
+
+	// 각 플레이어가 가진 피스의 초기 위치 정보를 보드에 저장한다.
+	SetBoardInPieceInit(m_PlayerBlack);
+	SetBoardInPieceInit(m_PlayerWhite);
 }
 
-bool GameManager::CheckWinner(Player * player)
+// 보드 위의 피스의 위치 정보를 저장한다.
+void GameManager::SetBoardInPieceInit(Player * player)
 {
-	// 말 목록에서 킹의 생존 여부를 체크한다.
 	vector<Piece*> tmpPieceList = player->GetPieceList();
-	vector<Piece*>::size_type i = 0;
-	for (i; i < tmpPieceList.size(); ++i)
+	PLAYERCOLOR tmpPlayerColor = player->GetPlayerColor();
+	BOARD tmpBOARD;
+
+	switch (tmpPlayerColor)
 	{
-		if (tmpPieceList[i]->GetPieceType() == PIECETYPE_KING && tmpPieceList[i]->GetLiveFlag() == false)
+	case PLAYERCOLOR_BLACK:
+		tmpBOARD = BOARD_BLACK;
+		break;
+	case PLAYERCOLOR_WHITE:
+		tmpBOARD = BOARD_WHITE;
+		break;
+	}
+
+	// 백터가 비어있지 않으면 보드에 피스의 위치 정보를 저장한다.
+	if (!tmpPieceList.empty())
+	{
+		vector<Piece*>::size_type i = 0;
+		POINT tmpPoint;
+		for (i; i < tmpPieceList.size(); ++i)
 		{
-			return true;
+			tmpPoint = tmpPieceList[i]->GetPoint();
+			m_Board[tmpPoint.x][tmpPoint.y] = tmpBOARD;
 		}
 	}
-	return false;
 }
 
-void GameManager::Release()
+// 초기 설정한 보드의 정보를 기반으로 보드를 그린다.
+void GameManager::DrawInitBoard()
 {
-	BlockManager::GetInstance()->Release();
-	delete m_PlayerBlack;
-	delete m_PlayerWhite;
+	m_BlockManager->DrawAllBoard();
 }
 
 
 GameManager::~GameManager()
 {
+	delete m_PlayerBlack;
+	delete m_PlayerWhite;
+	for (int i = 0; i < BOARDY; i++)
+	{
+		delete[] m_Board[i];
+	}
+	delete m_Board;
 }

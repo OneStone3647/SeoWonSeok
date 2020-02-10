@@ -30,11 +30,6 @@ bool Piece::Move(POINT point)
 	return false;
 }
 
-bool Piece::Attack(POINT point)
-{
-	return false;
-}
-
 Piece::~Piece()
 {
 }
@@ -103,7 +98,8 @@ bool Knight::Move(POINT point)
 		{
 			return Piece::Move(point);
 		}
-	}else if (ABVALUE(point.y - m_Point.y) == 2)
+	}
+	else if (ABVALUE(point.y - m_Point.y) == 2)
 	{
 		if (ABVALUE(point.x - m_Point.x) == 1)
 		{

@@ -1,4 +1,4 @@
-#include "GameManager.h"
+#include <Windows.h>
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 HINSTANCE g_hInst;
@@ -38,8 +38,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervInstance, LPSTR IpszCmd
 	return (int)Message.wParam;
 }
 
-GameManager GManager;
-
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
 	HDC hdc;
@@ -63,29 +61,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		// 6 번째 인자 : TRUE일 경우 윈도우가 이동된 후 WM)PAINT 메시지로 윈도우를 새로 그린다.
 		MoveWindow(hWnd, x, y - 30, width - 22, height + 22, TRUE);
 
-		GManager.Init(hWnd, g_hInst);
-
 		return 0;
 	case WM_LBUTTONDOWN:
-		GManager.Input(lParam);
 
 		return 0;
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
 
-		if (GManager.GetFirstPlayFlag())
-		{
-			BlockManager::GetInstance()->DrawAllField();
-			BlockManager::GetInstance()->DrawInitPiece(GManager.GetPlayerBlack()->GetPieceList());
-			BlockManager::GetInstance()->DrawInitPiece(GManager.GetPlayerWhite()->GetPieceList());
-			GManager.SetFirstplayFlag(false);
-		}
-
 		EndPaint(hWnd, &ps);
 
 		return 0;
 	case WM_DESTROY:
-		GManager.Release();
 		PostQuitMessage(0);
 
 		return 0;
