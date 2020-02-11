@@ -1,0 +1,13 @@
+﻿  Block.cpp
+  BlockManager.cpp
+  GameManager.cpp
+  Piece.cpp
+  Player.cpp
+  WinMain.cpp
+d:\study\programing\seowonseok\과제\새 폴더\7. chess\chess\winmain.cpp(5): error C2440: '초기화 중': 'const wchar_t [6]'에서 'LPCSTR'(으)로 변환할 수 없습니다.
+  d:\study\programing\seowonseok\과제\새 폴더\7. chess\chess\winmain.cpp(5): note: 가리킨 형식이 관련이 없습니다. 변환하려면 reinterpret_cast, C 스타일 캐스트 또는 함수 스타일 캐스트가 필요합니다.
+d:\study\programing\seowonseok\과제\새 폴더\7. chess\chess\winmain.cpp(21): error C2440: '=': 'LPCSTR'에서 'LPCWSTR'(으)로 변환할 수 없습니다.
+  d:\study\programing\seowonseok\과제\새 폴더\7. chess\chess\winmain.cpp(21): note: 가리킨 형식이 관련이 없습니다. 변환하려면 reinterpret_cast, C 스타일 캐스트 또는 함수 스타일 캐스트가 필요합니다.
+d:\study\programing\seowonseok\과제\새 폴더\7. chess\chess\winmain.cpp(28): error C2664: 'HWND CreateWindowExW(DWORD,LPCWSTR,LPCWSTR,DWORD,int,int,int,int,HWND,HMENU,HINSTANCE,LPVOID)': 인수 2을(를) 'LPCSTR'에서 'LPCWSTR'(으)로 변환할 수 없습니다.
+  d:\study\programing\seowonseok\과제\새 폴더\7. chess\chess\winmain.cpp(29): note: 가리킨 형식이 관련이 없습니다. 변환하려면 reinterpret_cast, C 스타일 캐스트 또는 함수 스타일 캐스트가 필요합니다.
+  코드를 생성하고 있습니다...

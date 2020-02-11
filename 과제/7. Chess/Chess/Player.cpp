@@ -22,9 +22,6 @@ void Player::Init(PLAYERCOLOR playerColor)
 
 	m_SelectPiece = NULL;
 
-	m_SelectPoint.x = 0;
-	m_SelectPoint.y = 0;
-
 	m_State = STATE_IDLE;
 }
 
@@ -126,6 +123,31 @@ void Player::SetPiece()
 		m_PieceList.push_back(tmpKing);
 		break;
 	}
+}
+
+void Player::Input(LPARAM lParam)
+{
+	m_State = STATE_PLAY;
+
+	m_MousePoint.x = LOWORD(lParam);
+	m_MousePoint.y = HIWORD(lParam);
+}
+
+// 선택한 포인트 안에 자시느이 피스가 있으면 선택한다.
+bool Player::SelectPieceInPoint(POINT point)
+{
+	vector<Piece*>::size_type i = 0;
+	for (i; i < m_PieceList.size(); ++i)
+	{
+		if (PtInRect(&(m_PieceList[i]->GetRect()), point))
+		{
+			m_SelectPiece = m_PieceList[i];
+			return true;
+		}
+	}
+
+	m_SelectPiece = NULL;
+	return false;
 }
 
 

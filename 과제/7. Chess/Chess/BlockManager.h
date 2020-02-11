@@ -1,5 +1,6 @@
 #pragma once
 #include "Block.h"
+#include "Player.h"
 #include <vector>
 
 using namespace std;
@@ -9,19 +10,19 @@ using namespace std;
 
 class BlockManager
 {
-//	// ΩÃ±€≈Ê
-//private:
-//	static BlockManager* m_This;
-//
-//public:
-//	static BlockManager* GetInstance()
-//	{
-//		if (m_This == NULL)
-//		{
-//			m_This = new BlockManager;
-//		}
-//		return m_This;
-//	}
+	// ΩÃ±€≈Ê
+private:
+	static BlockManager* m_This;
+
+public:
+	static BlockManager* GetInstance()
+	{
+		if (m_This == NULL)
+		{
+			m_This = new BlockManager;
+		}
+		return m_This;
+	}
 
 private:
 	HDC				hdc;
@@ -36,10 +37,15 @@ public:
 
 	void Init(HWND hWnd, HINSTANCE hInst);
 	void SetBoard();
-	void DrawAllBoard();
 	void SetPiece();
+	void DrawAllBoard();
+	void DrawPiece(PIECECOLOR pieceColor, PIECETYPE pieceType, POINT point);
+	void ErasePiece(POINT point);
+	void DrawInitPiece(vector<Piece*> pieceList);
+	void DrawSelectBoard(POINT point);
+	void EraseSelectBoard(PIECECOLOR pieceColor, PIECETYPE pieceType, POINT point);
 
-	//void Release();
+	void Release();
 
 	~BlockManager();
 };

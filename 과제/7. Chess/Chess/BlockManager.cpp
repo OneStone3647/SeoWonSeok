@@ -1,6 +1,6 @@
 #include "BlockManager.h"
 
-
+BlockManager* BlockManager::m_This = NULL;
 
 BlockManager::BlockManager()
 {
@@ -41,6 +41,23 @@ void BlockManager::SetBoard()
 	m_Board[BLOCKTYPE_FIELD03].Init(hdc, m_hInst, BLOCKTYPE_FIELD03);
 }
 
+void BlockManager::SetPiece()
+{
+	m_BlackPiece[BLOCKPIECETYPE_PAWN].Init(hdc, m_hInst, BLOCKTYPE_BLACK, BLOCKPIECETYPE_PAWN);
+	m_BlackPiece[BLOCKPIECETYPE_KNIGHT].Init(hdc, m_hInst, BLOCKTYPE_BLACK, BLOCKPIECETYPE_KNIGHT);
+	m_BlackPiece[BLOCKPIECETYPE_BISHOP].Init(hdc, m_hInst, BLOCKTYPE_BLACK, BLOCKPIECETYPE_BISHOP);
+	m_BlackPiece[BLOCKPIECETYPE_ROOK].Init(hdc, m_hInst, BLOCKTYPE_BLACK, BLOCKPIECETYPE_ROOK);
+	m_BlackPiece[BLOCKPIECETYPE_QUEEN].Init(hdc, m_hInst, BLOCKTYPE_BLACK, BLOCKPIECETYPE_QUEEN);
+	m_BlackPiece[BLOCKPIECETYPE_KING].Init(hdc, m_hInst, BLOCKTYPE_BLACK, BLOCKPIECETYPE_KING);
+
+	m_WhitePiece[BLOCKPIECETYPE_PAWN].Init(hdc, m_hInst, BLOCKTYPE_WHITE, BLOCKPIECETYPE_PAWN);
+	m_WhitePiece[BLOCKPIECETYPE_KNIGHT].Init(hdc, m_hInst, BLOCKTYPE_WHITE, BLOCKPIECETYPE_KNIGHT);
+	m_WhitePiece[BLOCKPIECETYPE_BISHOP].Init(hdc, m_hInst, BLOCKTYPE_WHITE, BLOCKPIECETYPE_BISHOP);
+	m_WhitePiece[BLOCKPIECETYPE_ROOK].Init(hdc, m_hInst, BLOCKTYPE_WHITE, BLOCKPIECETYPE_ROOK);
+	m_WhitePiece[BLOCKPIECETYPE_QUEEN].Init(hdc, m_hInst, BLOCKTYPE_WHITE, BLOCKPIECETYPE_QUEEN);
+	m_WhitePiece[BLOCKPIECETYPE_KING].Init(hdc, m_hInst, BLOCKTYPE_WHITE, BLOCKPIECETYPE_KING);
+}
+
 void BlockManager::DrawAllBoard()
 {
 	for (int y = 0; y < 8; y += 2)
@@ -67,29 +84,83 @@ void BlockManager::DrawAllBoard()
 	}
 }
 
-void BlockManager::SetPiece()
+void BlockManager::DrawPiece(PIECECOLOR pieceColor, PIECETYPE pieceType, POINT point)
 {
-	m_BlackPiece[BLOCKPIECETYPE_PAWN].Init(hdc, m_hInst, BLOCKTYPE_BLACK, BLOCKPIECETYPE_PAWN);
-	m_BlackPiece[BLOCKPIECETYPE_KNIGHT].Init(hdc, m_hInst, BLOCKTYPE_BLACK, BLOCKPIECETYPE_KNIGHT);
-	m_BlackPiece[BLOCKPIECETYPE_BISHOP].Init(hdc, m_hInst, BLOCKTYPE_BLACK, BLOCKPIECETYPE_BISHOP);
-	m_BlackPiece[BLOCKPIECETYPE_ROOK].Init(hdc, m_hInst, BLOCKTYPE_BLACK, BLOCKPIECETYPE_ROOK);
-	m_BlackPiece[BLOCKPIECETYPE_QUEEN].Init(hdc, m_hInst, BLOCKTYPE_BLACK, BLOCKPIECETYPE_QUEEN);
-	m_BlackPiece[BLOCKPIECETYPE_KING].Init(hdc, m_hInst, BLOCKTYPE_BLACK, BLOCKPIECETYPE_KING);
-
-	m_WhitePiece[BLOCKPIECETYPE_PAWN].Init(hdc, m_hInst, BLOCKTYPE_WHITE, BLOCKPIECETYPE_PAWN);
-	m_WhitePiece[BLOCKPIECETYPE_KNIGHT].Init(hdc, m_hInst, BLOCKTYPE_WHITE, BLOCKPIECETYPE_KNIGHT);
-	m_WhitePiece[BLOCKPIECETYPE_BISHOP].Init(hdc, m_hInst, BLOCKTYPE_WHITE, BLOCKPIECETYPE_BISHOP);
-	m_WhitePiece[BLOCKPIECETYPE_ROOK].Init(hdc, m_hInst, BLOCKTYPE_WHITE, BLOCKPIECETYPE_ROOK);
-	m_WhitePiece[BLOCKPIECETYPE_QUEEN].Init(hdc, m_hInst, BLOCKTYPE_WHITE, BLOCKPIECETYPE_QUEEN);
-	m_WhitePiece[BLOCKPIECETYPE_KING].Init(hdc, m_hInst, BLOCKTYPE_WHITE, BLOCKPIECETYPE_KING);
+	switch (pieceColor)
+	{
+	case PIECECOLOR_BLACK:
+		m_BlackPiece[pieceType].Draw(hdc, point.x, point.y);
+		break;
+	case PIECECOLOR_WHITE:
+		m_WhitePiece[pieceType].Draw(hdc, point.x, point.y);
+		break;
+	}
 }
 
-//void BlockManager::Release()
-//{
-//	delete m_This;
-//}
+void BlockManager::ErasePiece(POINT point)
+{
+	// 짝수 열
+	if (point.x % 2 == 0)
+	{
+		// 짝수 행
+		if (point.y % 2 == 0)
+		{
+			m_Board[BLOCKTYPE_FIELD01].Draw(hdc, point.x, point.y);
+		}
+		// 홀수 행
+		else
+		{
+			m_Board[BLOCKTYPE_FIELD02].Draw(hdc, point.x, point.y);
+		}
+	}
+	// 홀수 열
+	else
+	{
+		// 짝수 행
+		if (point.y % 2 == 0)
+		{
+			m_Board[BLOCKTYPE_FIELD02].Draw(hdc, point.x, point.y);
+		}
+		// 홀수 행
+		else
+		{
+			m_Board[BLOCKTYPE_FIELD01].Draw(hdc, point.x, point.y);
+		}
+	}
+}
+
+void BlockManager::DrawInitPiece(vector<Piece*> pieceList)
+{
+	// 백터가 비어있지 않으면 그린다.
+	if (!pieceList.empty())
+	{
+		for (int i = 0; i < PIECEMAX; i++)
+		{
+			DrawPiece(pieceList[i]->GetPieceColor(), pieceList[i]->GetPieceType(), pieceList[i]->GetPoint());
+		}
+	}
+}
+
+void BlockManager::DrawSelectBoard(POINT point)
+{
+	m_Board[BLOCKTYPE_FIELD03].Draw(hdc, point.x, point.y);
+}
+
+void BlockManager::EraseSelectBoard(PIECECOLOR pieceColor, PIECETYPE pieceType, POINT point)
+{
+	ErasePiece(point);
+	DrawPiece(pieceColor, pieceType, point);
+}
+
+void BlockManager::Release()
+{
+	delete m_This;
+}
 
 
 BlockManager::~BlockManager()
 {
+	delete[] m_Board;
+	delete[] m_BlackPiece;
+	delete[] m_WhitePiece;
 }

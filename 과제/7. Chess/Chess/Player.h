@@ -1,5 +1,6 @@
 #pragma once
 #include "Piece.h"
+#include "BlockManager.h"
 
 // 상태 enum
 // 자신의 차례가 오면 STATE_PLAY, 아닐 경우 STATE_IDLE
@@ -19,16 +20,18 @@ class Player
 {
 private:
 	PLAYERCOLOR		m_PlayerColor;		// 플레이어의 색
-	vector<Piece*>	m_PieceList;		// 플레이어가 가진 피스의 목록
-	Piece*			m_SelectPiece;		// 현재 선택한 피스의 정보
-	POINT			m_SelectPoint;		// 마우스로 선택 지점의 좌표
-	STATE			m_State;
+	vector<Piece*>		m_PieceList;			// 플레이어가 가진 피스의 목록
+	Piece*					m_SelectPiece;		// 현재 선택한 피스의 정보
+	POINT					m_MousePoint;		// 마우스로 선택 지점의 좌표
+	STATE					m_State;
 
 public:
 	Player();
 
 	void Init(PLAYERCOLOR playerColor);
 	void SetPiece();
+	void Input(LPARAM lParam);
+	bool SelectPieceInPoint(POINT point);
 
 	~Player();
 	
@@ -43,9 +46,9 @@ public:
 		return m_SelectPiece;
 	}
 
-	inline POINT GetSelectPoint()
+	inline POINT GetMousePoint()
 	{
-		return m_SelectPoint;
+		return m_MousePoint;
 	}
 
 	inline STATE GetState()
