@@ -12,6 +12,8 @@ GameManager::GameManager()
 // 초기화
 void GameManager::Init(HWND hWnd, HINSTANCE hInst)
 {
+	m_hWnd = hWnd;
+	m_hInst = hInst;
 	m_bFirstPlay = true;
 	// 검은색 플레이어가 먼저 시작한다.
 	m_Turn = TURN_BLACK;
@@ -54,172 +56,209 @@ void GameManager::DrawInitBoard()
 
 void GameManager::Input(LPARAM lParam)
 {
-	switch (m_Turn)
-	{
-	case TURN_BLACK:
-		m_PlayerBlack->Input(lParam);
-		// 선택한 피스가 없을 경우
-		if (m_PlayerBlack->GetSelectPiece() == NULL)
-		{
-			// 마우스 포인터의 위치에 해당하는 피스를 선택한다.
-			if (m_PlayerBlack->SelectPieceInPoint(m_PlayerBlack->GetMousePoint()))
-			{
-				BlockManager::GetInstance()->DrawSelectBoard(m_PlayerBlack->GetSelectPiece()->GetPoint());
-			}
-		}
-		// 선택한 피스가 있을 경우
-		else
-		{
-			// 선택한 피스가 나이트인 경우
-			// 이동하는 좌표에 자신의 말이 없고 움직일 수 있는 좌표일 경우
-			if (m_PlayerBlack->GetSelectPiece()->GetPieceType() == PIECETYPE_KNIGHT)
-			{
-				if (!m_PlayerBlack->CheckPieceInPoint(m_PlayerBlack->GetMousePoint()) && m_PlayerBlack->GetSelectPiece()->Move(m_PlayerBlack->GetMousePointInBoard()))
-				{
-					// 보드의 정보를 입력한다.
-					m_BoardManager->MovePieceInBoard(m_PlayerBlack->GetSelectPiece()->GetPoint(), m_PlayerBlack->GetMousePointInBoard(), BOARDINFO_BLACK);
-
-					BlockManager::GetInstance()->ErasePiece(m_PlayerBlack->GetSelectPiece()->GetPoint());
-
-					m_PlayerBlack->GetSelectPiece()->SetPoint(m_PlayerBlack->GetMousePointInBoard());
-					m_PlayerBlack->GetSelectPiece()->SetRect();
-
-					BlockManager::GetInstance()->DrawPiece(m_PlayerBlack->GetSelectPiece()->GetPieceColor(), m_PlayerBlack->GetSelectPiece()->GetPieceType(), m_PlayerBlack->GetMousePointInBoard());
-
-					m_PlayerBlack->SetState(STATE_IDLE);
-				}
-				// 이동하는 좌표에 자신의 말이 있거나 움직일 수 없는 좌표일 경우 선택한 말을 초기화 한다.
-				else
-				{
-					BlockManager::GetInstance()->EraseSelectBoard(m_PlayerBlack->GetSelectPiece()->GetPieceColor(), m_PlayerBlack->GetSelectPiece()->GetPieceType(), m_PlayerBlack->GetSelectPiece()->GetPoint());
-				}
-				m_PlayerBlack->SetSelectPiece(NULL);
-			}
-			else
-			{
-				// 이동하는 좌표에 장애물이 없고 움직일 수 있는 좌표일 경우
-				if (m_BoardManager->CheckMoveInBoard(m_PlayerBlack->GetSelectPiece()->GetPoint(), m_PlayerBlack->GetMousePointInBoard()) && m_PlayerBlack->GetSelectPiece()->Move(m_PlayerBlack->GetMousePointInBoard()))
-				{
-					// 보드의 정보를 입력한다.
-					m_BoardManager->MovePieceInBoard(m_PlayerBlack->GetSelectPiece()->GetPoint(), m_PlayerBlack->GetMousePointInBoard(), BOARDINFO_BLACK);
-
-					BlockManager::GetInstance()->ErasePiece(m_PlayerBlack->GetSelectPiece()->GetPoint());
-
-					m_PlayerBlack->GetSelectPiece()->SetPoint(m_PlayerBlack->GetMousePointInBoard());
-					m_PlayerBlack->GetSelectPiece()->SetRect();
-
-					BlockManager::GetInstance()->DrawPiece(m_PlayerBlack->GetSelectPiece()->GetPieceColor(), m_PlayerBlack->GetSelectPiece()->GetPieceType(), m_PlayerBlack->GetMousePointInBoard());
-
-					m_PlayerBlack->SetState(STATE_IDLE);
-				}
-				// 이동하는 좌표에 자신의 말이 있거나 움직일 수 없는 좌표일 경우 선택한 말을 초기화 한다.
-				else
-				{
-					BlockManager::GetInstance()->EraseSelectBoard(m_PlayerBlack->GetSelectPiece()->GetPieceColor(), m_PlayerBlack->GetSelectPiece()->GetPieceType(), m_PlayerBlack->GetSelectPiece()->GetPoint());
-				}
-				m_PlayerBlack->SetSelectPiece(NULL);
-			}
-		}
-		if (m_PlayerBlack->GetState() == STATE_IDLE)
-		{
-			m_Turn = TURN_WHITE;
-		}
-		break;
-	case TURN_WHITE:
-		m_PlayerWhite->Input(lParam);
-		// 선택한 피스가 없을 경우
-		if (m_PlayerWhite->GetSelectPiece() == NULL)
-		{
-			// 마우스 포인터의 위치에 해당하는 피스를 선택한다.
-			if (m_PlayerWhite->SelectPieceInPoint(m_PlayerWhite->GetMousePoint()))
-			{
-				BlockManager::GetInstance()->DrawSelectBoard(m_PlayerWhite->GetSelectPiece()->GetPoint());
-			}
-		}
-		// 선택한 피스가 있을 경우
-		else
-		{
-			// 이동하는 좌표에 자신의 말이 없고 움직일 수 있는 좌표일 경우
-			if (!m_PlayerWhite->CheckPieceInPoint(m_PlayerWhite->GetMousePoint()) && m_PlayerWhite->GetSelectPiece()->Move(m_PlayerWhite->GetMousePointInBoard()))
-			{
-				// 보드의 정보를 입력한다.
-				m_BoardManager->MovePieceInBoard(m_PlayerWhite->GetSelectPiece()->GetPoint(), m_PlayerWhite->GetMousePointInBoard(), BOARDINFO_WHITE);
-
-				BlockManager::GetInstance()->ErasePiece(m_PlayerWhite->GetSelectPiece()->GetPoint());
-
-				m_PlayerWhite->GetSelectPiece()->SetPoint(m_PlayerWhite->GetMousePointInBoard());
-				m_PlayerWhite->GetSelectPiece()->SetRect();
-
-				BlockManager::GetInstance()->DrawPiece(m_PlayerWhite->GetSelectPiece()->GetPieceColor(), m_PlayerWhite->GetSelectPiece()->GetPieceType(), m_PlayerWhite->GetMousePointInBoard());
-
-				m_PlayerWhite->SetState(STATE_IDLE);
-			}
-			// 이동하는 좌표에 자신의 말이 있거나 움직일 수 없는 좌표일 경우 선택한 말을 초기화 한다.
-			else
-			{
-				BlockManager::GetInstance()->EraseSelectBoard(m_PlayerWhite->GetSelectPiece()->GetPieceColor(), m_PlayerWhite->GetSelectPiece()->GetPieceType(), m_PlayerWhite->GetSelectPiece()->GetPoint());
-			}
-			m_PlayerWhite->SetSelectPiece(NULL);
-		}
-		if (m_PlayerWhite->GetState() == STATE_IDLE)
-		{
-			m_Turn = TURN_BLACK;
-		}
-		break;
-	}
-}
-
-void GameManager::Inputt(LPARAM lParam)
-{
 	// 턴에 따라 현재 입력하는 플레이어를 전환한다.
 	Player* CurrentPlayer = NULL;
-	BOARDINFO boardInfo;
+	Player* EnemyPlayer = NULL;
+	BOARDINFO CurrentBoardInfo;
+	BOARDINFO EnemyBoardInfo;
 	if (m_Turn == TURN_BLACK)
 	{
 		CurrentPlayer = m_PlayerBlack;
-		boardInfo = BOARDINFO_BLACK;
+		EnemyPlayer = m_PlayerWhite;
+		CurrentBoardInfo = BOARDINFO_BLACK;
+		EnemyBoardInfo = BOARDINFO_WHITE;
 	}
 	else
 	{
 		CurrentPlayer = m_PlayerWhite;
-		boardInfo = BOARDINFO_WHITE;
+		EnemyPlayer = m_PlayerBlack;
+		CurrentBoardInfo = BOARDINFO_WHITE;
+		EnemyBoardInfo = BOARDINFO_BLACK;
 	}
 
 	CurrentPlayer->Input(lParam);
+
+	POINT MousePoint = CurrentPlayer->GetMousePoint();								// 픽셀로 된 마우스의 포인터 ex) (125, 250)
+	POINT MousePointInBoard = CurrentPlayer->GetMousePointInBoard();			// 보드에 사용하는 마우스의 포인터 ex) (8, 4)
+	Board** tmpBoard = m_BoardManager->GetBoard();
+
 	// 선택한 피스가 없을 경우
 	if (CurrentPlayer->GetSelectPiece() == NULL)
 	{
 		// 마우스 포인터의 위치에 해당하는 피스를 선택한다.
-		if (CurrentPlayer->SelectPieceInPoint(CurrentPlayer->GetMousePoint()))
+		if (CurrentPlayer->SelectPieceInPoint(MousePoint))
 		{
-			BlockManager::GetInstance()->DrawSelectBoard(CurrentPlayer->GetSelectPiece()->GetPoint());
+			Piece* CurrentSelectPiece = CurrentPlayer->GetSelectPiece();							// 현재 선택된 피스
+			BlockManager::GetInstance()->DrawSelectBoard(CurrentSelectPiece->GetPoint());
 		}
 	}
 	// 선택한 피스가 있을 경우
 	else
 	{
-		// 이동하는 좌표에 자신의 말이 없고 움직일 수 있는 좌표일 경우
-		if (!CurrentPlayer->CheckPieceInPoint(CurrentPlayer->GetMousePoint()) && CurrentPlayer->GetSelectPiece()->Move(CurrentPlayer->GetMousePointInBoard()))
+		Piece* CurrentSelectPiece = CurrentPlayer->GetSelectPiece();							// 현재 선택된 피스
+		// 선택한 피스가 나이트인 경우
+		if (CurrentSelectPiece->GetPieceType() == PIECETYPE_KNIGHT)
 		{
-			// 보드의 정보를 입력한다.
-			m_BoardManager->MovePieceInBoard(CurrentPlayer->GetSelectPiece()->GetPoint(), CurrentPlayer->GetMousePointInBoard(), boardInfo);
-
-			BlockManager::GetInstance()->ErasePiece(CurrentPlayer->GetSelectPiece()->GetPoint());
-
-			CurrentPlayer->GetSelectPiece()->SetPoint(CurrentPlayer->GetMousePointInBoard());
-			CurrentPlayer->GetSelectPiece()->SetRect();
-
-			BlockManager::GetInstance()->DrawPiece(CurrentPlayer->GetSelectPiece()->GetPieceColor(), CurrentPlayer->GetSelectPiece()->GetPieceType(), CurrentPlayer->GetMousePointInBoard());
-
-			CurrentPlayer->SetState(STATE_IDLE);
+			// 이동하는 좌표에 자신의 말이 없고
+			// 움직일 수 있는 좌표일 경우
+			if (!CurrentPlayer->CheckPieceInPoint(MousePoint) && CurrentSelectPiece->Move(MousePointInBoard))
+			{
+				// 이동하는 좌표에 상대방의 피스가 있을 경우
+				if (tmpBoard[MousePointInBoard.x][MousePointInBoard.y].GetBoardInfo() == EnemyBoardInfo)
+				{
+					vector<Piece*> EnemyPieceList = EnemyPlayer->GetPieceList();
+					vector<Piece*>::size_type i = 0;
+					for (i; i < EnemyPlayer->GetPieceList().size(); ++i)
+					{
+						if (EnemyPieceList[i]->GetPoint().x == MousePointInBoard.x && EnemyPieceList[i]->GetPoint().y == MousePointInBoard.y)
+						{
+							EnemyPieceList[i]->SetLiveFlag(false);
+						}
+					}
+					tmpBoard[MousePointInBoard.x][MousePointInBoard.y].SetBoardInfo(BOARDINFO_NONE);
+					BlockManager::GetInstance()->ErasePiece(MousePointInBoard);
+				}
+				Move(CurrentPlayer, CurrentSelectPiece, MousePoint, MousePointInBoard, CurrentBoardInfo);
+			}
+			// 이동하는 좌표에 자신의 말이 있거나
+			// 움직일 수 없는 좌표일 경우 선택한 말을 초기화 한다.
+			else
+			{
+				EraseSelectBoard(CurrentSelectPiece);
+			}
+			CurrentPlayer->SetSelectPiece(NULL);
 		}
-		// 이동하는 좌표에 자신의 말이 있거나 움직일 수 없는 좌표일 경우 선택한 말을 초기화 한다.
+		// 선택한 피스가 폰인 경우
+		else if (CurrentSelectPiece->GetPieceType() == PIECETYPE_PAWN)
+		{
+			if (tmpBoard[MousePointInBoard.x][MousePointInBoard.y].GetBoardInfo() == EnemyBoardInfo)
+			{
+				// 다운캐스팅
+				Pawn* tmpPawn = dynamic_cast<Pawn*>(CurrentSelectPiece);
+				// 공격하는 좌표에 자신의 말이 없고
+				// 공격할 수 있는 좌표일 경우
+				if (!CurrentPlayer->CheckPieceInPoint(MousePoint) && tmpPawn->Attack(MousePointInBoard))
+				{
+					// 이동하는 좌표에 상대방의 피스가 있을 경우
+					if (tmpBoard[MousePointInBoard.x][MousePointInBoard.y].GetBoardInfo() == EnemyBoardInfo)
+					{
+						vector<Piece*> EnemyPieceList = EnemyPlayer->GetPieceList();
+						vector<Piece*>::size_type i = 0;
+						for (i; i < EnemyPlayer->GetPieceList().size(); ++i)
+						{
+							if (EnemyPieceList[i]->GetPoint().x == MousePointInBoard.x && EnemyPieceList[i]->GetPoint().y == MousePointInBoard.y)
+							{
+								EnemyPieceList[i]->SetLiveFlag(false);
+							}
+						}
+						tmpBoard[MousePointInBoard.x][MousePointInBoard.y].SetBoardInfo(BOARDINFO_NONE);
+						BlockManager::GetInstance()->ErasePiece(MousePointInBoard);
+					}
+					Move(CurrentPlayer, CurrentSelectPiece, MousePoint, MousePointInBoard, CurrentBoardInfo);
+				}
+				// 이동하는 좌표에 자신의 말이 있거나
+				// 움직일 수 없는 좌표일 경우 선택한 말을 초기화 한다.
+				else
+				{
+					EraseSelectBoard(CurrentSelectPiece);
+				}
+				CurrentPlayer->SetSelectPiece(NULL);
+			}
+			else
+			{
+				// 이동하는 좌표에 자신의 말이 없고
+				// 움직일 수 있는 좌표일 경우
+				if (!CurrentPlayer->CheckPieceInPoint(MousePoint) && CurrentSelectPiece->Move(MousePointInBoard))
+				{
+					// 이동하는 좌표에 상대방의 피스가 있을 경우
+					if (tmpBoard[MousePointInBoard.x][MousePointInBoard.y].GetBoardInfo() == EnemyBoardInfo)
+					{
+						vector<Piece*> EnemyPieceList = EnemyPlayer->GetPieceList();
+						vector<Piece*>::size_type i = 0;
+						for (i; i < EnemyPlayer->GetPieceList().size(); ++i)
+						{
+							if (EnemyPieceList[i]->GetPoint().x == MousePointInBoard.x && EnemyPieceList[i]->GetPoint().y == MousePointInBoard.y)
+							{
+								EnemyPieceList[i]->SetLiveFlag(false);
+							}
+						}
+						tmpBoard[MousePointInBoard.x][MousePointInBoard.y].SetBoardInfo(BOARDINFO_NONE);
+						BlockManager::GetInstance()->ErasePiece(MousePointInBoard);
+					}
+					Move(CurrentPlayer, CurrentSelectPiece, MousePoint, MousePointInBoard, CurrentBoardInfo);
+				}
+				// 이동하는 좌표에 자신의 말이 있거나
+				// 움직일 수 없는 좌표일 경우 선택한 말을 초기화 한다.
+				else
+				{
+					EraseSelectBoard(CurrentSelectPiece);
+				}
+				CurrentPlayer->SetSelectPiece(NULL);
+			}
+		}
 		else
 		{
-			BlockManager::GetInstance()->EraseSelectBoard(CurrentPlayer->GetSelectPiece()->GetPieceColor(), CurrentPlayer->GetSelectPiece()->GetPieceType(), CurrentPlayer->GetSelectPiece()->GetPoint());
+			// 이동하는 좌표에 자신의 말이 없고
+			// 움직일 수 있는 좌표이며
+			// 이동하는 좌표 전까지 장애물이 없는 경우
+			if (!CurrentPlayer->CheckPieceInPoint(MousePoint) && CurrentSelectPiece->Move(MousePointInBoard) && m_BoardManager->CheckMoveInBoard(CurrentSelectPiece->GetPoint(), MousePointInBoard))
+			{
+				// 이동하는 좌표에 상대방의 피스가 있을 경우
+				if (tmpBoard[MousePointInBoard.x][MousePointInBoard.y].GetBoardInfo() == EnemyBoardInfo)
+				{
+					vector<Piece*> EnemyPieceList = EnemyPlayer->GetPieceList();
+					vector<Piece*>::size_type i = 0;
+					for (i; i < EnemyPlayer->GetPieceList().size(); ++i)
+					{
+						if (EnemyPieceList[i]->GetPoint().x == MousePointInBoard.x && EnemyPieceList[i]->GetPoint().y == MousePointInBoard.y)
+						{
+							EnemyPieceList[i]->SetLiveFlag(false);
+						}
+					}
+					tmpBoard[MousePointInBoard.x][MousePointInBoard.y].SetBoardInfo(BOARDINFO_NONE);
+					BlockManager::GetInstance()->ErasePiece(MousePointInBoard);
+				}
+				Move(CurrentPlayer, CurrentSelectPiece, MousePoint, MousePointInBoard, CurrentBoardInfo);
+			}
+			// 이동하는 좌표에 자신의 말이 있거나 움직일 수 없는 좌표일 경우 선택한 말을 초기화 한다.
+			else
+			{
+				EraseSelectBoard(CurrentSelectPiece);
+			}
+			CurrentPlayer->SetSelectPiece(NULL);
 		}
-		CurrentPlayer->SetSelectPiece(NULL);
 	}
+
+	// 킹은 15번에 저장되어있다.
+	// 킹이 죽었을 경우 결과 창을 나타낸다.
+	if (!EnemyPlayer->GetPieceList()[15]->GetLiveFlag())
+	{
+		if (EnemyPlayer->GetPlayerColor() == PLAYERCOLOR_BLACK)
+		{
+			if (MessageBox(m_hWnd, TEXT("백팀의 승리!!\n다시하시겠습니까?"), TEXT("Winner"), MB_YESNO) == IDYES)
+			{
+				Init(m_hWnd, m_hInst);
+			}
+			else
+			{
+				BlockManager::GetInstance()->Release();
+				PostQuitMessage(0);
+			}
+		}
+		else if (EnemyPlayer->GetPlayerColor() == PLAYERCOLOR_WHITE)
+		{
+			if (MessageBox(m_hWnd, TEXT("흑팀의 승리!!\n다시하시겠습니까?"), TEXT("Winner"), MB_YESNO) == IDYES)
+			{
+				Init(m_hWnd, m_hInst);
+			}
+			else
+			{
+				BlockManager::GetInstance()->Release();
+				PostQuitMessage(0);
+			}
+		}
+	}
+
 	if (CurrentPlayer->GetState() == STATE_IDLE)
 	{
 		if (CurrentPlayer->GetPlayerColor() == PLAYERCOLOR_BLACK)
@@ -233,11 +272,33 @@ void GameManager::Inputt(LPARAM lParam)
 	}
 }
 
+void GameManager::Move(Player * currentPlayer, Piece * currentSelectPiece, POINT mousePoint, POINT mousePointInBoard, BOARDINFO currentBoardInfo)
+{
+	// 보드의 정보를 입력한다.
+	m_BoardManager->MovePieceInBoard(currentSelectPiece->GetPoint(), mousePointInBoard, currentBoardInfo);
+
+	// 현재 선택한 피스 비트맵을 지운다.
+	BlockManager::GetInstance()->ErasePiece(currentSelectPiece->GetPoint());
+
+	// 현재 선택한 피스의 정보를 수정한다.
+	currentSelectPiece->SetPoint(mousePointInBoard);
+	currentSelectPiece->SetRect();
+
+	// 수정된 피스의 정보를 바탕으로 피스를 그린다.
+	BlockManager::GetInstance()->DrawPiece(currentSelectPiece->GetPieceColor(), currentSelectPiece->GetPieceType(), mousePointInBoard);
+
+	currentPlayer->SetState(STATE_IDLE);
+}
+
+void GameManager::EraseSelectBoard(Piece * currentSelecetPiece)
+{
+	BlockManager::GetInstance()->EraseSelectBoard(currentSelecetPiece->GetPieceColor(), currentSelecetPiece->GetPieceType(), currentSelecetPiece->GetPoint());
+}
+
 
 GameManager::~GameManager()
 {
 	delete m_PlayerBlack;
 	delete m_PlayerWhite;
 	delete m_BoardManager;
-	BlockManager::GetInstance()->Release();
 }

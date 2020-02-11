@@ -80,13 +80,25 @@ bool BoardManager::CheckMoveInBoard(POINT currentPoint, POINT goalPoint)
 		return false;
 	}
 	
+	// 현재 위치와 목표 위치가 한칸씩 차이 나이나는 경우
+	if (currentPoint.x >= goalPoint.x - 1 && currentPoint.x <= goalPoint.x + 1)
+	{
+		if (currentPoint.y >= goalPoint.y - 1 && currentPoint.y <= goalPoint.y + 1)
+		{
+			return true;
+		}
+	}
+
+	// 현재 좌표에서 목표 좌표 전까지
+	// 자신의 피스 또는 상대방의 피스 (장애물)이 있는지 확인한다.
+
 	// x좌표가 같을 경우
 	if (currentPoint.x == goalPoint.x)
 	{
 		if (currentPoint.y > goalPoint.y)
 		{
 			// 목표전까지 이동하는 중 보드가 비어있지 않으면 false;
-			for (; currentPoint.y != goalPoint.y;)
+			for (; currentPoint.y != goalPoint.y + 1;)
 			{
 				currentPoint.y--;
 				if (m_Board[currentPoint.x][currentPoint.y].GetBoardInfo() != BOARDINFO_NONE)
@@ -101,7 +113,7 @@ bool BoardManager::CheckMoveInBoard(POINT currentPoint, POINT goalPoint)
 		else
 		{
 			// 목표전까지 이동하는 중 보드가 비어있지 않으면 false;
-			for (; currentPoint.y != goalPoint.y;)
+			for (; currentPoint.y != goalPoint.y - 1;)
 			{
 				currentPoint.y++;
 				if (m_Board[currentPoint.x][currentPoint.y].GetBoardInfo() != BOARDINFO_NONE)
@@ -120,7 +132,7 @@ bool BoardManager::CheckMoveInBoard(POINT currentPoint, POINT goalPoint)
 		if (currentPoint.x > goalPoint.x)
 		{
 			// 목표전까지 이동하는 중 보드가 비어있지 않으면 false;
-			for (; currentPoint.x != goalPoint.x;)
+			for (; currentPoint.x != goalPoint.x + 1;)
 			{
 				currentPoint.x--;
 				if (m_Board[currentPoint.x][currentPoint.y].GetBoardInfo() != BOARDINFO_NONE)
@@ -135,7 +147,7 @@ bool BoardManager::CheckMoveInBoard(POINT currentPoint, POINT goalPoint)
 		else
 		{
 			// 목표전까지 이동하는 중 보드가 비어있지 않으면 false;
-			for (; currentPoint.x != goalPoint.x;)
+			for (; currentPoint.x != goalPoint.x - 1;)
 			{
 				currentPoint.x++;
 				if (m_Board[currentPoint.x][currentPoint.y].GetBoardInfo() != BOARDINFO_NONE)
@@ -153,7 +165,7 @@ bool BoardManager::CheckMoveInBoard(POINT currentPoint, POINT goalPoint)
 	{
 		if (currentPoint.x > goalPoint.x && currentPoint.y > goalPoint.y)
 		{
-			for (; !(currentPoint.x == goalPoint.x && currentPoint.y == goalPoint.y);)
+			for (; !(currentPoint.x == goalPoint.x + 1 && currentPoint.y == goalPoint.y + 1);)
 			{
 				currentPoint.x--;
 				currentPoint.y--;
@@ -168,7 +180,7 @@ bool BoardManager::CheckMoveInBoard(POINT currentPoint, POINT goalPoint)
 		}
 		else if (currentPoint.x < goalPoint.x && currentPoint.y < goalPoint.y)
 		{
-			for (; !(currentPoint.x == goalPoint.x && currentPoint.y == goalPoint.y);)
+			for (; !(currentPoint.x == goalPoint.x - 1 && currentPoint.y == goalPoint.y - 1);)
 			{
 				currentPoint.x++;
 				currentPoint.y++;
@@ -183,7 +195,7 @@ bool BoardManager::CheckMoveInBoard(POINT currentPoint, POINT goalPoint)
 		}
 		else if (currentPoint.x > goalPoint.x && currentPoint.y < goalPoint.y)
 		{
-			for (; !(currentPoint.x == goalPoint.x && currentPoint.y == goalPoint.y);)
+			for (; !(currentPoint.x == goalPoint.x + 1 && currentPoint.y == goalPoint.y - 1);)
 			{
 				currentPoint.x--;
 				currentPoint.y++;
@@ -198,7 +210,7 @@ bool BoardManager::CheckMoveInBoard(POINT currentPoint, POINT goalPoint)
 		}
 		else if (currentPoint.x < goalPoint.x && currentPoint.y > goalPoint.y)
 		{
-			for (; !(currentPoint.x == goalPoint.x && currentPoint.y == goalPoint.y);)
+			for (; !(currentPoint.x == goalPoint.x - 1 && currentPoint.y == goalPoint.y + 1);)
 			{
 				currentPoint.x++;
 				currentPoint.y--;

@@ -32,6 +32,7 @@ void BlockManager::Init(HWND hWnd, HINSTANCE hInst)
 	}
 	m_WhitePiece = new Block[PIECEMAX];
 	SetPiece();
+	InvalidateRect(hWnd, NULL, TRUE);
 }
 
 void BlockManager::SetBoard()
@@ -154,13 +155,22 @@ void BlockManager::EraseSelectBoard(PIECECOLOR pieceColor, PIECETYPE pieceType, 
 
 void BlockManager::Release()
 {
+	if (m_Board != NULL)
+	{
+		delete[] m_Board;
+	}
+	if (m_BlackPiece != NULL)
+	{
+		delete[] m_BlackPiece;
+	}
+	if (m_WhitePiece != NULL)
+	{
+		delete[] m_WhitePiece;
+	}
 	delete m_This;
 }
 
 
 BlockManager::~BlockManager()
 {
-	delete[] m_Board;
-	delete[] m_BlackPiece;
-	delete[] m_WhitePiece;
 }

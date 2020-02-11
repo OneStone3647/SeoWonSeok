@@ -53,6 +53,7 @@ bool Pawn::Move(POINT point)
 			{
 				return Piece::Move(point);
 			}
+			// 앞으로 1칸 이동
 			else if (m_Point.y == point.y + 1)
 			{
 				return Piece::Move(point);
@@ -68,7 +69,47 @@ bool Pawn::Move(POINT point)
 			{
 				return Piece::Move(point);
 			}
+			// 앞으로 1칸 이동
 			else if (m_Point.y == point.y - 1)
+			{
+				return Piece::Move(point);
+			}
+		}
+		break;
+	}
+
+	return false;
+}
+
+bool Pawn::Attack(POINT point)
+{
+	switch (m_PieceColor)
+	{
+	case PIECECOLOR_BLACK:
+		if (m_Point.y == point.y + 1)
+		{
+			// 오른쪽 대각선 이동
+			if (m_Point.x == point.x - 1)
+			{
+				return Piece::Move(point);
+			}
+			// 왼쪽 대각선 이동
+			else if (m_Point.x == point.x + 1)
+			{
+				return Piece::Move(point);
+			}
+		}
+		break;
+	case PIECECOLOR_WHITE:
+		if (m_Point.y == point.y - 1)
+		{
+			// 오른쪽 대각선 이동
+			if (m_Point.x == point.x + 1)
+			{
+				return Piece::Move(point);
+			}
+			// 왼쪽 대각선 이동
+			else if (m_Point.x == point.x - 1)
 			{
 				return Piece::Move(point);
 			}

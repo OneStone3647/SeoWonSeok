@@ -80,8 +80,9 @@ public:
 	Pawn();
 
 	bool Move(POINT point);
+	bool Attack(POINT point);
 
-	~Pawn();
+	virtual ~Pawn();
 };
 
 
@@ -92,7 +93,7 @@ public:
 
 	bool Move(POINT point);
 
-	~Knight();
+	virtual ~Knight();
 };
 
 
@@ -103,7 +104,7 @@ public:
 
 	bool Move(POINT point);
 
-	~Bishop();
+	virtual ~Bishop();
 };
 
 
@@ -125,7 +126,7 @@ public:
 
 	bool Move(POINT point);
 
-	~Queen();
+	virtual ~Queen();
 };
 
 
@@ -136,6 +137,6 @@ public:
 
 	bool Move(POINT point);
 
-	~King();
+	virtual ~King();
 };
 

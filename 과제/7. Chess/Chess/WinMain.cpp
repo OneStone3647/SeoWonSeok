@@ -83,6 +83,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 
 		return 0;
 	case WM_DESTROY:
+		BlockManager::GetInstance()->Release();
 		PostQuitMessage(0);
 
 		return 0;

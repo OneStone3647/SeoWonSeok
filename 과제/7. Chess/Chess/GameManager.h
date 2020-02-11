@@ -18,6 +18,8 @@ private:
 	bool				m_bFirstPlay;				// 첫 게임의 시작을 알린다.
 	TURN				m_Turn;
 	BoardManager*		m_BoardManager;
+	HWND				m_hWnd;
+	HINSTANCE			m_hInst;
 
 
 public:
@@ -26,7 +28,8 @@ public:
 	void Init(HWND hWnd, HINSTANCE hInst);
 	void DrawInitBoard();
 	void Input(LPARAM lParam);
-	void Inputt(LPARAM lParam);
+	void Move(Player* currentPlayer, Piece* currentSelectPiece, POINT mousePoint, POINT mousePointInBoard, BOARDINFO currentBoardInfo);
+	void EraseSelectBoard(Piece* currentSelecetPiece);
 
 	bool GetFirstFlag()
 	{
