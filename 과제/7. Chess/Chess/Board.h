@@ -14,22 +14,13 @@ enum BOARDINFO
 class Board
 {
 private:
-	RECT				m_Rect;
 	BOARDINFO		m_BoardInfo;
 
 public:
 	Board();
-
-	void Init(int x, int y);
-
 	~Board();
 
 public:
-	inline RECT GetBoardRect()
-	{
-		return m_Rect;
-	}
-
 	inline BOARDINFO GetBoardInfo()
 	{
 		return m_BoardInfo;

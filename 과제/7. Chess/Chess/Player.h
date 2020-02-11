@@ -19,10 +19,11 @@ enum PLAYERCOLOR
 class Player
 {
 private:
-	PLAYERCOLOR		m_PlayerColor;		// 플레이어의 색
-	vector<Piece*>		m_PieceList;			// 플레이어가 가진 피스의 목록
-	Piece*					m_SelectPiece;		// 현재 선택한 피스의 정보
-	POINT					m_MousePoint;		// 마우스로 선택 지점의 좌표
+	PLAYERCOLOR				m_PlayerColor;			// 플레이어의 색
+	vector<Piece*>			m_PieceList;			// 플레이어가 가진 피스의 목록
+	Piece*					m_SelectPiece;			// 현재 선택한 피스의 정보
+	POINT					m_MousePoint;			// 마우스의 위치 포인트
+	POINT					m_MousePointInBoard;	// 보드에서의 마우스의 위치 포인트
 	STATE					m_State;
 
 public:
@@ -32,6 +33,7 @@ public:
 	void SetPiece();
 	void Input(LPARAM lParam);
 	bool SelectPieceInPoint(POINT point);
+	bool CheckPieceInPoint(POINT point);
 
 	~Player();
 	
@@ -45,10 +47,24 @@ public:
 	{
 		return m_SelectPiece;
 	}
+	inline void SetSelectPiece(Piece* piece)
+	{
+		m_SelectPiece = piece;
+	}
 
 	inline POINT GetMousePoint()
 	{
 		return m_MousePoint;
+	}
+
+	inline POINT GetMousePointInBoard()
+	{
+		return m_MousePointInBoard;
+	}
+	inline void SetMousePointInBaord(POINT point)
+	{
+		m_MousePointInBoard.x = point.x / BLOCKX;
+		m_MousePointInBoard.y = point.y / BLOCKY;
 	}
 
 	inline STATE GetState()

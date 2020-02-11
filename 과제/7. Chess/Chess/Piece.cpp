@@ -200,7 +200,7 @@ bool King::Move(POINT point)
 {
 	if (m_Point.x >= point.x - 1 && m_Point.x <= point.x + 1)
 	{
-		if (m_Point.x >= point.x - 1 && m_Point.x <= point.x + 1)
+		if (m_Point.y >= point.y - 1 && m_Point.y <= point.y + 1)
 		{
 			return Piece::Move(point);
 		}

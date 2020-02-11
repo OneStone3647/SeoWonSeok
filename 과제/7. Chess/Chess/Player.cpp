@@ -131,15 +131,17 @@ void Player::Input(LPARAM lParam)
 
 	m_MousePoint.x = LOWORD(lParam);
 	m_MousePoint.y = HIWORD(lParam);
+
+	SetMousePointInBaord(m_MousePoint);
 }
 
-// 선택한 포인트 안에 자시느이 피스가 있으면 선택한다.
+// 선택한 포인트 안에 자신의 피스가 있으며 살아 있을 경우 선택한다.
 bool Player::SelectPieceInPoint(POINT point)
 {
 	vector<Piece*>::size_type i = 0;
 	for (i; i < m_PieceList.size(); ++i)
 	{
-		if (PtInRect(&(m_PieceList[i]->GetRect()), point))
+		if (PtInRect(&(m_PieceList[i]->GetRect()), point) && m_PieceList[i]->GetLiveFlag())
 		{
 			m_SelectPiece = m_PieceList[i];
 			return true;
@@ -147,6 +149,20 @@ bool Player::SelectPieceInPoint(POINT point)
 	}
 
 	m_SelectPiece = NULL;
+	return false;
+}
+
+bool Player::CheckPieceInPoint(POINT point)
+{
+	vector<Piece*>::size_type i = 0;
+	for (i; i < m_PieceList.size(); ++i)
+	{
+		if (PtInRect(&(m_PieceList[i]->GetRect()), point) && m_PieceList[i]->GetLiveFlag())
+		{
+			return true;
+		}
+	}
+
 	return false;
 }
 
