@@ -10,20 +10,6 @@ using namespace std;
 
 class BlockManager
 {
-	// ΩÃ±€≈Ê
-private:
-	static BlockManager* m_This;
-
-public:
-	static BlockManager* GetInstance()
-	{
-		if (m_This == NULL)
-		{
-			m_This = new BlockManager;
-		}
-		return m_This;
-	}
-
 private:
 	HDC				hdc;
 	HINSTANCE		m_hInst;
@@ -44,8 +30,6 @@ public:
 	void DrawInitPiece(vector<Piece*> pieceList);
 	void DrawSelectBoard(POINT point);
 	void EraseSelectBoard(PIECECOLOR pieceColor, PIECETYPE pieceType, POINT point);
-
-	void Release();
 
 	~BlockManager();
 };

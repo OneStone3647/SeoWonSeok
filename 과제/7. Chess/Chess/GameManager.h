@@ -17,6 +17,7 @@ private:
 	Player*				m_PlayerWhite;
 	bool				m_bFirstPlay;				// 첫 게임의 시작을 알린다.
 	TURN				m_Turn;
+	BlockManager*		m_BlockManager;
 	BoardManager*		m_BoardManager;
 	HWND				m_hWnd;
 	HINSTANCE			m_hInst;

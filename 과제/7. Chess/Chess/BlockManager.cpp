@@ -1,7 +1,5 @@
 #include "BlockManager.h"
 
-BlockManager* BlockManager::m_This = NULL;
-
 BlockManager::BlockManager()
 {
 	m_Board = NULL;
@@ -153,7 +151,7 @@ void BlockManager::EraseSelectBoard(PIECECOLOR pieceColor, PIECETYPE pieceType, 
 	DrawPiece(pieceColor, pieceType, point);
 }
 
-void BlockManager::Release()
+BlockManager::~BlockManager()
 {
 	if (m_Board != NULL)
 	{
@@ -167,10 +165,4 @@ void BlockManager::Release()
 	{
 		delete[] m_WhitePiece;
 	}
-	delete m_This;
-}
-
-
-BlockManager::~BlockManager()
-{
 }
