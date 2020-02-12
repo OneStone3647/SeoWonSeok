@@ -14,3 +14,7 @@ using namespace std;
 
 #define BOARDX 8
 #define BOARDY 8
+#define BOARDMAX 64
+
+#define FIELDCOUNTMAX 3		// 필드의 종류
+#define PIECECOUNTMAX 6		// 피스의 종류

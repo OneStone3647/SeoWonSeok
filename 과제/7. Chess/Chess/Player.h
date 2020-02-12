@@ -1,6 +1,6 @@
 #pragma once
 #include "Piece.h"
-#include "BlockManager.h"
+#include "Block.h"
 
 // 상태 enum
 // 자신의 차례가 오면 STATE_PLAY, 아닐 경우 STATE_IDLE

@@ -7,7 +7,8 @@ GameManager::GameManager()
 	m_PlayerBlack = NULL;
 	m_PlayerWhite = NULL;
 	m_BlockManager = NULL;
-	m_BoardManager = NULL;
+
+	m_Turn = TURN_BLACK;
 }
 
 // 초기화
@@ -17,14 +18,6 @@ void GameManager::Init(HWND hWnd, HINSTANCE hInst)
 	m_hInst = hInst;
 	m_bFirstPlay = true;
 	// 검은색 플레이어가 먼저 시작한다.
-	m_Turn = TURN_BLACK;
-
-	if (m_BlockManager != NULL)
-	{
-		delete m_BlockManager;
-	}
-	m_BlockManager = new BlockManager;
-	m_BlockManager->Init(hWnd, hInst);
 
 	if (m_PlayerBlack != NULL)
 	{
@@ -40,15 +33,15 @@ void GameManager::Init(HWND hWnd, HINSTANCE hInst)
 	m_PlayerWhite = new Player;
 	m_PlayerWhite->Init(PLAYERCOLOR_WHITE);
 
-	if (m_BoardManager != NULL)
+	if (m_BlockManager != NULL)
 	{
-		delete m_BoardManager;
+		delete m_BlockManager;
 	}
-	m_BoardManager = new BoardManager;
-	m_BoardManager->Init();
+	m_BlockManager = new BlockManager;
+	m_BlockManager->Init(hWnd, hInst);
 	// 각 플레이어가 가진 피스의 초기 위치 정보를 보드에 저장한다.
-	m_BoardManager->SetBoardInPieceInit(m_PlayerBlack);
-	m_BoardManager->SetBoardInPieceInit(m_PlayerWhite);
+	m_BlockManager->SetBoardInPieceInit(m_PlayerBlack);
+	m_BlockManager->SetBoardInPieceInit(m_PlayerWhite);
 }
 
 // 초기 보드와 피스를 그린다.
@@ -86,7 +79,6 @@ void GameManager::Input(LPARAM lParam)
 
 	POINT MousePoint = CurrentPlayer->GetMousePoint();								// 픽셀로 된 마우스의 포인터 ex) (125, 250)
 	POINT MousePointInBoard = CurrentPlayer->GetMousePointInBoard();			// 보드에 사용하는 마우스의 포인터 ex) (8, 4)
-	Board** tmpBoard = m_BoardManager->GetBoard();
 
 	// 선택한 피스가 없을 경우
 	if (CurrentPlayer->GetSelectPiece() == NULL)
@@ -122,7 +114,7 @@ void GameManager::Input(LPARAM lParam)
 		// 선택한 피스가 폰인 경우
 		else if (CurrentSelectPiece->GetPieceType() == PIECETYPE_PAWN)
 		{
-			if (tmpBoard[MousePointInBoard.x][MousePointInBoard.y].GetBoardInfo() == EnemyBoardInfo)
+			if (m_BlockManager->SearchBoardInfoList(MousePointInBoard)->BoardInfo == EnemyBoardInfo)
 			{
 				// 다운캐스팅
 				Pawn* tmpPawn = dynamic_cast<Pawn*>(CurrentSelectPiece);
@@ -162,7 +154,7 @@ void GameManager::Input(LPARAM lParam)
 			// 이동하는 좌표에 자신의 말이 없고
 			// 움직일 수 있는 좌표이며
 			// 이동하는 좌표 전까지 장애물이 없는 경우
-			if (!CurrentPlayer->CheckPieceInPoint(MousePoint) && CurrentSelectPiece->Move(MousePointInBoard) && m_BoardManager->CheckMoveInBoard(CurrentSelectPiece->GetPoint(), MousePointInBoard))
+			if (!CurrentPlayer->CheckPieceInPoint(MousePoint) && CurrentSelectPiece->Move(MousePointInBoard) && m_BlockManager->CheckMoveInBoard(CurrentSelectPiece->GetPoint(), MousePointInBoard))
 			{
 				Move(CurrentPlayer, EnemyPlayer, CurrentSelectPiece, MousePoint, MousePointInBoard, CurrentBoardInfo, EnemyBoardInfo);
 			}
@@ -183,6 +175,7 @@ void GameManager::Input(LPARAM lParam)
 		{
 			if (MessageBox(m_hWnd, TEXT("백팀의 승리!!\n다시하시겠습니까?"), TEXT("Winner"), MB_YESNO) == IDYES)
 			{
+				m_Turn = TURN_BLACK;
 				Init(m_hWnd, m_hInst);
 			}
 			else
@@ -194,6 +187,7 @@ void GameManager::Input(LPARAM lParam)
 		{
 			if (MessageBox(m_hWnd, TEXT("흑팀의 승리!!\n다시하시겠습니까?"), TEXT("Winner"), MB_YESNO) == IDYES)
 			{
+				m_Turn = TURN_WHITE;
 				Init(m_hWnd, m_hInst);
 			}
 			else
@@ -218,10 +212,8 @@ void GameManager::Input(LPARAM lParam)
 
 void GameManager::Move(Player * currentPlayer, Player* enemyPlayer, Piece * currentSelectPiece, POINT mousePoint, POINT mousePointInBoard, BOARDINFO currentBoardInfo, BOARDINFO enemyBoardInfo)
 {
-	Board** tmpBoard = m_BoardManager->GetBoard();
-
 	// 이동하는 좌표에 상대방의 피스가 있을 경우
-	if (tmpBoard[mousePointInBoard.x][mousePointInBoard.y].GetBoardInfo() == enemyBoardInfo)
+	if (m_BlockManager->SearchBoardInfoList(mousePointInBoard)->BoardInfo == enemyBoardInfo)
 	{
 		vector<Piece*> EnemyPieceList = enemyPlayer->GetPieceList();
 		vector<Piece*>::size_type i = 0;
@@ -232,12 +224,12 @@ void GameManager::Move(Player * currentPlayer, Player* enemyPlayer, Piece * curr
 				EnemyPieceList[i]->SetLiveFlag(false);
 			}
 		}
-		tmpBoard[mousePointInBoard.x][mousePointInBoard.y].SetBoardInfo(BOARDINFO_NONE);
+		m_BlockManager->SetBoardInfo(mousePointInBoard, BOARDINFO_NONE);
 		m_BlockManager->ErasePiece(mousePointInBoard);
 	}
 
 	// 보드의 정보를 입력한다.
-	m_BoardManager->MovePieceInBoard(currentSelectPiece->GetPoint(), mousePointInBoard, currentBoardInfo);
+	m_BlockManager->MovePieceInBoard(currentSelectPiece->GetPoint(), mousePointInBoard, currentBoardInfo);
 
 	// 현재 선택한 피스 비트맵을 지운다.
 	m_BlockManager->ErasePiece(currentSelectPiece->GetPoint());
@@ -263,5 +255,4 @@ GameManager::~GameManager()
 	delete m_PlayerBlack;
 	delete m_PlayerWhite;
 	delete m_BlockManager;
-	delete m_BoardManager;
 }
