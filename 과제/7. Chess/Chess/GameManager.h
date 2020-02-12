@@ -28,7 +28,7 @@ public:
 	void Init(HWND hWnd, HINSTANCE hInst);
 	void DrawInitBoard();
 	void Input(LPARAM lParam);
-	void Move(Player* currentPlayer, Piece* currentSelectPiece, POINT mousePoint, POINT mousePointInBoard, BOARDINFO currentBoardInfo);
+	void Move(Player* currentPlayer, Player* enemyPlayer, Piece* currentSelectPiece, POINT mousePoint, POINT mousePointInBoard, BOARDINFO currentBoardInfo, BOARDINFO enemyBoardInfo);
 	void EraseSelectBoard(Piece* currentSelecetPiece);
 
 	bool GetFirstFlag()

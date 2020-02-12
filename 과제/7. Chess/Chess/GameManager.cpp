@@ -103,22 +103,7 @@ void GameManager::Input(LPARAM lParam)
 			// 움직일 수 있는 좌표일 경우
 			if (!CurrentPlayer->CheckPieceInPoint(MousePoint) && CurrentSelectPiece->Move(MousePointInBoard))
 			{
-				// 이동하는 좌표에 상대방의 피스가 있을 경우
-				if (tmpBoard[MousePointInBoard.x][MousePointInBoard.y].GetBoardInfo() == EnemyBoardInfo)
-				{
-					vector<Piece*> EnemyPieceList = EnemyPlayer->GetPieceList();
-					vector<Piece*>::size_type i = 0;
-					for (i; i < EnemyPlayer->GetPieceList().size(); ++i)
-					{
-						if (EnemyPieceList[i]->GetPoint().x == MousePointInBoard.x && EnemyPieceList[i]->GetPoint().y == MousePointInBoard.y)
-						{
-							EnemyPieceList[i]->SetLiveFlag(false);
-						}
-					}
-					tmpBoard[MousePointInBoard.x][MousePointInBoard.y].SetBoardInfo(BOARDINFO_NONE);
-					BlockManager::GetInstance()->ErasePiece(MousePointInBoard);
-				}
-				Move(CurrentPlayer, CurrentSelectPiece, MousePoint, MousePointInBoard, CurrentBoardInfo);
+				Move(CurrentPlayer, EnemyPlayer, CurrentSelectPiece, MousePoint, MousePointInBoard, CurrentBoardInfo, EnemyBoardInfo);
 			}
 			// 이동하는 좌표에 자신의 말이 있거나
 			// 움직일 수 없는 좌표일 경우 선택한 말을 초기화 한다.
@@ -139,22 +124,7 @@ void GameManager::Input(LPARAM lParam)
 				// 공격할 수 있는 좌표일 경우
 				if (!CurrentPlayer->CheckPieceInPoint(MousePoint) && tmpPawn->Attack(MousePointInBoard))
 				{
-					// 이동하는 좌표에 상대방의 피스가 있을 경우
-					if (tmpBoard[MousePointInBoard.x][MousePointInBoard.y].GetBoardInfo() == EnemyBoardInfo)
-					{
-						vector<Piece*> EnemyPieceList = EnemyPlayer->GetPieceList();
-						vector<Piece*>::size_type i = 0;
-						for (i; i < EnemyPlayer->GetPieceList().size(); ++i)
-						{
-							if (EnemyPieceList[i]->GetPoint().x == MousePointInBoard.x && EnemyPieceList[i]->GetPoint().y == MousePointInBoard.y)
-							{
-								EnemyPieceList[i]->SetLiveFlag(false);
-							}
-						}
-						tmpBoard[MousePointInBoard.x][MousePointInBoard.y].SetBoardInfo(BOARDINFO_NONE);
-						BlockManager::GetInstance()->ErasePiece(MousePointInBoard);
-					}
-					Move(CurrentPlayer, CurrentSelectPiece, MousePoint, MousePointInBoard, CurrentBoardInfo);
+					Move(CurrentPlayer, EnemyPlayer, CurrentSelectPiece, MousePoint, MousePointInBoard, CurrentBoardInfo, EnemyBoardInfo);
 				}
 				// 이동하는 좌표에 자신의 말이 있거나
 				// 움직일 수 없는 좌표일 경우 선택한 말을 초기화 한다.
@@ -170,22 +140,7 @@ void GameManager::Input(LPARAM lParam)
 				// 움직일 수 있는 좌표일 경우
 				if (!CurrentPlayer->CheckPieceInPoint(MousePoint) && CurrentSelectPiece->Move(MousePointInBoard))
 				{
-					// 이동하는 좌표에 상대방의 피스가 있을 경우
-					if (tmpBoard[MousePointInBoard.x][MousePointInBoard.y].GetBoardInfo() == EnemyBoardInfo)
-					{
-						vector<Piece*> EnemyPieceList = EnemyPlayer->GetPieceList();
-						vector<Piece*>::size_type i = 0;
-						for (i; i < EnemyPlayer->GetPieceList().size(); ++i)
-						{
-							if (EnemyPieceList[i]->GetPoint().x == MousePointInBoard.x && EnemyPieceList[i]->GetPoint().y == MousePointInBoard.y)
-							{
-								EnemyPieceList[i]->SetLiveFlag(false);
-							}
-						}
-						tmpBoard[MousePointInBoard.x][MousePointInBoard.y].SetBoardInfo(BOARDINFO_NONE);
-						BlockManager::GetInstance()->ErasePiece(MousePointInBoard);
-					}
-					Move(CurrentPlayer, CurrentSelectPiece, MousePoint, MousePointInBoard, CurrentBoardInfo);
+					Move(CurrentPlayer, EnemyPlayer, CurrentSelectPiece, MousePoint, MousePointInBoard, CurrentBoardInfo, EnemyBoardInfo);
 				}
 				// 이동하는 좌표에 자신의 말이 있거나
 				// 움직일 수 없는 좌표일 경우 선택한 말을 초기화 한다.
@@ -203,22 +158,7 @@ void GameManager::Input(LPARAM lParam)
 			// 이동하는 좌표 전까지 장애물이 없는 경우
 			if (!CurrentPlayer->CheckPieceInPoint(MousePoint) && CurrentSelectPiece->Move(MousePointInBoard) && m_BoardManager->CheckMoveInBoard(CurrentSelectPiece->GetPoint(), MousePointInBoard))
 			{
-				// 이동하는 좌표에 상대방의 피스가 있을 경우
-				if (tmpBoard[MousePointInBoard.x][MousePointInBoard.y].GetBoardInfo() == EnemyBoardInfo)
-				{
-					vector<Piece*> EnemyPieceList = EnemyPlayer->GetPieceList();
-					vector<Piece*>::size_type i = 0;
-					for (i; i < EnemyPlayer->GetPieceList().size(); ++i)
-					{
-						if (EnemyPieceList[i]->GetPoint().x == MousePointInBoard.x && EnemyPieceList[i]->GetPoint().y == MousePointInBoard.y)
-						{
-							EnemyPieceList[i]->SetLiveFlag(false);
-						}
-					}
-					tmpBoard[MousePointInBoard.x][MousePointInBoard.y].SetBoardInfo(BOARDINFO_NONE);
-					BlockManager::GetInstance()->ErasePiece(MousePointInBoard);
-				}
-				Move(CurrentPlayer, CurrentSelectPiece, MousePoint, MousePointInBoard, CurrentBoardInfo);
+				Move(CurrentPlayer, EnemyPlayer, CurrentSelectPiece, MousePoint, MousePointInBoard, CurrentBoardInfo, EnemyBoardInfo);
 			}
 			// 이동하는 좌표에 자신의 말이 있거나 움직일 수 없는 좌표일 경우 선택한 말을 초기화 한다.
 			else
@@ -272,8 +212,26 @@ void GameManager::Input(LPARAM lParam)
 	}
 }
 
-void GameManager::Move(Player * currentPlayer, Piece * currentSelectPiece, POINT mousePoint, POINT mousePointInBoard, BOARDINFO currentBoardInfo)
+void GameManager::Move(Player * currentPlayer, Player* enemyPlayer, Piece * currentSelectPiece, POINT mousePoint, POINT mousePointInBoard, BOARDINFO currentBoardInfo, BOARDINFO enemyBoardInfo)
 {
+	Board** tmpBoard = m_BoardManager->GetBoard();
+
+	// 이동하는 좌표에 상대방의 피스가 있을 경우
+	if (tmpBoard[mousePointInBoard.x][mousePointInBoard.y].GetBoardInfo() == enemyBoardInfo)
+	{
+		vector<Piece*> EnemyPieceList = enemyPlayer->GetPieceList();
+		vector<Piece*>::size_type i = 0;
+		for (i; i < enemyPlayer->GetPieceList().size(); ++i)
+		{
+			if (EnemyPieceList[i]->GetPoint().x == mousePointInBoard.x && EnemyPieceList[i]->GetPoint().y == mousePointInBoard.y)
+			{
+				EnemyPieceList[i]->SetLiveFlag(false);
+			}
+		}
+		tmpBoard[mousePointInBoard.x][mousePointInBoard.y].SetBoardInfo(BOARDINFO_NONE);
+		BlockManager::GetInstance()->ErasePiece(mousePointInBoard);
+	}
+
 	// 보드의 정보를 입력한다.
 	m_BoardManager->MovePieceInBoard(currentSelectPiece->GetPoint(), mousePointInBoard, currentBoardInfo);
 
