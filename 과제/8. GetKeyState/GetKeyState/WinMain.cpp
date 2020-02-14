@@ -53,7 +53,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_CREATE:
 
-		SetTimer(hWnd, 1, 50, NULL);
+		SetTimer(hWnd, 1, 20, NULL);
 
 		m_Player.Init(hdc, g_hInst);
 		m_Back.Init(hdc, g_hInst);
