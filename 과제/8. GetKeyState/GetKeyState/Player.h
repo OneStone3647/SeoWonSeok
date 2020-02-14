@@ -1,19 +1,20 @@
 #pragma once
 #include <Windows.h>
 
-enum PLAYERPOISTION
+enum STATE
 {
-	PLAYERPOSITION_DOWN = 0,
-	PLAYERPOSITION_UP,
-	PLAYERPOSITION_LEFT,
-	PLAYERPOSITION_RIGHT
+	STATE_IDLE = 0,
+	STATE_MOVE,
+	STATE_JUMPSTART,
+	STATE_JUMPEND
 };
 
-enum PLAYERSTATE
+enum DIRECTION
 {
-	PLAYERSTATE_IDLE = 0,
-	PLAYERSTATE_MOVE,
-	PLAYERSTATE_JUMP
+	DIRECTION_DOWN = 0,
+	DIRECTION_UP,
+	DIRECTION_LEFT,
+	DIRECTION_RIGHT
 };
 
 class Player
@@ -22,21 +23,22 @@ private:
 	HDC				MemDC;
 	HBITMAP			m_NewBitmap;
 	HBITMAP			m_OldBitmap;
-	SIZE			m_size;
+	SIZE				m_size;
 
-	PLAYERSTATE		m_PlayerState;
+	int					m_X;
+	int					m_Y;
 
-	int				m_X;
-	int				m_Y;
+	STATE				m_State;
+	DIRECTION		m_Direction;
 
-	PLAYERPOISTION	m_Position;
-	int				m_Anim;
-	int				m_AnimTimer;
+	int					m_Anim;
+	int					m_AnimTimer;
 
-	bool			m_bIsJump;
-	int				m_JumpTimer;
-	int				m_JumpForce = 10;
-	int				m_JumpPositionY = 0;
+	bool				m_bIsJump;
+	int					m_JumpAnim;
+	int					m_JumpTimer;
+	int					m_JumpForce;
+	int					m_JumpPosY;
 
 public:
 	Player();
@@ -44,13 +46,11 @@ public:
 	void Init(HDC hdc, HINSTANCE hInst);
 	void Draw(HDC hdc);
 	void Input(HWND hWnd);
-	void Idle();
 	void Move(int x, int y);
 	void AnimMove();
 	void Jump();
 	void JumpStart();
 	void JumpEnd();
-	void AnimJump();
 
 	~Player();
 };

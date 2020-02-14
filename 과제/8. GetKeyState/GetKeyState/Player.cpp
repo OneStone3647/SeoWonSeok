@@ -19,49 +19,52 @@ void Player::Init(HDC hdc, HINSTANCE hInst)
 	m_size.cx = Bit_Info.bmWidth;
 	m_size.cy = Bit_Info.bmHeight;
 
-	m_PlayerState = PLAYERSTATE_IDLE;
-
 	m_X = 100;
 	m_Y = 100;
 
-	m_Position = PLAYERPOSITION_DOWN;
+	m_State = STATE_IDLE;
+	m_Direction = DIRECTION_DOWN;
+
 	m_Anim = 0;
 	m_AnimTimer = 0;
 
 	m_bIsJump = false;
+	m_JumpAnim = 0;
 	m_JumpTimer = 0;
+	m_JumpForce = 25;
+	m_JumpPosY = 0;
 }
 
 void Player::Draw(HDC hdc)
 {
-	TransparentBlt(hdc, m_X, m_Y, m_size.cx / 4, m_size.cy / 4, MemDC, (m_size.cx / 4) * m_Anim, (m_size.cy / 4) * m_Position, m_size.cx / 4, m_size.cy / 4, RGB(255, 0, 255));
+	TransparentBlt(hdc, m_X, m_Y, m_size.cx / 4, m_size.cy / 4, MemDC, (m_size.cx / 4) * m_Anim, (m_size.cy / 4) * m_Direction, m_size.cx / 4, m_size.cy / 4, RGB(255, 0, 255));
 }
 
 void Player::Input(HWND hWnd)
 {
-	// idle ป๓ลย
-	if (!((GetKeyState(VK_LEFT) | GetKeyState(VK_RIGHT) | GetKeyState(VK_UP) | GetKeyState(VK_DOWN)) & 0x8000))
+	if (!(GetKeyState(VK_LEFT) | GetKeyState(VK_RIGHT) | GetKeyState(VK_UP) | GetKeyState(VK_DOWN)) & 0x8000)
 	{
-		Idle();
+		m_State = STATE_IDLE;
+		m_Anim = 0;
 	}
 	if (GetKeyState(VK_LEFT) & 0x8000)
 	{
-		m_Position = PLAYERPOSITION_LEFT;
-		Move(-10 ,0);
+		m_Direction = DIRECTION_LEFT;
+		Move(-10, 0);
 	}
 	if (GetKeyState(VK_RIGHT) & 0x8000)
 	{
-		m_Position = PLAYERPOSITION_RIGHT;
+		m_Direction = DIRECTION_RIGHT;
 		Move(10, 0);
 	}
 	if (GetKeyState(VK_UP) & 0x8000)
 	{
-		m_Position = PLAYERPOSITION_UP;
+		m_Direction = DIRECTION_UP;
 		Move(0, -10);
 	}
 	if (GetKeyState(VK_DOWN) & 0x8000)
 	{
-		m_Position = PLAYERPOSITION_DOWN;
+		m_Direction = DIRECTION_DOWN;
 		Move(0, 10);
 	}
 	if (GetKeyState(VK_SPACE) & 0x8000)
@@ -69,41 +72,22 @@ void Player::Input(HWND hWnd)
 		Jump();
 	}
 
-	InvalidateRect(hWnd, NULL, false);
-}
+	JumpStart();
+	JumpEnd();
 
-void Player::Idle()
-{
-	m_PlayerState = PLAYERSTATE_IDLE;
-	m_Anim = 0;
-	if (m_bIsJump)
-	{
-		if (m_JumpTimer == 5)
-		{
-			m_JumpTimer = 0;
-			
-		}
-		else
-		{
-			JumpStart();
-			m_JumpTimer++;
-		}
-	}
+	InvalidateRect(hWnd, NULL, false);
 }
 
 void Player::Move(int x, int y)
 {
 	m_X += x;
 	m_Y += y;
-	if (m_PlayerState == PLAYERSTATE_MOVE)
+
+	if (!m_bIsJump)
 	{
+		m_State == STATE_MOVE;
 		AnimMove();
 	}
-	if (m_PlayerState == PLAYERSTATE_JUMP)
-	{
-
-	}
-
 }
 
 void Player::AnimMove()
@@ -130,52 +114,47 @@ void Player::Jump()
 		return;
 	}
 	m_bIsJump = true;
-	m_JumpTimer = 0;
-	m_JumpPositionY = 0;
-	m_PlayerState = PLAYERSTATE_JUMP;
+	m_Anim = 1;
+	m_State = STATE_JUMPSTART;
 }
 
 void Player::JumpStart()
 {
-	if (m_bIsJump)
+	if (m_State == STATE_JUMPSTART)
 	{
-		if (m_JumpPositionY < m_JumpForce)
+		if (m_JumpTimer == 5)
 		{
-			m_JumpPositionY++;
-			m_Y -= m_JumpForce;
+			m_JumpTimer = 0;
+			m_State = STATE_JUMPEND;
 		}
 		else
 		{
-			m_bIsJump = false;
+			m_Y -= m_JumpForce;
+			m_JumpTimer++;
 		}
 	}
 }
 
 void Player::JumpEnd()
 {
-	if (!m_bIsJump)
+	if (m_State == STATE_JUMPEND)
 	{
-		if (m_JumpPositionY < m_JumpForce)
+		if (m_JumpTimer == 5)
 		{
-			m_JumpPositionY++;
-			m_Y += m_JumpForce;
+			m_Anim = 0;
+			m_JumpTimer = 0;
+			m_bIsJump = false;
+			m_State = STATE_IDLE;
 		}
 		else
 		{
-
+			m_Y += m_JumpForce;
+			m_JumpTimer++;
 		}
 	}
-}
-
-void Player::AnimJump()
-{
-
 }
 
 
 Player::~Player()
 {
-	SelectObject(MemDC, m_OldBitmap);
-	DeleteObject(m_NewBitmap);
-	DeleteDC(MemDC);
 }

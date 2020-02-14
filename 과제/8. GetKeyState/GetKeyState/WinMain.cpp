@@ -62,7 +62,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	case WM_PAINT:
 
 		hdc = BeginPaint(hWnd, &ps);
-		
+
 		m_Back.Draw(hdc, 0, 0);
 		m_Player.Draw(hdc);
 

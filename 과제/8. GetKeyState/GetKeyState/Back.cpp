@@ -12,12 +12,6 @@ void Back::Init(HDC hdc, HINSTANCE hInst)
 	m_NewBitmap = (HBITMAP)LoadImage(NULL, TEXT("back.bmp"),
 		IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
 	m_OldBitmap = (HBITMAP)SelectObject(MemDC, m_NewBitmap);
-
-	BITMAP Bit_Info;
-
-	GetObject(m_NewBitmap, sizeof(Bit_Info), &Bit_Info);
-	m_size.cx = Bit_Info.bmWidth;
-	m_size.cy = Bit_Info.bmHeight;
 }
 
 void Back::Draw(HDC hdc, int x, int y)

@@ -4,10 +4,9 @@
 class Back
 {
 private:
-	HDC		MemDC;
-	HBITMAP	m_NewBitmap;
-	HBITMAP	m_OldBitmap;
-	SIZE	m_size;
+	HDC			MemDC;
+	HBITMAP		m_NewBitmap;
+	HBITMAP		m_OldBitmap;
 
 public:
 	Back();
