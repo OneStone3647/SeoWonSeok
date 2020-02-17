@@ -1,8 +1,0 @@
-﻿  Back.cpp
-  GameManager.cpp
-  Player.cpp
-d:\study\programing\seowonseok\과제\8. getkeystate\getkeystate\player.cpp(45): warning C4806: '&': 안전하지 않은 연산입니다. 'bool' 형식의 값('int' 형식으로 확장)이 주어진 상수와 같을 수 없습니다.
-d:\study\programing\seowonseok\과제\8. getkeystate\getkeystate\player.cpp(88): warning C4553: '==': 식의 결과가 사용되지 않습니다. '='을(를) 의도했습니까?
-  WinMain.cpp
-  코드를 생성하고 있습니다...
-  GetKeyState.vcxproj -> D:\Study\Programing\SeoWonSeok\과제\8. GetKeyState\x64\Debug\GetKeyState.exe
