@@ -1,5 +1,6 @@
 #pragma once
 #include "Player.h"
+#include "Scene.h"
 
 #define FPS			60
 
@@ -10,8 +11,11 @@
 class GameManager
 {
 private:
-	HWND m_hWnd;
+	HWND		m_hWnd;
+	HDC			m_HDC;
 
+	Scene*		m_Title;
+	Player*		m_Player;
 
 public:
 	GameManager();
