@@ -6,6 +6,14 @@ Bitmap::Bitmap()
 {
 }
 
+
+Bitmap::~Bitmap()
+{
+	SelectObject(MemDC, m_OldBitmap);
+	DeleteObject(m_NewBitmap);
+	DeleteDC(MemDC);
+}
+
 void Bitmap::Init(HDC hdc, LPCSTR fileName)
 {
 	MemDC = CreateCompatibleDC(hdc);
@@ -16,11 +24,4 @@ void Bitmap::Init(HDC hdc, LPCSTR fileName)
 	GetObject(m_NewBitmap, sizeof(BitMap_Info), &BitMap_Info);
 	m_Size.cx = BitMap_Info.bmWidth;
 	m_Size.cy = BitMap_Info.bmHeight;
-}
-
-Bitmap::~Bitmap()
-{
-	SelectObject(MemDC, m_OldBitmap);
-	DeleteObject(m_NewBitmap);
-	DeleteDC(MemDC);
 }

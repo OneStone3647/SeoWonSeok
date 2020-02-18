@@ -1,5 +1,5 @@
 #pragma once
-#include <Windows.h>
+#include "Mecro.h"
 
 class Bitmap
 {
@@ -7,14 +7,14 @@ private:
 	HDC			MemDC;
 	HBITMAP		m_NewBitmap;
 	HBITMAP		m_OldBitmap;
-	SIZE		m_Size;
+	SIZE			m_Size;
 
 public:
 	Bitmap();
 	~Bitmap();
 
 	void Init(HDC hdc, LPCSTR fileName);
-
+	
 public:
 	inline void Draw(HDC hdc, int x, int y, int width = 1, int height = 1)
 	{

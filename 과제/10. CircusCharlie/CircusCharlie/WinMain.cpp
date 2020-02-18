@@ -26,11 +26,22 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 	RegisterClass(&WndClass);
 
 	hWnd = CreateWindow(lpszClass, lpszClass, WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, CW_USEDEFAULT, CW_USEDEFAULT,
-		CW_USEDEFAULT, CW_USEDEFAULT, NULL, (HMENU)NULL, hInstance, NULL);
+		1280, 720, NULL, (HMENU)NULL, hInstance, NULL);
 	ShowWindow(hWnd, nCmdShow);
 
 	// 윈도우를 만들고 나면 초기화 해준다.
 	g_GameManager.Init(hWnd);
+
+	// 윈도우 창을 화면 중앙에 생성한다.
+	int x, y, width, height;
+	RECT rtDesk, rtWindow;
+	GetWindowRect(GetDesktopWindow(), &rtDesk);
+	GetWindowRect(hWnd, &rtWindow);
+	width = rtWindow.right - rtWindow.left;
+	height = rtWindow.bottom - rtWindow.top;
+	x = (rtDesk.right - width) / 2;
+	y = (rtDesk.bottom - height) / 2;
+	MoveWindow(hWnd, x, y, width, height, TRUE);
 
 	while (true)
 	{

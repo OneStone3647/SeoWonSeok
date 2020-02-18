@@ -4,8 +4,6 @@
 
 GameManager::GameManager()
 {
-	m_Title = NULL;
-	m_Player = NULL;
 }
 
 
@@ -18,12 +16,12 @@ void GameManager::Init(HWND hWnd)
 	m_hWnd = hWnd;
 	m_HDC = GetDC(hWnd);
 
-	if (m_Title != NULL)
+	if (m_Menu != NULL)
 	{
-		delete m_Title;
+		delete m_Menu;
 	}
-	m_Title = new Scene;
-	m_Title->Init(hWnd);
+	m_Menu = new Menu;
+	m_Menu->Init(hWnd);
 
 	if (m_Player != NULL)
 	{
@@ -36,13 +34,9 @@ void GameManager::Init(HWND hWnd)
 
 void GameManager::Update()
 {
-	m_Title->Update();
+	m_Menu->Update();
 }
 
 void GameManager::Release()
-{
-}
-
-void GameManager::Title()
 {
 }
