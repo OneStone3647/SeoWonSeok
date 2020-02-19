@@ -1,0 +1,14 @@
+﻿  Back.cpp
+  Bitmap.cpp
+  GameManager.cpp
+  Menu.cpp
+d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\menu.cpp(105): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\menu.cpp(106): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\menu.cpp(107): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Object.cpp
+  Player.cpp
+d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\player.cpp(42): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\player.cpp(49): warning C4806: '&': 안전하지 않은 연산입니다. 'bool' 형식의 값('int' 형식으로 확장)이 주어진 상수와 같을 수 없습니다.
+  WinMain.cpp
+  코드를 생성하고 있습니다...
+  CircusCharlie.vcxproj -> D:\Study\Programing\SeoWonSeok\과제\10. CircusCharlie\x64\Debug\CircusCharlie.exe
