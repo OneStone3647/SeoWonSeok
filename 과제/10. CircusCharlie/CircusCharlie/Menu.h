@@ -28,6 +28,8 @@ private:
 
 	SELECTMENU			m_Select;
 
+	bool				m_bGameStart;
+
 public:
 	Menu();
 	~Menu();
@@ -39,9 +41,9 @@ public:
 	void DrawBackGround(int start_X, int start_Y, int width, int height);
 
 public:
-	inline HDC GetHDC()
+	bool GetGameStartFlag()
 	{
-		return m_MenuDC;
+		return m_bGameStart;
 	}
 };
 

@@ -9,6 +9,9 @@ Menu::Menu()
 
 Menu::~Menu()
 {
+	SelectObject(m_MenuDC, m_OldBitmap);
+	DeleteObject(m_NewBitmap);
+	DeleteDC(m_MenuDC);
 }
 
 void Menu::Init(HWND hWnd)
@@ -34,6 +37,7 @@ void Menu::Init(HWND hWnd)
 
 	m_Select = SELECTMENU_GAMESTART;
 
+	m_bGameStart = false;
 }
 
 void Menu::Update()
@@ -65,7 +69,7 @@ void Menu::Input()
 		switch (m_Select)
 		{
 		case SELECTMENU_GAMESTART:
-
+			m_bGameStart = true;
 			break;
 		case SELECTMENU_EXIT:
 			PostQuitMessage(0);

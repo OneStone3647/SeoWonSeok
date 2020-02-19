@@ -1,8 +1,11 @@
 #pragma once
 #include <Windows.h>
 
-#define ScreenWidth		1280
-#define ScreenHeight		720
+#define ScreenWidth		1338
+#define ScreenHeight		736
+
+#define PlayerWidth		66
+#define PlayerHeight	72
 
 #define FPS			60
 

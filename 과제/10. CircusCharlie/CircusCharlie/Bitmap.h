@@ -16,14 +16,14 @@ public:
 	void Init(HDC hdc, LPCSTR fileName);
 	
 public:
-	inline void Draw(HDC hdc, int x, int y, int width = 1, int height = 1)
+	inline void Draw(HDC hdc, int x, int y)
 	{
-		TransparentBlt(hdc, x, y, m_Size.cx * width, m_Size.cy * height, MemDC, 0, 0, m_Size.cx, m_Size.cy, RGB(255, 0, 255));
+		TransparentBlt(hdc, x, y, m_Size.cx, m_Size.cy, MemDC, 0, 0, m_Size.cx, m_Size.cy, RGB(255, 0, 255));
 	}
 	// 배경 그리기
-	inline void DrawBack(HDC hdc, int x, int y, int width = 1, int height = 1)
+	inline void DrawBack(HDC hdc, int x, int y)
 	{
-		BitBlt(hdc, x, y, m_Size.cx * width, m_Size.cy * height, MemDC, 0, 0, SRCCOPY);
+		BitBlt(hdc, x, y, m_Size.cx, m_Size.cy, MemDC, 0, 0, SRCCOPY);
 	}
 	inline SIZE GetSize()
 	{
