@@ -86,7 +86,7 @@ void Player::Move(int x, int y)
 
 	if (!m_bIsJump)
 	{
-		m_State == STATE_MOVE;
+		m_State = STATE_MOVE;
 		AnimMove();
 	}
 }

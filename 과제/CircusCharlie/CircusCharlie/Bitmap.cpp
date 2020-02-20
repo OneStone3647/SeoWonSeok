@@ -20,6 +20,7 @@ void Bitmap::Init(HDC hdc, LPCSTR fileName)
 	// hdc와 호환되는 DC를 만든다.
 	m_MemDC = CreateCompatibleDC(hdc);
 	// 파일 이름에 해당하는 비트맵을 불러온다.
+	// 독립리소스를 가져올 경우 첫번째 인자에 NULL 값을 사용한다.
 	m_NewBitmap = (HBITMAP)LoadImage(NULL, fileName, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE);
 	// m_MemDC에 m_NewBitmap을 연결한다.
 	m_OldBitmap = (HBITMAP)SelectObject(m_MemDC, m_NewBitmap);
