@@ -38,9 +38,11 @@ void Menu::Init(HWND hWnd)
 	// GetDC를 통해 얻은 DC를 반환한다.
 	ReleaseDC(hWnd, hdc);
 
-	// 현재 부팅된지 얼마나 경과했는지를 msec단위로 저장한다.
+	// 매 프레임마다 찍히는 TickCount를 받는다.
 	m_StartTimer = GetTickCount();
 	m_AnimTimer = 0;
+	// 애니메이션을 재생할 시간 빈도
+	m_AnimTime = 100;
 
 	// 현재 아이콘의 위치를 설정한다.
 	m_Select = SELECTMENU_GAMESTART;
@@ -50,7 +52,7 @@ void Menu::Init(HWND hWnd)
 void Menu::Update()
 {
 	// 처음 출력했을 때 별 상자가 늦게 나오기 때문에 500을 더한다.
-	m_AnimTimer = GetTickCount() + 500;
+	m_AnimTimer = GetTickCount() + m_AnimTime;
 	Input();
 	DrawMenu((ScreenWidth / 5) * 2 - 10, ScreenHeight / 3 - 35, 20, 7);
 }
@@ -92,7 +94,7 @@ void Menu::DrawMenu(int Start_X, int Start_Y, int Width, int Height)
 	SIZE BitmapSize = m_Star[0].GetSize();
 
 	// 별 상자를 그린다.
-	if (m_AnimTimer - m_StartTimer >= 500)
+	if (m_AnimTimer - m_StartTimer >= m_AnimTime)
 	{
 		for (int y = 0; y < Height; y++)
 		{

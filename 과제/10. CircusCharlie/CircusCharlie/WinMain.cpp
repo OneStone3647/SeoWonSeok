@@ -26,7 +26,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 	RegisterClass(&WndClass);
 
 	// 윈도우 창의 크기는 테두리와 캡션의 크기까지 합한 크기이다.
-	// 작업영역의 크기를 1000x1000로 만들려면 1038x1016으로 생성해야 한다.
+	// 작업영역의 크기를 1000x1000로 만들려면 1016x1038으로 생성해야 한다.
 	hWnd = CreateWindow(lpszClass, lpszClass, WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, CW_USEDEFAULT, CW_USEDEFAULT,
 		WindowWidth, WindowHeight, NULL, (HMENU)NULL, hInstance, NULL);
 	ShowWindow(hWnd, nCmdShow);
