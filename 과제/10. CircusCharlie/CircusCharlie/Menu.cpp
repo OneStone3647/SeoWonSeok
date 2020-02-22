@@ -39,8 +39,8 @@ void Menu::Init(HWND hWnd)
 	ReleaseDC(hWnd, hdc);
 
 	// 매 프레임마다 찍히는 TickCount를 받는다.
-	m_StartTimer = GetTickCount();
-	m_AnimTimer = 0;
+	m_StartAnimTimer = GetTickCount();
+	m_CurAnimTimer = 0;
 	// 애니메이션을 재생할 시간 빈도
 	m_AnimTime = 100;
 
@@ -52,7 +52,7 @@ void Menu::Init(HWND hWnd)
 void Menu::Update()
 {
 	// 처음 출력했을 때 별 상자가 늦게 나오기 때문에 500을 더한다.
-	m_AnimTimer = GetTickCount() + m_AnimTime;
+	m_CurAnimTimer = GetTickCount() + m_AnimTime;
 	Input();
 	DrawMenu((ScreenWidth / 5) * 2 - 10, ScreenHeight / 3 - 35, 20, 7);
 }
@@ -94,7 +94,7 @@ void Menu::DrawMenu(int Start_X, int Start_Y, int Width, int Height)
 	SIZE BitmapSize = m_Star[0].GetSize();
 
 	// 별 상자를 그린다.
-	if (m_AnimTimer - m_StartTimer >= m_AnimTime)
+	if (m_CurAnimTimer - m_StartAnimTimer >= m_AnimTime)
 	{
 		for (int y = 0; y < Height; y++)
 		{
@@ -107,7 +107,7 @@ void Menu::DrawMenu(int Start_X, int Start_Y, int Width, int Height)
 				}
 			}
 		}
-		m_StartTimer = m_AnimTimer;
+		m_StartAnimTimer = m_CurAnimTimer;
 	}
 
 	// 지정한 좌표가 수평 중앙 좌표가 된다.

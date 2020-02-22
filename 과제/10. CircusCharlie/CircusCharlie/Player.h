@@ -28,28 +28,22 @@ private:
 	Bitmap			m_Player_Win2;
 	Bitmap			m_Player_Die;
 
-	float			m_X;
-	float			m_Y;
+	float				m_X;
+	float				m_Y;
 
-	DWORD			m_LastTime;
-	DWORD			m_CurTime;
-	float			m_DeltaTime;
+	int					m_AnimIndex;
+	float				m_AnimMoveForwardTime;
+	float				m_AnimMoveBackTime;
+	float				m_StartAnimTimer;
+	float				m_CurAnimTimer;
 
-	int				m_Anim;
-	int				m_AnimTimer;
+	STATE				m_State;
 
-	STATE			m_State;
-
-	bool			m_bIsJump;
-	float			m_CurJumpTime;
-	int				m_JumpAnim;
-	int				m_JumpTimer;
-	int				m_JumpForce;
-	float			m_JumpX;
-	float			m_JumpY;
-
-	float			m_VectorX;
-	float			m_VectorY;
+	bool				m_bIsJump;
+	float				m_JumpForce;
+	float				m_JumpX;
+	float				m_JumpY;
+	float				m_JumpTime;
 
 public:
 	Player();
@@ -59,7 +53,9 @@ public:
 	void Update();
 	void Input();
 	void Move(float x, float y);
-	void AnimMove();
+	void StopAnim();
+	void AnimMoveForward();
+	void AnimMoveBack();
 	void Jump();
 };
 

@@ -22,9 +22,9 @@ private:
 	HBRUSH					m_NewBrush;
 	HBRUSH					m_OldBrush;
 
-	float							m_StartTimer;
-	float							m_AnimTimer;
-	float							m_AnimTime;
+	float						m_StartAnimTimer;
+	float						m_CurAnimTimer;
+	float						m_AnimTime;
 
 	SELECTMENU			m_Select;
 	bool						m_bGameStart;
