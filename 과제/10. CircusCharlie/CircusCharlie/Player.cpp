@@ -30,7 +30,7 @@ void Player::Init(HDC BackDC)
 	m_X = 100.0f;
 	m_Y = 415.0f;
 
-	m_Speed = 0.2f;
+	m_Speed = 10.0f;
 
 	m_BitmapIndex = 0;
 
@@ -42,8 +42,8 @@ void Player::Init(HDC BackDC)
 	m_State = STATE_IDLE;
 
 	m_bIsJump = false;
-	m_JumpForce = 20.0f;
-	m_JumpX = 0;
+	m_JumpForce = 24.0f;
+	m_JumpTime = 0;
 	m_JumpY = 0;
 }
 
@@ -93,22 +93,22 @@ void Player::Draw(float x, float y)
 	switch (m_BitmapIndex)
 	{
 	case BITMAPINDEX_IDLE:
-		m_Player_Idle.Draw(m_BackDC, x, y, 2.0f, 2.0f);
+		m_Player_Idle.Draw(m_BackDC, x, y);
 		break;
 	case BITMAPINDEX_MOVE1:
-		m_Player_Move1.Draw(m_BackDC, x, y, 2.0f, 2.0f);
+		m_Player_Move1.Draw(m_BackDC, x, y);
 		break;
 	case BITMAPINDEX_MOVE2:
-		m_Player_Move2.Draw(m_BackDC, x, y, 2.0f, 2.0f);
+		m_Player_Move2.Draw(m_BackDC, x, y);
 		break;
 	case BITMAPINDEX_WIN1:
-		m_Player_Win1.Draw(m_BackDC, x, y, 2.0f, 2.0f);
+		m_Player_Win1.Draw(m_BackDC, x, y);
 		break;
 	case BITMAPINDEX_WIN2:
-		m_Player_Win2.Draw(m_BackDC, x, y, 2.0f, 2.0f);
+		m_Player_Win2.Draw(m_BackDC, x, y);
 		break;
 	case BITMAPINDEX_DIE:
-		m_Player_Die.Draw(m_BackDC, x, y, 2.0f, 2.0f);
+		m_Player_Die.Draw(m_BackDC, x, y);
 		break;
 	}
 }
@@ -116,6 +116,10 @@ void Player::Draw(float x, float y)
 void Player::Move(float x, float y)
 {
 	m_X += x;
+	if (m_X < 100.0f)
+	{
+		m_X = 100.0f;
+	}
 	m_Y += y;
 	
 	if (!m_bIsJump)
@@ -175,22 +179,26 @@ void Player::Jump()
 	{
 		if (m_State == STATE_LEFTJUMP)
 		{
-			m_X -= m_Speed + m_Speed;
+			m_X -= (m_Speed / 2) * 4;
+			if (m_X < 100.0f)
+			{
+				m_X = 100.0f;
+			}
 		}
 		if (m_State == STATE_RIGHTJUMP)
 		{
-			m_X += m_Speed + m_Speed;
+			m_X += (m_Speed / 2) * 4;
 		}
 
-		m_JumpY = m_JumpX * m_JumpX - m_JumpForce * m_JumpX;
-		m_JumpX += 0.05f;
+		m_JumpY = m_JumpTime * m_JumpTime - m_JumpForce * m_JumpTime;
+		m_JumpTime += 1.0f;
 
 		m_BitmapIndex = BITMAPINDEX_MOVE2;
 		Draw(m_X, m_JumpY + m_Y);
 
-		if (m_JumpX >= m_JumpForce)
+		if (m_JumpTime >= m_JumpForce)
 		{
-			m_JumpX = 0.0f;
+			m_JumpTime = 0.0f;
 			m_JumpY = 0.0f;
 			StopAnim();
 		}

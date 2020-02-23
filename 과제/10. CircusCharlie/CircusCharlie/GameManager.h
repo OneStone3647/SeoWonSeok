@@ -12,8 +12,10 @@ private:
 	HBITMAP			m_OldBitmap;
 
 	Menu*			m_Menu;
-	Back*			m_Back;
+	Back*				m_Back;
 	Player*			m_Player;
+
+	float				m_CameraX;
 
 public:
 	GameManager();

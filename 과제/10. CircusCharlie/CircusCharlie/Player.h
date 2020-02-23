@@ -51,7 +51,6 @@ private:
 
 	bool				m_bIsJump;
 	float				m_JumpForce;
-	float				m_JumpX;
 	float				m_JumpY;
 	float				m_JumpTime;
 

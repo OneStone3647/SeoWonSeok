@@ -31,15 +31,15 @@ void Back::DrawBack()
 	// 바닥 그리기
 	for (int i = 0; i < 20; i++)
 	{
-		m_Back.DrawBack(m_BackDC, i * m_Back.GetSize().cx, 300);
+		m_Back.Draw(m_BackDC, i * m_Back.GetSize().cx, 240);
 	}
 
 	// 관중 그리기
 	for (int i = 0; i < 20; i++)
 	{
-		m_Normal1.DrawBack(m_BackDC, i * m_Normal1.GetSize().cx, 236);
+		m_Normal1.Draw(m_BackDC, i * m_Normal1.GetSize().cx, 176);
 	}
 
 	// 코끼리 그리기
-	m_Deco.DrawBack(m_BackDC, m_Deco.GetSize().cx, 233);
+	m_Deco.Draw(m_BackDC, m_Deco.GetSize().cx, 173);
 }
