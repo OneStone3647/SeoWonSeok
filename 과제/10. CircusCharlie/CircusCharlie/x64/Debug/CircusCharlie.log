@@ -1,11 +1,4 @@
-﻿  Player.cpp
-d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\player.cpp(31): warning C4244: '=': 'DWORD'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\player.cpp(44): warning C4244: '=': 'DWORD'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\player.cpp(94): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\player.cpp(115): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\player.cpp(118): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\player.cpp(121): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\player.cpp(144): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\player.cpp(147): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\player.cpp(161): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+﻿  Back.cpp
+d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\bitmap.h(23): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\bitmap.h(29): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   CircusCharlie.vcxproj -> D:\Study\Programing\SeoWonSeok\과제\10. CircusCharlie\x64\Debug\CircusCharlie.exe

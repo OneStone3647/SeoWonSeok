@@ -6,20 +6,27 @@ enum STATE
 {
 	STATE_IDLE,
 	STATE_MOVE,
-	STATE_JUMP
+	STATE_JUMP,
+	STATE_LEFTJUMP,
+	STATE_RIGHTJUMP
 };
 
-enum ANIMMOVE
+enum BITMAPINDEX
 {
-	ANIMMOVE_IDLE,
-	ANIMMOVE_MOVE1,
-	ANIMMOVE_MOVE2
+	BITMAPINDEX_IDLE,
+	BITMAPINDEX_MOVE1,
+	BITMAPINDEX_MOVE2,
+	BITMAPINDEX_WIN1,
+	BITMAPINDEX_WIN2,
+	BITMAPINDEX_DIE
 };
 
 class Player
 {
 private:
 	HDC				m_BackDC;
+
+	RECT				m_Collision;
 
 	Bitmap			m_Player_Idle;
 	Bitmap			m_Player_Move1;
@@ -31,7 +38,10 @@ private:
 	float				m_X;
 	float				m_Y;
 
-	int					m_AnimIndex;
+	float				m_Speed;
+
+	int					m_BitmapIndex;
+
 	float				m_AnimMoveForwardTime;
 	float				m_AnimMoveBackTime;
 	float				m_StartAnimTimer;
@@ -52,10 +62,17 @@ public:
 	void Init(HDC BackDC);
 	void Update();
 	void Input();
+	void Draw(float x, float y);
 	void Move(float x, float y);
 	void StopAnim();
 	void AnimMoveForward();
 	void AnimMoveBack();
 	void Jump();
+
+public:
+	inline RECT GetCollision()
+	{
+		return m_Collision;
+	}
 };
 
