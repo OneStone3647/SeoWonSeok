@@ -29,8 +29,9 @@ void Player::Init(HDC BackDC)
 
 	m_X = 100.0f;
 	m_Y = 415.0f;
+	m_CameraPos = 0.0f;
 
-	m_Speed = 10.0f;
+	m_Speed = 5.0f;
 
 	m_BitmapIndex = 0;
 
@@ -116,9 +117,11 @@ void Player::Draw(float x, float y)
 void Player::Move(float x, float y)
 {
 	m_X += x;
+	m_CameraPos += x * 1.5f;
 	if (m_X < 100.0f)
 	{
 		m_X = 100.0f;
+		m_CameraPos = 0.0f;
 	}
 	m_Y += y;
 	
@@ -180,14 +183,17 @@ void Player::Jump()
 		if (m_State == STATE_LEFTJUMP)
 		{
 			m_X -= (m_Speed / 2) * 4;
+			m_CameraPos -= (m_Speed / 2) * 2.0f;
 			if (m_X < 100.0f)
 			{
 				m_X = 100.0f;
+				m_CameraPos = 0.0f;
 			}
 		}
 		if (m_State == STATE_RIGHTJUMP)
 		{
 			m_X += (m_Speed / 2) * 4;
+			m_CameraPos += (m_Speed / 2) * 2.0f;
 		}
 
 		m_JumpY = m_JumpTime * m_JumpTime - m_JumpForce * m_JumpTime;

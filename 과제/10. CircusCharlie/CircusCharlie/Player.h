@@ -37,6 +37,7 @@ private:
 
 	float				m_X;
 	float				m_Y;
+	float				m_CameraPos;
 
 	float				m_Speed;
 
@@ -77,6 +78,11 @@ public:
 	inline float GetPlayerX()
 	{
 		return m_X;
+	}
+
+	inline float GetCameraX()
+	{
+		return m_CameraPos;
 	}
 };
 

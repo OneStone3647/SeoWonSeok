@@ -14,12 +14,16 @@ private:
 	Bitmap			m_Normal1;
 	Bitmap			m_Normal2;
 
+	float				m_CameraX;
+	
+	int					m_DrawIndex;
+
 public:
 	Back();
 	~Back();
 
 	void Init(HDC BackDC);
-	void Update();
-	void DrawBack();
+	void Update(float PosX);
+	void DrawBack(float PosX);
 };
 
