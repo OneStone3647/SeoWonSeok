@@ -64,6 +64,7 @@ void GameManager::Update()
 	// 게임이 시작할 경우
 	else
 	{
+		m_CameraX = m_Player->GetPlayerX();
 		m_Back->Update();
 		m_Player->Update();
 

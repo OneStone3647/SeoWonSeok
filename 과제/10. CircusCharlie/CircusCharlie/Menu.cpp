@@ -54,7 +54,7 @@ void Menu::Update()
 	// 처음 출력했을 때 별 상자가 늦게 나오기 때문에 500을 더한다.
 	m_CurAnimTimer = GetTickCount() + m_AnimTime;
 	Input();
-	DrawMenu((ScreenWidth / 5) * 2 - 10, ScreenHeight / 3 - 35, 20, 7);
+	DrawMenu((ScreenWidth / 3) + 4, ScreenHeight / 3 - 60, 20, 7);
 }
 
 void Menu::Input()
@@ -102,7 +102,7 @@ void Menu::DrawMenu(int Start_X, int Start_Y, int Width, int Height)
 			{
 				if ((x == 0 || x == Width - 1) || (y == 0 || y == Height - 1))
 				{
-					m_Star[m_StarIndex].Draw(m_MemDC, Start_X + (x * BitmapSize.cx), Start_Y + (y * BitmapSize.cy));
+					m_Star[m_StarIndex].Draw(m_MemDC, Start_X + (x * BitmapSize.cx * 1.5f), Start_Y + (y * BitmapSize.cy * 1.5f), 1.5f, 1.5f);
 					m_StarIndex = ++m_StarIndex % 3;
 				}
 			}

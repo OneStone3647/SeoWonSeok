@@ -73,5 +73,10 @@ public:
 	{
 		return m_Collision;
 	}
+
+	inline float GetPlayerX()
+	{
+		return m_X;
+	}
 };
 
