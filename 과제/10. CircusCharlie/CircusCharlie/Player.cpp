@@ -32,6 +32,7 @@ void Player::Init(HDC BackDC)
 	m_CameraPos = 0.0f;
 
 	m_Speed = 5.0f;
+	m_Speed = 7.5f;
 
 	m_BitmapIndex = 0;
 
@@ -46,6 +47,7 @@ void Player::Init(HDC BackDC)
 	m_JumpForce = 24.0f;
 	m_JumpTime = 0;
 	m_JumpY = 0;
+	m_JumpSpeed = 2.8f;
 }
 
 void Player::Update()
@@ -116,8 +118,9 @@ void Player::Draw(float x, float y)
 
 void Player::Move(float x, float y)
 {
-	m_X += x;
-	m_CameraPos += x * 1.5f;
+	//m_X += x;
+	//m_CameraPos += x* 1.5f;
+	m_CameraPos += x;
 	if (m_X < 100.0f)
 	{
 		m_X = 100.0f;
@@ -182,18 +185,22 @@ void Player::Jump()
 	{
 		if (m_State == STATE_LEFTJUMP)
 		{
-			m_X -= (m_Speed / 2) * 4;
-			m_CameraPos -= (m_Speed / 2) * 2.0f;
+			//m_X -= (m_Speed / 2) * 4;
+			//m_CameraPos -= (m_Speed / 2) * 2.0f;
+			//m_CameraPos -= (m_Speed / 2) * m_JumpSpeed;
+			m_CameraPos -= m_Speed;
 			if (m_X < 100.0f)
 			{
-				m_X = 100.0f;
+				//m_X = 100.0f;
 				m_CameraPos = 0.0f;
 			}
 		}
 		if (m_State == STATE_RIGHTJUMP)
 		{
-			m_X += (m_Speed / 2) * 4;
-			m_CameraPos += (m_Speed / 2) * 2.0f;
+			//m_X += (m_Speed / 2) * 4;
+			//m_CameraPos += (m_Speed / 2) * 2.0f;
+			//m_CameraPos += (m_Speed / 2) * m_JumpSpeed;
+			m_CameraPos += m_Speed;
 		}
 
 		m_JumpY = m_JumpTime * m_JumpTime - m_JumpForce * m_JumpTime;
