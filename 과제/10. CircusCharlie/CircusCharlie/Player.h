@@ -54,6 +54,7 @@ private:
 	float				m_JumpForce;
 	float				m_JumpY;
 	float				m_JumpTime;
+	float				m_JumpSpeed;
 
 public:
 	Player();

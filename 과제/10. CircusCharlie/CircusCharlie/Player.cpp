@@ -31,7 +31,7 @@ void Player::Init(HDC BackDC)
 	m_Y = 415.0f;
 	m_CameraPos = 0.0f;
 
-	m_Speed = 5.0f;
+	//m_Speed = 5.0f;
 	m_Speed = 7.5f;
 
 	m_BitmapIndex = 0;
