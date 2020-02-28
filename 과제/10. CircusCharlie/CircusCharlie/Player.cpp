@@ -27,9 +27,9 @@ void Player::Init(HDC BackDC)
 	m_Player_Win2.Init(m_BackDC, "Bitmap\\win2.bmp");
 	m_Player_Die.Init(m_BackDC, "Bitmap\\die.bmp");
 
-	m_X = 100.0f;
-	m_Y = 415.0f;
-	m_CameraPos = 0.0f;
+	m_X = 900.0f;
+	m_Y = 440.0f;
+	m_CameraX = 0.0f;
 
 	//m_Speed = 5.0f;
 	m_Speed = 7.5f;
@@ -50,9 +50,10 @@ void Player::Init(HDC BackDC)
 	m_JumpSpeed = 2.8f;
 }
 
-void Player::Update()
+void Player::Update(int FieldIndex)
 {
 	m_CurAnimTimer = GetTickCount();
+	m_FieldIndex = FieldIndex;
 	Input();
 	Jump();
 }
@@ -118,14 +119,36 @@ void Player::Draw(float x, float y)
 
 void Player::Move(float x, float y)
 {
-	//m_X += x;
-	//m_CameraPos += x* 1.5f;
-	m_CameraPos += x;
-	if (m_X < 100.0f)
+	//m_CameraX += x* 1.5f;
+
+	// 맵의 끝에 도달하지 않았을 경우 플레이어 대신 카메라를 움직인다.
+	if (m_FieldIndex != 9)
 	{
-		m_X = 100.0f;
-		m_CameraPos = 0.0f;
+		m_CameraX += x;
 	}
+	else
+	{
+		m_X += x;
+		if (m_X < 900.0f)
+		{
+			m_X = 900.0f;
+			m_CameraX += x;
+		}
+	}
+
+	// 제일 왼쪽 맵일 경우
+	if (m_FieldIndex == 0 && m_CameraX < 0.0f)
+	{
+		m_CameraX = 0.0f;
+	}
+
+	//// 맵의 왼쪽에 있을 경우 이동가능한 범위를 지정한다.
+	//if (m_X < 100.0f)
+	//{
+	//	m_X = 100.0f;
+	//	m_CameraX = 0.0f;
+	//}
+
 	m_Y += y;
 	
 	if (!m_bIsJump)
@@ -186,21 +209,44 @@ void Player::Jump()
 		if (m_State == STATE_LEFTJUMP)
 		{
 			//m_X -= (m_Speed / 2) * 4;
-			//m_CameraPos -= (m_Speed / 2) * 2.0f;
-			//m_CameraPos -= (m_Speed / 2) * m_JumpSpeed;
-			m_CameraPos -= m_Speed;
+			//m_CameraX -= (m_Speed / 2) * 2.0f;
+			//m_CameraX -= (m_Speed / 2) * m_JumpSpeed;
+
+			//m_CameraX -= m_Speed;
+
+			// 맵의 끝에 도달하지 않았을 경우 플레이어 대신 카메라를 움직인다.
+			if (m_FieldIndex != 9)
+			{
+				m_CameraX -= m_Speed;
+			}
+			else
+			{
+				m_X -= m_Speed;
+			}
+
 			if (m_X < 100.0f)
 			{
 				//m_X = 100.0f;
-				m_CameraPos = 0.0f;
+				m_CameraX = 0.0f;
 			}
 		}
 		if (m_State == STATE_RIGHTJUMP)
 		{
 			//m_X += (m_Speed / 2) * 4;
-			//m_CameraPos += (m_Speed / 2) * 2.0f;
-			//m_CameraPos += (m_Speed / 2) * m_JumpSpeed;
-			m_CameraPos += m_Speed;
+			//m_CameraX += (m_Speed / 2) * 2.0f;
+			//m_CameraX += (m_Speed / 2) * m_JumpSpeed;
+
+			//m_CameraX += m_Speed;
+
+			// 맵의 끝에 도달하지 않았을 경우 플레이어 대신 카메라를 움직인다.
+			if (m_FieldIndex != 9)
+			{
+				m_CameraX += m_Speed;
+			}
+			else
+			{
+				m_X += m_Speed;
+			}
 		}
 
 		m_JumpY = m_JumpTime * m_JumpTime - m_JumpForce * m_JumpTime;

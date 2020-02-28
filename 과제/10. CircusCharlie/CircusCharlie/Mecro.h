@@ -9,7 +9,5 @@
 #define ScreenWidth			1280
 #define ScreenHeight			720
 
-#define FPS						60
-
-// 원주율
-#define PI						3.141592f
+// 필드 크기
+#define FieldWidth				1000

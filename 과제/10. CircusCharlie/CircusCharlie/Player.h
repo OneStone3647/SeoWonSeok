@@ -37,7 +37,7 @@ private:
 
 	float				m_X;
 	float				m_Y;
-	float				m_CameraPos;
+	float				m_CameraX;
 
 	float				m_Speed;
 
@@ -56,12 +56,14 @@ private:
 	float				m_JumpTime;
 	float				m_JumpSpeed;
 
+	int					m_FieldIndex;
+
 public:
 	Player();
 	~Player();
 	
 	void Init(HDC BackDC);
-	void Update();
+	void Update(int FieldIndex);
 	void Input();
 	void Draw(float x, float y);
 	void Move(float x, float y);
@@ -83,7 +85,7 @@ public:
 
 	inline float GetCameraX()
 	{
-		return m_CameraPos;
+		return m_CameraX;
 	}
 };
 

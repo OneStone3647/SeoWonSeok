@@ -16,6 +16,7 @@ private:
 	Player*			m_Player;
 
 	float				m_CameraX;
+	int					m_FieldIndex;
 
 public:
 	GameManager();

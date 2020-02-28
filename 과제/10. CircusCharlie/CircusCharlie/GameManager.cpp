@@ -19,7 +19,7 @@ void GameManager::Init(HWND hWnd)
 	// hdc와 호환되는 DC를 만든다.
 	m_MemDC = CreateCompatibleDC(hdc);
 	// hdc와 호환되는 비트맵을 폭 WindowWidth, 높이 WindowHeight의 크기로 만든다.
-	m_NewBitmap = CreateCompatibleBitmap(hdc, 1600, WindowHeight);
+	m_NewBitmap = CreateCompatibleBitmap(hdc, 2100, WindowHeight);
 	// m_MemDC[MEMDCINDEX_MAIN]에 m_NewBitmap을 연결한다.
 	m_OldBitmap = (HBITMAP)SelectObject(m_MemDC, m_NewBitmap);
 
@@ -65,14 +65,15 @@ void GameManager::Update()
 	else
 	{
 		m_CameraX = m_Player->GetCameraX();
-		m_Back->Update(m_CameraX);
-		m_Player->Update();
+		m_FieldIndex = m_CameraX / FieldWidth;
+		m_Back->Update(m_CameraX, m_FieldIndex);
+		m_Player->Update(m_FieldIndex);
 
 		// GetDC를 통해 DC를 받는다.
 		HDC hdc = GetDC(m_hWnd);
 
 		// 숨겨 그린 것을 원래 보여야할 hdc에 그린다.
-		BitBlt(hdc, 0, 0, WindowWidth, WindowHeight, m_MemDC, 0, 0, SRCCOPY);
+		BitBlt(hdc, -800, 0, 2100, WindowHeight, m_MemDC, 0, 0, SRCCOPY);
 
 		ReleaseDC(m_hWnd, hdc);
 	}
