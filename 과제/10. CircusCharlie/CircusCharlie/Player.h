@@ -26,8 +26,6 @@ class Player
 private:
 	HDC				m_BackDC;
 
-	RECT				m_Collision;
-
 	Bitmap			m_Player_Idle;
 	Bitmap			m_Player_Move1;
 	Bitmap			m_Player_Move2;
@@ -38,6 +36,8 @@ private:
 	float				m_X;
 	float				m_Y;
 	float				m_CameraX;
+
+	RECT				m_Collision;
 
 	float				m_Speed;
 

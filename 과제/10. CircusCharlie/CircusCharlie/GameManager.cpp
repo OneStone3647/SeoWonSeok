@@ -45,6 +45,13 @@ void GameManager::Init(HWND hWnd)
 	}
 	m_Player = new Player;
 	m_Player->Init(m_MemDC);
+
+	if (m_End != NULL)
+	{
+		delete m_End;
+	}
+	m_End = new End;
+	m_End->Init(m_MemDC);
 }
 
 void GameManager::Release()
@@ -52,6 +59,7 @@ void GameManager::Release()
 	delete m_Menu;
 	delete m_Back;
 	delete m_Player;
+	delete m_End;
 }
 
 void GameManager::Update()
@@ -67,6 +75,7 @@ void GameManager::Update()
 		m_CameraX = m_Player->GetCameraX();
 		m_FieldIndex = m_CameraX / FieldWidth;
 		m_Back->Update(m_CameraX, m_FieldIndex);
+		m_End->Update(m_CameraX, m_FieldIndex);
 		m_Player->Update(m_FieldIndex);
 
 		// GetDC를 통해 DC를 받는다.

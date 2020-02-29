@@ -24,6 +24,7 @@ void Back::Init(HDC BackDC)
 
 void Back::Update(float CameraX, int FieldIndex)
 {
+	// 필드 인덱스에 따라 배경을 3개(뒤, 중간, 앞)씩 그린다.
 	m_MiterCount = 100 - FieldIndex * 10;
 	DrawBack(CameraX - FieldWidth * FieldIndex, m_MiterCount);
 	DrawBack(CameraX - FieldWidth * (FieldIndex + 1) + 5.0f, m_MiterCount - 10);

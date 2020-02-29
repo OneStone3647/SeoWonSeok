@@ -4,11 +4,11 @@
 class End
 {
 private:
-	HWND			m_hWnd;
+	HDC				m_BackDC;
+
+	Bitmap			m_End_Bitmap;
 
 	RECT				m_Collision;
-
-	Bitmap			m_End;
 
 	float				m_X;	
 	float				m_Y;
@@ -16,5 +16,8 @@ private:
 public:
 	End();
 	~End();
+
+	void Init(HDC BackDC);
+	void Update(float CameraX, int FieldIndex);
 };
 

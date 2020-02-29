@@ -15,11 +15,6 @@ void Player::Init(HDC BackDC)
 {
 	m_BackDC = BackDC;
 
-	m_Collision.top = m_Y;
-	m_Collision.left = m_X;
-	m_Collision.bottom = m_Y + m_Player_Idle.GetSize().cy;
-	m_Collision.bottom = m_X + m_Player_Idle.GetSize().cx;
-
 	m_Player_Idle.Init(m_BackDC, "Bitmap\\player0.bmp");
 	m_Player_Move1.Init(m_BackDC, "Bitmap\\player1.bmp");
 	m_Player_Move2.Init(m_BackDC, "Bitmap\\player2.bmp");
@@ -30,6 +25,11 @@ void Player::Init(HDC BackDC)
 	m_X = 900.0f;
 	m_Y = 440.0f;
 	m_CameraX = 0.0f;
+
+	m_Collision.left = m_X;
+	m_Collision.right = m_X + m_Player_Idle.GetSize().cx;
+	m_Collision.top = m_Y;
+	m_Collision.bottom = m_Y + m_Player_Idle.GetSize().cy;
 
 	//m_Speed = 5.0f;
 	m_Speed = 7.5f;
