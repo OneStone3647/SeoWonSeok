@@ -20,6 +20,11 @@ private:
 	float				m_CameraX;
 	int					m_FieldIndex;
 
+	bool				m_bIsEnd;
+	float				m_WinTime;
+	float				m_StartWinTimer;
+	float				m_CurWinTimer;
+
 public:
 	GameManager();
 	~GameManager();

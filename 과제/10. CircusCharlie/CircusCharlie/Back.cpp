@@ -22,7 +22,7 @@ void Back::Init(HDC BackDC)
 	m_Miter.Init(m_BackDC, "Bitmap\\miter.bmp");
 }
 
-void Back::Update(float CameraX, int FieldIndex)
+void Back::Update(float CameraX, int FieldIndex, bool bEndFlag)
 {
 	// 필드 인덱스에 따라 배경을 3개(뒤, 중간, 앞)씩 그린다.
 	m_MiterCount = 100 - FieldIndex * 10;

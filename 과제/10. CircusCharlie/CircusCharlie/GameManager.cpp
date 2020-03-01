@@ -52,6 +52,11 @@ void GameManager::Init(HWND hWnd)
 	}
 	m_End = new End;
 	m_End->Init(m_MemDC);
+
+	m_bIsEnd = false;
+	m_WinTime = 2000.0f;
+	m_StartWinTimer = 0.0f;
+	m_CurWinTimer = 0.0f;
 }
 
 void GameManager::Release()
@@ -74,9 +79,28 @@ void GameManager::Update()
 	{
 		m_CameraX = m_Player->GetCameraX();
 		m_FieldIndex = m_CameraX / FieldWidth;
-		m_Back->Update(m_CameraX, m_FieldIndex);
-		m_End->Update(m_CameraX, m_FieldIndex);
-		m_Player->Update(m_FieldIndex);
+		m_Back->Update(m_CameraX, m_FieldIndex, m_bIsEnd);
+		m_End->Update(m_CameraX);
+		m_Player->Update(m_FieldIndex, m_bIsEnd);
+
+		// 장애물에 걸렸을 때
+
+		// 승리
+		RECT tmpRect;
+		if (IntersectRect(&tmpRect, &(m_Player->GetCollision()), &(m_End->GetCollision())))
+		{
+			if (!m_bIsEnd)
+			{
+				m_StartWinTimer = GetTickCount();
+			}
+			m_bIsEnd = true;
+		}
+
+		m_CurWinTimer = GetTickCount();
+		if (m_bIsEnd && (m_CurWinTimer - m_StartWinTimer >= m_WinTime))
+		{
+			Init(m_hWnd);
+		}
 
 		// GetDC를 통해 DC를 받는다.
 		HDC hdc = GetDC(m_hWnd);

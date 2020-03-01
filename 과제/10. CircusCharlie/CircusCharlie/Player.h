@@ -8,7 +8,8 @@ enum STATE
 	STATE_MOVE,
 	STATE_JUMP,
 	STATE_LEFTJUMP,
-	STATE_RIGHTJUMP
+	STATE_RIGHTJUMP,
+	STATE_WIN
 };
 
 enum BITMAPINDEX
@@ -45,6 +46,7 @@ private:
 
 	float				m_AnimMoveForwardTime;
 	float				m_AnimMoveBackTime;
+	float				m_AnimWinTime;
 	float				m_StartAnimTimer;
 	float				m_CurAnimTimer;
 
@@ -63,7 +65,7 @@ public:
 	~Player();
 	
 	void Init(HDC BackDC);
-	void Update(int FieldIndex);
+	void Update(int FieldIndex, bool bEndFlag);
 	void Input();
 	void Draw(float x, float y);
 	void Move(float x, float y);
@@ -71,6 +73,8 @@ public:
 	void AnimMoveForward();
 	void AnimMoveBack();
 	void Jump();
+	void SetCollision();
+	void Win();
 
 public:
 	inline RECT GetCollision()

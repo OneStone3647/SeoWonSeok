@@ -26,11 +26,7 @@ void Player::Init(HDC BackDC)
 	m_Y = 440.0f;
 	m_CameraX = 0.0f;
 
-	m_Collision.left = m_X;
-	m_Collision.right = m_X + m_Player_Idle.GetSize().cx;
-	m_Collision.top = m_Y;
-	m_Collision.bottom = m_Y + m_Player_Idle.GetSize().cy;
-
+	SetCollision();
 	//m_Speed = 5.0f;
 	m_Speed = 7.5f;
 
@@ -38,6 +34,7 @@ void Player::Init(HDC BackDC)
 
 	m_AnimMoveForwardTime = 120.0f;
 	m_AnimMoveBackTime = 200.0f;
+	m_AnimWinTime = 100.0f;
 	m_StartAnimTimer = GetTickCount();
 	m_CurAnimTimer = 0.0f;
 
@@ -50,12 +47,23 @@ void Player::Init(HDC BackDC)
 	m_JumpSpeed = 2.8f;
 }
 
-void Player::Update(int FieldIndex)
+void Player::Update(int FieldIndex, bool bEndFlag)
 {
 	m_CurAnimTimer = GetTickCount();
 	m_FieldIndex = FieldIndex;
-	Input();
-	Jump();
+
+	// 디버그 용
+	Rectangle(m_BackDC, m_Collision.left, m_Collision.top, m_Collision.right, m_Collision.bottom);
+
+	if (!bEndFlag)
+	{
+		Input();
+		Jump();
+	}
+	else
+	{
+		Win();
+	}
 }
 
 void Player::Input()
@@ -129,6 +137,8 @@ void Player::Move(float x, float y)
 	else
 	{
 		m_X += x;
+		m_Collision.left = m_X;
+		m_Collision.right = m_X + m_Player_Idle.GetSize().cx * 1.5f;
 		if (m_X < 900.0f)
 		{
 			m_X = 900.0f;
@@ -222,6 +232,8 @@ void Player::Jump()
 			else
 			{
 				m_X -= m_Speed;
+				m_Collision.left -= m_Speed;
+				m_Collision.right -= m_Speed;
 			}
 
 			if (m_X < 100.0f)
@@ -246,6 +258,8 @@ void Player::Jump()
 			else
 			{
 				m_X += m_Speed;
+				m_Collision.left = m_X;
+				m_Collision.right = m_X + m_Player_Idle.GetSize().cx * 1.5f;
 			}
 		}
 
@@ -253,13 +267,41 @@ void Player::Jump()
 		m_JumpTime += 1.0f;
 
 		m_BitmapIndex = BITMAPINDEX_MOVE2;
+		m_Collision.top = m_JumpY + m_Y;
+		m_Collision.bottom = m_JumpY + m_Y + m_Player_Idle.GetSize().cy * 1.5f;;
 		Draw(m_X, m_JumpY + m_Y);
 
 		if (m_JumpTime >= m_JumpForce)
 		{
 			m_JumpTime = 0.0f;
 			m_JumpY = 0.0f;
+			m_Collision.top += 23.0f;
+			m_Collision.bottom += 23.0f;
 			StopAnim();
 		}
 	}
+}
+
+void Player::SetCollision()
+{
+	m_Collision.left = m_X;
+	m_Collision.right = m_X + m_Player_Idle.GetSize().cx * 1.5f;
+	m_Collision.top = m_Y;
+	m_Collision.bottom = m_Y + m_Player_Idle.GetSize().cy * 1.5f;
+}
+
+void Player::Win()
+{
+	m_State = STATE_WIN; 
+	if (m_CurAnimTimer - m_StartAnimTimer >= m_AnimWinTime)
+	{
+		m_BitmapIndex++;
+		if (m_BitmapIndex > 4)
+		{
+			m_BitmapIndex = 3;
+		}
+		m_StartAnimTimer = m_CurAnimTimer;
+	}
+
+	Draw(m_X, m_Y);
 }

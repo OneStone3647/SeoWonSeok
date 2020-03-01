@@ -18,6 +18,13 @@ public:
 	~End();
 
 	void Init(HDC BackDC);
-	void Update(float CameraX, int FieldIndex);
+	void Update(float CameraX);
+	void SetCollision();
+
+public:
+	inline RECT GetCollision()
+	{
+		return m_Collision;
+	}
 };
 
