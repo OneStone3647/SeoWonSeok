@@ -62,7 +62,7 @@ void Player::Update(int FieldIndex, bool bEndFlag, float EndX, float EndY)
 	// 디버그 용
 	Rectangle(m_BackDC, m_Collision.left, m_Collision.top, m_Collision.right, m_Collision.bottom);
 
-	if (!bEndFlag && !m_State == STATE_DIE)
+	if (!bEndFlag && !(m_State == STATE_DIE))
 	{
 		Input();
 		Jump();
