@@ -26,5 +26,14 @@ public:
 	{
 		return m_Collision;
 	}
+
+	inline float GetX()
+	{
+		return m_X;
+	}
+	inline float GetY()
+	{
+		return m_Y;
+	}
 };
 

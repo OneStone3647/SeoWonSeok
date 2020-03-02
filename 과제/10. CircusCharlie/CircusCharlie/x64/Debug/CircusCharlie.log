@@ -1,6 +1,21 @@
-﻿  GameManager.cpp
-d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\bitmap.h(23): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\gamemanager.cpp(81): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\gamemanager.cpp(94): warning C4244: '=': 'DWORD'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\gamemanager.cpp(99): warning C4244: '=': 'DWORD'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  CircusCharlie.vcxproj -> D:\Study\Programing\SeoWonSeok\과제\10. CircusCharlie\x64\Debug\CircusCharlie.exe
+﻿  Player.cpp
+c:\sos\seowonseok\과제\10. circuscharlie\circuscharlie\bitmap.h(23): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\sos\seowonseok\과제\10. circuscharlie\circuscharlie\player.cpp(45): warning C4244: '=': 'DWORD'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\sos\seowonseok\과제\10. circuscharlie\circuscharlie\player.cpp(59): warning C4244: '=': 'DWORD'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\sos\seowonseok\과제\10. circuscharlie\circuscharlie\player.cpp(65): warning C4806: '==': 안전하지 않은 연산입니다. 'bool' 형식의 값('STATE' 형식으로 확장)이 주어진 상수와 같을 수 없습니다.
+c:\sos\seowonseok\과제\10. circuscharlie\circuscharlie\player.cpp(112): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\sos\seowonseok\과제\10. circuscharlie\circuscharlie\player.cpp(149): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\sos\seowonseok\과제\10. circuscharlie\circuscharlie\player.cpp(150): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\sos\seowonseok\과제\10. circuscharlie\circuscharlie\player.cpp(244): warning C4244: '-=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\sos\seowonseok\과제\10. circuscharlie\circuscharlie\player.cpp(245): warning C4244: '-=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\sos\seowonseok\과제\10. circuscharlie\circuscharlie\player.cpp(270): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\sos\seowonseok\과제\10. circuscharlie\circuscharlie\player.cpp(271): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\sos\seowonseok\과제\10. circuscharlie\circuscharlie\player.cpp(287): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\sos\seowonseok\과제\10. circuscharlie\circuscharlie\player.cpp(288): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\sos\seowonseok\과제\10. circuscharlie\circuscharlie\player.cpp(297): warning C4244: '+=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\sos\seowonseok\과제\10. circuscharlie\circuscharlie\player.cpp(298): warning C4244: '+=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\sos\seowonseok\과제\10. circuscharlie\circuscharlie\player.cpp(309): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\sos\seowonseok\과제\10. circuscharlie\circuscharlie\player.cpp(310): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\sos\seowonseok\과제\10. circuscharlie\circuscharlie\player.cpp(311): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\sos\seowonseok\과제\10. circuscharlie\circuscharlie\player.cpp(312): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  CircusCharlie.vcxproj -> C:\sos\SeoWonSeok\과제\10. CircusCharlie\x64\Debug\CircusCharlie.exe

@@ -11,3 +11,6 @@
 
 // 필드 크기
 #define FieldWidth				1000
+
+// 필드 최대 크기
+#define MaxField				2100

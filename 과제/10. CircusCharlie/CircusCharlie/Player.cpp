@@ -15,12 +15,19 @@ void Player::Init(HDC BackDC)
 {
 	m_BackDC = BackDC;
 
-	m_Player_Idle.Init(m_BackDC, "Bitmap\\player0.bmp");
-	m_Player_Move1.Init(m_BackDC, "Bitmap\\player1.bmp");
-	m_Player_Move2.Init(m_BackDC, "Bitmap\\player2.bmp");
-	m_Player_Win1.Init(m_BackDC, "Bitmap\\win.bmp");
-	m_Player_Win2.Init(m_BackDC, "Bitmap\\win2.bmp");
-	m_Player_Die.Init(m_BackDC, "Bitmap\\die.bmp");
+	m_PlayerBitmap[BITMAPINDEX_IDLE].Init(m_BackDC, "Bitmap\\player0.bmp");
+	m_PlayerBitmap[BITMAPINDEX_MOVE1].Init(m_BackDC, "Bitmap\\player1.bmp");
+	m_PlayerBitmap[BITMAPINDEX_MOVE2].Init(m_BackDC, "Bitmap\\player2.bmp");
+	m_PlayerBitmap[BITMAPINDEX_WIN1].Init(m_BackDC, "Bitmap\\win.bmp");
+	m_PlayerBitmap[BITMAPINDEX_WIN2].Init(m_BackDC, "Bitmap\\win2.bmp");
+	m_PlayerBitmap[BITMAPINDEX_DIE].Init(m_BackDC, "Bitmap\\die.bmp");
+
+	//m_Player_Idle.Init(m_BackDC, "Bitmap\\player0.bmp");
+	//m_Player_Move1.Init(m_BackDC, "Bitmap\\player1.bmp");
+	//m_Player_Move2.Init(m_BackDC, "Bitmap\\player2.bmp");
+	//m_Player_Win1.Init(m_BackDC, "Bitmap\\win.bmp");
+	//m_Player_Win2.Init(m_BackDC, "Bitmap\\win2.bmp");
+	//m_Player_Die.Init(m_BackDC, "Bitmap\\die.bmp");
 
 	m_X = 900.0f;
 	m_Y = 440.0f;
@@ -47,7 +54,7 @@ void Player::Init(HDC BackDC)
 	m_JumpSpeed = 2.8f;
 }
 
-void Player::Update(int FieldIndex, bool bEndFlag)
+void Player::Update(int FieldIndex, bool bEndFlag, float EndX, float EndY)
 {
 	m_CurAnimTimer = GetTickCount();
 	m_FieldIndex = FieldIndex;
@@ -55,14 +62,18 @@ void Player::Update(int FieldIndex, bool bEndFlag)
 	// 디버그 용
 	Rectangle(m_BackDC, m_Collision.left, m_Collision.top, m_Collision.right, m_Collision.bottom);
 
-	if (!bEndFlag)
+	if (!bEndFlag && !m_State == STATE_DIE)
 	{
 		Input();
 		Jump();
 	}
+	else if (m_State == STATE_DIE)
+	{
+
+	}
 	else
 	{
-		Win();
+		Win(EndX + 875.0f, EndY - 90.0f);
 	}
 }
 
@@ -102,27 +113,29 @@ void Player::Input()
 
 void Player::Draw(float x, float y)
 {
-	switch (m_BitmapIndex)
-	{
-	case BITMAPINDEX_IDLE:
-		m_Player_Idle.Draw(m_BackDC, x, y);
-		break;
-	case BITMAPINDEX_MOVE1:
-		m_Player_Move1.Draw(m_BackDC, x, y);
-		break;
-	case BITMAPINDEX_MOVE2:
-		m_Player_Move2.Draw(m_BackDC, x, y);
-		break;
-	case BITMAPINDEX_WIN1:
-		m_Player_Win1.Draw(m_BackDC, x, y);
-		break;
-	case BITMAPINDEX_WIN2:
-		m_Player_Win2.Draw(m_BackDC, x, y);
-		break;
-	case BITMAPINDEX_DIE:
-		m_Player_Die.Draw(m_BackDC, x, y);
-		break;
-	}
+	m_PlayerBitmap[m_BitmapIndex].Draw(m_BackDC, x, y);
+
+	//switch (m_BitmapIndex)
+	//{
+	//case BITMAPINDEX_IDLE:
+	//	m_Player_Idle.Draw(m_BackDC, x, y);
+	//	break;
+	//case BITMAPINDEX_MOVE1:
+	//	m_Player_Move1.Draw(m_BackDC, x, y);
+	//	break;
+	//case BITMAPINDEX_MOVE2:
+	//	m_Player_Move2.Draw(m_BackDC, x, y);
+	//	break;
+	//case BITMAPINDEX_WIN1:
+	//	m_Player_Win1.Draw(m_BackDC, x, y);
+	//	break;
+	//case BITMAPINDEX_WIN2:
+	//	m_Player_Win2.Draw(m_BackDC, x, y);
+	//	break;
+	//case BITMAPINDEX_DIE:
+	//	m_Player_Die.Draw(m_BackDC, x, y);
+	//	break;
+	//}
 }
 
 void Player::Move(float x, float y)
@@ -138,7 +151,7 @@ void Player::Move(float x, float y)
 	{
 		m_X += x;
 		m_Collision.left = m_X;
-		m_Collision.right = m_X + m_Player_Idle.GetSize().cx * 1.5f;
+		m_Collision.right = m_X + m_PlayerBitmap[BITMAPINDEX_IDLE].GetSize().cx * 1.5f;
 		if (m_X < 900.0f)
 		{
 			m_X = 900.0f;
@@ -259,24 +272,37 @@ void Player::Jump()
 			{
 				m_X += m_Speed;
 				m_Collision.left = m_X;
-				m_Collision.right = m_X + m_Player_Idle.GetSize().cx * 1.5f;
+				m_Collision.right = m_X + m_PlayerBitmap[BITMAPINDEX_IDLE].GetSize().cx * 1.5f;
 			}
 		}
 
 		m_JumpY = m_JumpTime * m_JumpTime - m_JumpForce * m_JumpTime;
-		m_JumpTime += 1.0f;
+		
+		if (m_State == STATE_LEFTJUMP || m_State == STATE_RIGHTJUMP)
+		{
+			m_JumpTime += 0.5f;
+		}
+		else
+		{
+			m_JumpTime += 0.3f;
+		}
 
 		m_BitmapIndex = BITMAPINDEX_MOVE2;
 		m_Collision.top = m_JumpY + m_Y;
-		m_Collision.bottom = m_JumpY + m_Y + m_Player_Idle.GetSize().cy * 1.5f;;
+		m_Collision.bottom = m_JumpY + m_Y + m_PlayerBitmap[BITMAPINDEX_IDLE].GetSize().cy * 1.5f;;
 		Draw(m_X, m_JumpY + m_Y);
 
 		if (m_JumpTime >= m_JumpForce)
 		{
 			m_JumpTime = 0.0f;
 			m_JumpY = 0.0f;
-			m_Collision.top += 23.0f;
-			m_Collision.bottom += 23.0f;
+			if (m_State == STATE_LEFTJUMP || m_State == STATE_RIGHTJUMP)
+			{
+				m_Collision.top += 11.0f;
+				m_Collision.bottom += 13.0f;
+			}
+			//m_Collision.top += 23.0f;
+			//m_Collision.bottom += 23.0f;
 			StopAnim();
 		}
 	}
@@ -285,12 +311,12 @@ void Player::Jump()
 void Player::SetCollision()
 {
 	m_Collision.left = m_X;
-	m_Collision.right = m_X + m_Player_Idle.GetSize().cx * 1.5f;
+	m_Collision.right = m_X + m_PlayerBitmap[BITMAPINDEX_IDLE].GetSize().cx * 1.5f;
 	m_Collision.top = m_Y;
-	m_Collision.bottom = m_Y + m_Player_Idle.GetSize().cy * 1.5f;
+	m_Collision.bottom = m_Y + m_PlayerBitmap[BITMAPINDEX_IDLE].GetSize().cy * 1.5f;
 }
 
-void Player::Win()
+void Player::Win(float x, float y)
 {
 	m_State = STATE_WIN; 
 	if (m_CurAnimTimer - m_StartAnimTimer >= m_AnimWinTime)
@@ -303,5 +329,12 @@ void Player::Win()
 		m_StartAnimTimer = m_CurAnimTimer;
 	}
 
+	Draw(x, y);
+}
+
+void Player::Die()
+{
+	m_State = STATE_DIE;
+	m_BitmapIndex = BITMAPINDEX_DIE;
 	Draw(m_X, m_Y);
 }

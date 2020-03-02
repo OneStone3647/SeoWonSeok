@@ -9,7 +9,8 @@ enum STATE
 	STATE_JUMP,
 	STATE_LEFTJUMP,
 	STATE_RIGHTJUMP,
-	STATE_WIN
+	STATE_WIN,
+	STATE_DIE
 };
 
 enum BITMAPINDEX
@@ -27,12 +28,14 @@ class Player
 private:
 	HDC				m_BackDC;
 
-	Bitmap			m_Player_Idle;
-	Bitmap			m_Player_Move1;
-	Bitmap			m_Player_Move2;
-	Bitmap			m_Player_Win1;
-	Bitmap			m_Player_Win2;
-	Bitmap			m_Player_Die;
+	Bitmap			m_PlayerBitmap[6];
+
+	//Bitmap			m_Player_Idle;
+	//Bitmap			m_Player_Move1;
+	//Bitmap			m_Player_Move2;
+	//Bitmap			m_Player_Win1;
+	//Bitmap			m_Player_Win2;
+	//Bitmap			m_Player_Die;
 
 	float				m_X;
 	float				m_Y;
@@ -65,7 +68,7 @@ public:
 	~Player();
 	
 	void Init(HDC BackDC);
-	void Update(int FieldIndex, bool bEndFlag);
+	void Update(int FieldIndex, bool bEndFlag, float EndX, float EndY);
 	void Input();
 	void Draw(float x, float y);
 	void Move(float x, float y);
@@ -74,7 +77,8 @@ public:
 	void AnimMoveBack();
 	void Jump();
 	void SetCollision();
-	void Win();
+	void Win(float x, float y);
+	void Die();
 
 public:
 	inline RECT GetCollision()
