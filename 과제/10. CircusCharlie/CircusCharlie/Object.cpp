@@ -127,7 +127,7 @@ void Front::SetCollision(float CameraX)
 {
 	m_Collision.left = m_X - CameraX;
 	m_Collision.right = m_X + m_FrontBitmap[m_FrontBitmapIndex].GetSize().cx * 1.5f - CameraX;
-	m_Collision.top = m_Y - 100.0f;
+	m_Collision.top = m_Y + m_FrontBitmap[m_FrontBitmapIndex].GetSize().cy * 0.3f;
 	m_Collision.bottom = m_Y + m_FrontBitmap[m_FrontBitmapIndex].GetSize().cy * 1.5f;
 }
 
