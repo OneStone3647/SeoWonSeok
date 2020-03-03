@@ -105,14 +105,19 @@ void GameManager::Update()
 		m_Back->Update(m_CameraX, m_FieldIndex);
 		m_End->Update(m_CameraX);
 		m_Enemy->Update(m_CameraX, m_bIsExit);
-		if (m_FieldIndex > 0)
+		for (int i = 0; i < 3; i++)
 		{
-			for (int i = 0; i < 3; i++)
+			if (m_FieldIndex >= 0)
 			{
-				if (m_FieldIndex + i != 8)
-				{
-					m_Front[i].Update(m_CameraX, m_FieldIndex + i + 1);
-				}
+				m_Front[i].Update(m_CameraX, i);
+			}
+			if (m_FieldIndex >= 2)
+			{
+				m_Front[i].Update(m_CameraX, i + 3);
+			}
+			if (m_FieldIndex >= 5)
+			{
+				m_Front[i].Update(m_CameraX, i + 6);
 			}
 		}
 
@@ -125,14 +130,14 @@ void GameManager::Update()
 		//}
 
 		// 7±îÁö
-		m_Front[0].Update(m_CameraX, 0);
-		m_Front[1].Update(m_CameraX, 1);
-		m_Front[2].Update(m_CameraX, 2);
-		m_Front[0].Update(m_CameraX, 3);
-		m_Front[1].Update(m_CameraX, 4);
-		m_Front[2].Update(m_CameraX, 5);
-		m_Front[0].Update(m_CameraX, 6);
-		m_Front[1].Update(m_CameraX, 7);
+		//m_Front[0].Update(m_CameraX, 0);
+		//m_Front[1].Update(m_CameraX, 1);
+		//m_Front[2].Update(m_CameraX, 2);
+		//m_Front[0].Update(m_CameraX, 3);
+		//m_Front[1].Update(m_CameraX, 4);
+		//m_Front[2].Update(m_CameraX, 5);
+		//m_Front[0].Update(m_CameraX, 6);
+		//m_Front[1].Update(m_CameraX, 7);
 
 		m_Player->Update(m_FieldIndex, m_bIsExit, m_End->GetX(), m_End->GetY());
 
