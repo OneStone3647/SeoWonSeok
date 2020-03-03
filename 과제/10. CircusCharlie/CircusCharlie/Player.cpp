@@ -69,7 +69,7 @@ void Player::Update(int FieldIndex, bool bEndFlag, float EndX, float EndY)
 	}
 	else if (m_State == STATE_DIE)
 	{
-
+		Draw(m_X, m_JumpY + m_Y);
 	}
 	else
 	{
@@ -289,7 +289,7 @@ void Player::Jump()
 
 		m_BitmapIndex = BITMAPINDEX_MOVE2;
 		m_Collision.top = m_JumpY + m_Y;
-		m_Collision.bottom = m_JumpY + m_Y + m_PlayerBitmap[BITMAPINDEX_IDLE].GetSize().cy * 1.5f;;
+		m_Collision.bottom = m_JumpY + m_Y + m_PlayerBitmap[BITMAPINDEX_IDLE].GetSize().cy * 1.5f;
 		Draw(m_X, m_JumpY + m_Y);
 
 		if (m_JumpTime >= m_JumpForce)
@@ -336,5 +336,4 @@ void Player::Die()
 {
 	m_State = STATE_DIE;
 	m_BitmapIndex = BITMAPINDEX_DIE;
-	Draw(m_X, m_Y);
 }

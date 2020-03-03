@@ -27,8 +27,8 @@ void End::Update(float CameraX)
 {
 	// 디버그 용
 	//m_End_Bitmap.Draw(m_BackDC, m_X - CameraX + FieldWidth * 1 - 130.0f, m_Y);
-	Rectangle(m_BackDC, m_Collision.left, m_Collision.top, 
-		m_Collision.right, m_Collision.bottom);
+	//Rectangle(m_BackDC, m_Collision.left, m_Collision.top, 
+	//	m_Collision.right, m_Collision.bottom);
 
 	m_End_Bitmap.Draw(m_BackDC, m_X - CameraX + FieldWidth * 10 - 130.0f, m_Y);	
 }

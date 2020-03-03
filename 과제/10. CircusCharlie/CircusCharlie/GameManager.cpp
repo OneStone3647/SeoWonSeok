@@ -60,10 +60,20 @@ void GameManager::Init(HWND hWnd)
 	m_Enemy = new Enemy;
 	m_Enemy->Init(m_MemDC);
 
-	m_bIsEnd = false;
-	m_WinTime = 2000.0f;
-	m_StartWinTimer = 0.0f;
-	m_CurWinTimer = 0.0f;
+	if (m_Front != NULL)
+	{
+		delete[] m_Front;
+	}
+	m_Front = new Front[3];
+	for (int i = 0; i < 3; i++)
+	{
+		m_Front[i].Init(m_MemDC);
+	}
+
+	m_bIsExit = false;
+	m_ExitTime = 2000.0f;
+	m_StartExitTimer = 0.0f;
+	m_CurExitTimer = 0.0f;
 }
 
 void GameManager::Release()
@@ -71,7 +81,9 @@ void GameManager::Release()
 	delete m_Menu;
 	delete m_Back;
 	delete m_Player;
-	delete m_End;
+	delete m_End;		
+	delete[] m_Front;
+
 }
 
 void GameManager::Update()
@@ -89,30 +101,45 @@ void GameManager::Update()
 	{
 		m_CameraX = m_Player->GetCameraX();
 		m_FieldIndex = m_CameraX / FieldWidth;
-		m_Back->Update(m_CameraX, m_FieldIndex, m_bIsEnd);
+
+		m_Back->Update(m_CameraX, m_FieldIndex);
 		m_End->Update(m_CameraX);
-		m_Enemy->Update(m_CameraX);
-		m_Player->Update(m_FieldIndex, m_bIsEnd, m_End->GetX(), m_End->GetY());
+		m_Enemy->Update(m_CameraX, m_bIsExit);
+		//for (int i = 0; i < 3; i++)
+		//{
+		//	m_Front[i].Update(m_CameraX, m_FieldIndex + i);
+		//}
+		//m_Front->Update(m_CameraX, m_FieldIndex);
+
+		m_Front[0].Update(m_CameraX, 3);
+
+		m_Player->Update(m_FieldIndex, m_bIsExit, m_End->GetX(), m_End->GetY());
 
 		// Àå¾Ö¹°¿¡ °É·ÈÀ» ¶§
 
-		if (IntersectRect(&tmpRect, &(m_Player->GetCollision()), &(m_Enemy->GetCollision())))
+		if (IntersectRect(&tmpRect, &(m_Player->GetCollision()), &(m_Enemy->GetCollision()))
+			|| IntersectRect(&tmpRect, &(m_Player->GetCollision()), &(m_Front->GetCollision())))
 		{
 			m_Player->Die();
+			if (!m_bIsExit)
+			{
+				m_StartExitTimer = GetTickCount();
+			}
+			m_bIsExit = true;
 		}
 
 		// ½Â¸®
 		if (IntersectRect(&tmpRect, &(m_Player->GetCollision()), &(m_End->GetCollision())))
 		{
-			if (!m_bIsEnd)
+			if (!m_bIsExit)
 			{
-				m_StartWinTimer = GetTickCount();
+				m_StartExitTimer = GetTickCount();
 			}
-			m_bIsEnd = true;
+			m_bIsExit = true;
 		}
 
-		m_CurWinTimer = GetTickCount();
-		if (m_bIsEnd && (m_CurWinTimer - m_StartWinTimer >= m_WinTime))
+		m_CurExitTimer = GetTickCount();
+		if (m_bIsExit && (m_CurExitTimer - m_StartExitTimer >= m_ExitTime))
 		{
 			Init(m_hWnd);
 		}

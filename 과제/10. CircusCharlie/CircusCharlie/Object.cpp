@@ -11,12 +11,12 @@ Object::~Object()
 {
 }
 
-void Object::SetCollision(Bitmap * bitmap, float CameraX)
+void Object::SetCollision(Bitmap * bitmap, float Size, float CameraX)
 {
 	m_Collision.left = m_X - CameraX;
-	m_Collision.right = m_X + bitmap->GetSize().cx * 2.0f - CameraX;
-	m_Collision.top = m_Y - 50.0f;
-	m_Collision.bottom = m_Y + bitmap->GetSize().cy * 2.0f;
+	m_Collision.right = m_X + bitmap->GetSize().cx * Size - CameraX;
+	m_Collision.top = m_Y;
+	m_Collision.bottom = m_Y + bitmap->GetSize().cy * Size;
 }
 
 void Enemy::Init(HDC BackDC)
@@ -24,40 +24,62 @@ void Enemy::Init(HDC BackDC)
 	m_BackDC = BackDC;
 
 	m_EnemyBitmap[ENEMYBITMAPINDEX_ENEMY1].Init(m_BackDC, "Bitmap\\enemy.bmp");
-	m_EnemyBitmap[ENEMYBITMAPINDEX_ENEMY1_B].Init(m_BackDC, "Bitmap\\enemy.bmp");
-	m_EnemyBitmap[ENEMYBITMAPINDEX_ENEMY1_F].Init(m_BackDC, "Bitmap\\enemy.bmp");
-	m_EnemyBitmap[ENEMYBITMAPINDEX_ENEMY2].Init(m_BackDC, "Bitmap\\enemy.bmp");
-	m_EnemyBitmap[ENEMYBITMAPINDEX_ENEMY2_B].Init(m_BackDC, "Bitmap\\enemy.bmp");
-	m_EnemyBitmap[ENEMYBITMAPINDEX_ENEMY2_F].Init(m_BackDC, "Bitmap\\enemy.bmp");
-	m_EnemyBitmap[ENEMYBITMAPINDEX_ENEMY_L].Init(m_BackDC, "Bitmap\\enemy.bmp");
-	m_EnemyBitmap[ENEMYBITMAPINDEX_ENEMY_L_B].Init(m_BackDC, "Bitmap\\enemy.bmp");
-	m_EnemyBitmap[ENEMYBITMAPINDEX_ENEMY_L_F].Init(m_BackDC, "Bitmap\\enemy.bmp");
+	m_EnemyBitmap[ENEMYBITMAPINDEX_ENEMY1_B].Init(m_BackDC, "Bitmap\\enemy_b.bmp");
+	m_EnemyBitmap[ENEMYBITMAPINDEX_ENEMY1_F].Init(m_BackDC, "Bitmap\\enemy_f.bmp");
+	m_EnemyBitmap[ENEMYBITMAPINDEX_ENEMY2].Init(m_BackDC, "Bitmap\\enemy1.bmp");
+	m_EnemyBitmap[ENEMYBITMAPINDEX_ENEMY2_B].Init(m_BackDC, "Bitmap\\enemy_1b.bmp");
+	m_EnemyBitmap[ENEMYBITMAPINDEX_ENEMY2_F].Init(m_BackDC, "Bitmap\\enemy_1f.bmp");
+	m_EnemyBitmap[ENEMYBITMAPINDEX_ENEMY_L].Init(m_BackDC, "Bitmap\\enemy_l.bmp");
+	m_EnemyBitmap[ENEMYBITMAPINDEX_ENEMY_L_B].Init(m_BackDC, "Bitmap\\enemy_l_b.bmp");
+	m_EnemyBitmap[ENEMYBITMAPINDEX_ENEMY_L_F].Init(m_BackDC, "Bitmap\\enemy_l_f.bmp");
 
 	m_X = MaxField;
 	m_Y = 230.0f;
 
-	m_EnemyIndex = ENEMYBITMAPINDEX_ENEMY1;
+	m_EnemyBitmapIndex = ENEMYBITMAPINDEX_ENEMY1;
 
-	SetCollision(&m_EnemyBitmap[ENEMYBITMAPINDEX_ENEMY1]);
+	SetCollision();
+
+	m_AnimTime = 100.0f;
+	m_StartAnimTimer = GetTickCount();
+	m_CurAnimTimer = 0.0f;
 }
 
-void Enemy::Update(float CameraX)
+void Enemy::Update(float CameraX, bool bEndFlag)
 {
-	m_X-=2.0f;
-	m_Collision.left -= 2.0f;
-	m_Collision.right -= 2.0f;
-	SetCollision(&m_EnemyBitmap[m_EnemyIndex], CameraX);
+	m_CurAnimTimer = GetTickCount();
+
+	if (!bEndFlag)
+	{
+		m_X -= 2.0f;
+		m_Collision.left -= 2.0f;
+		m_Collision.right -= 2.0f;
+	}
+	SetCollision(CameraX);
 
 	// 디버그용
 	Rectangle(m_BackDC, m_Collision.left, m_Collision.top,
 		m_Collision.right, m_Collision.bottom);
 
-	Draw(m_X - CameraX, m_Y);
+	if (m_CurAnimTimer - m_StartAnimTimer >= m_AnimTime)
+	{
+		m_EnemyBitmapIndex += 3;
+		if (m_EnemyBitmapIndex > 3)
+		{
+			m_EnemyBitmapIndex = 0;
+		}
+		m_StartAnimTimer = m_CurAnimTimer;
+	}
+
+	m_EnemyBitmap[m_EnemyBitmapIndex].Draw(m_BackDC, m_X - CameraX, m_Y, 2.0f, 2.0f);
 }
 
-void Enemy::Draw(float x, float y)
+void Enemy::SetCollision(float CameraX)
 {
-	m_EnemyBitmap[m_EnemyIndex].Draw(m_BackDC, x, y, 2.0f, 2.0f);
+	m_Collision.left = m_X + m_EnemyBitmap[m_EnemyBitmapIndex].GetSize().cx * 0.3f - CameraX;
+	m_Collision.right = m_X + m_EnemyBitmap[m_EnemyBitmapIndex].GetSize().cx * 1.7f - CameraX;
+	m_Collision.top = m_Y + m_EnemyBitmap[m_EnemyBitmapIndex].GetSize().cy * 1.7f;
+	m_Collision.bottom = m_Y + m_EnemyBitmap[m_EnemyBitmapIndex].GetSize().cy * 2.0f;
 }
 
 void Front::Init(HDC BackDC)
@@ -66,6 +88,47 @@ void Front::Init(HDC BackDC)
 
 	m_FrontBitmap[FRONTBITMAPINDEX_FRONT1].Init(m_BackDC, "Bitmap\\front.bmp");
 	m_FrontBitmap[FRONTBITMAPINDEX_FRONT2].Init(m_BackDC, "Bitmap\\front2.bmp");
+
+	m_X = 1800;
+	m_Y = 460.0f;
+
+	m_FrontBitmapIndex = FRONTBITMAPINDEX_FRONT1;
+
+	SetCollision();
+
+	m_AnimTime = 100.0f;
+	m_StartAnimTimer = GetTickCount();
+	m_CurAnimTimer = 0.0f;
+}
+
+void Front::Update(float CameraX, int FieldIndex)
+{
+	m_CurAnimTimer = GetTickCount();
+
+	SetCollision(CameraX - FieldWidth * (FieldIndex + 1));
+
+	// 디버그용
+	Rectangle(m_BackDC, m_Collision.left, m_Collision.top,
+		m_Collision.right, m_Collision.bottom);
+
+	if (m_CurAnimTimer - m_StartAnimTimer >= m_AnimTime)
+	{
+		m_FrontBitmapIndex++;
+		if (m_FrontBitmapIndex > 1)
+		{
+			m_FrontBitmapIndex = 0;
+		}
+		m_StartAnimTimer = m_CurAnimTimer;
+	}
+	m_FrontBitmap[m_FrontBitmapIndex].Draw(m_BackDC, m_X - CameraX - FieldWidth * (-FieldIndex - 1), m_Y);
+}
+
+void Front::SetCollision(float CameraX)
+{
+	m_Collision.left = m_X - CameraX;
+	m_Collision.right = m_X + m_FrontBitmap[m_FrontBitmapIndex].GetSize().cx * 1.5f - CameraX;
+	m_Collision.top = m_Y - 100.0f;
+	m_Collision.bottom = m_Y + m_FrontBitmap[m_FrontBitmapIndex].GetSize().cy * 1.5f;
 }
 
 void Cash::Init(HDC BackDC)

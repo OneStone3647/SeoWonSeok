@@ -24,7 +24,7 @@ public:
 	~Back();
 
 	void Init(HDC BackDC);
-	void Update(float CameraX, int FieldIndex, bool bEndFlag);
+	void Update(float CameraX, int FieldIndex);
 	void DrawBack(float CameraX, int MiterCount);
 };
 

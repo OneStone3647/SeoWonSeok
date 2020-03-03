@@ -11,13 +11,16 @@ protected:
 	float			m_X;
 	float			m_Y;
 
-public:
-	Object();
-	virtual ~Object();
+	float			m_AnimTime;
+	float			m_StartAnimTimer;
+	float			m_CurAnimTimer;
 
 public:
-	virtual void Update(float CameraX) = 0;
-	void SetCollision(Bitmap* bitmap, float CameraX = 0.0f);
+	Object();
+	~Object();
+
+public:
+	void SetCollision(Bitmap* bitmap, float Size = 2.0f, float CameraX = 0.0f);
 
 public:
 	inline RECT GetCollision()
@@ -50,12 +53,12 @@ class Enemy : public Object
 private:
 	Bitmap			m_EnemyBitmap[9];
 
-	int				m_EnemyIndex;
+	int				m_EnemyBitmapIndex;
 
 public:
 	void Init(HDC BackDC);
-	void Update(float CameraX);
-	void Draw(float x, float y);
+	void Update(float CameraX, bool bEndFlag);
+	void SetCollision(float CameraX = 0.0f);
 };
 
 enum FRONTBITMAPINDEX
@@ -69,9 +72,12 @@ class Front : public Object
 private:
 	Bitmap			m_FrontBitmap[2];
 
+	int				m_FrontBitmapIndex;
+
 public:
 	void Init(HDC BackDC);
-	void Update();
+	void Update(float CameraX, int FieldIndex);
+	void SetCollision(float CameraX = 0.0f);
 };
 
 class Cash : public Object

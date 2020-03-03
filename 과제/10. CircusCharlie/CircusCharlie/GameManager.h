@@ -18,14 +18,15 @@ private:
 	Player*			m_Player;
 	End*				m_End;
 	Enemy*			m_Enemy;
+	Front*			m_Front;
 
 	float				m_CameraX;
 	int					m_FieldIndex;
 
-	bool				m_bIsEnd;
-	float				m_WinTime;
-	float				m_StartWinTimer;
-	float				m_CurWinTimer;
+	bool				m_bIsExit;
+	float				m_ExitTime;
+	float				m_StartExitTimer;
+	float				m_CurExitTimer;
 
 public:
 	GameManager();
