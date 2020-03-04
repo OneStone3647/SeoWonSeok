@@ -20,23 +20,22 @@ private:
 	HBITMAP				m_OldBitmap;
 
 	Menu*				m_Menu;
-	Back*				m_Back;
+	Back*					m_Back;
 	Player*				m_Player;
-	End*				m_End;
+	End*					m_End;
 	Enemy*				m_Enemy;
-	//list<Enemy*>		m_Enemy;
 	vector<Front*>		m_Front;
 
-	float				m_CameraX;
-	int					m_FieldIndex;
+	float					m_CameraX;
+	int						m_FieldIndex;
 
-	bool				m_bIsWin;
-	bool				m_bIsExit;
-	float				m_ExitTime;
-	float				m_StartExitTimer;
-	float				m_CurExitTimer;
+	bool					m_bIsWin;
+	bool					m_bIsExit;
+	float					m_ExitTime;
+	float					m_StartExitTimer;
+	float					m_CurExitTimer;
 
-	int					m_Score;
+	int						m_Score;
 	
 public:
 	GameManager();

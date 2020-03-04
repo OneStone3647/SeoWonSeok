@@ -1,6 +1,0 @@
-﻿  Bitmap.cpp
-d:\study\programing\seowonseok\과제\bitmap\bitmap\bitmap.cpp(7): warning C4553: '==': 식의 결과가 사용되지 않습니다. '='을(를) 의도했습니까?
-  CardManager.cpp
-  WinMain.cpp
-  코드를 생성하고 있습니다...
-  Bitmap.vcxproj -> D:\Study\Programing\SeoWonSeok\과제\Bitmap\Debug\Bitmap.exe

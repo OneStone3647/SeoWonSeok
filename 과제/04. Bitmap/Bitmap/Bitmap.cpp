@@ -1,0 +1,36 @@
+#include "Bitmap.h"
+
+
+
+Bitmap::Bitmap()
+{
+	newBitmap == NULL;
+	oldBitmap = NULL;
+}
+
+
+Bitmap::~Bitmap()
+{
+}
+
+void Bitmap::Init(HINSTANCE g_hInst, HDC MemDC, int BitmapCount)
+{
+	SetLoadBitmap(g_hInst, MemDC, BitmapCount);
+	oldBitmap = (HBITMAP)SelectObject(MemDC, newBitmap);
+}
+
+void Bitmap::Release(HDC MemDC)
+{
+	if (newBitmap != NULL)
+	{
+		SelectObject(MemDC, oldBitmap);
+		DeleteObject(newBitmap);
+	}
+}
+
+void Bitmap::SetLoadBitmap(HINSTANCE g_hInst, HDC MemDC, int BitmapCount)
+{
+	// 사용하고 잇는 Bitmap객체가 있으면 해당 객체를 삭제
+	Release(MemDC);
+	newBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP1 + BitmapCount));
+}

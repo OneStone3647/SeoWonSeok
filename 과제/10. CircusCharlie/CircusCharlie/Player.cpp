@@ -31,7 +31,7 @@ void Player::Init(HDC BackDC)
 
 	m_X = 900.0f;
 	m_Y = 440.0f;
-	m_CameraX = 0.0f;
+	m_CameraX = 500.0f;
 
 	SetCollision();
 	//m_Speed = 5.0f;
@@ -160,9 +160,9 @@ void Player::Move(float x, float y)
 	}
 
 	// 제일 왼쪽 맵일 경우
-	if (m_FieldIndex == 0 && m_CameraX < 0.0f)
+	if (m_FieldIndex == 0 && m_CameraX < 500.0f)
 	{
-		m_CameraX = 0.0f;
+		m_CameraX = 500.0f;
 	}
 
 	//// 맵의 왼쪽에 있을 경우 이동가능한 범위를 지정한다.
