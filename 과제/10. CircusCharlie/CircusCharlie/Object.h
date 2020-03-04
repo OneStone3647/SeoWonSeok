@@ -55,10 +55,21 @@ private:
 
 	int				m_EnemyBitmapIndex;
 
+	RECT			m_ThroughCollision;
+
+	bool			m_bHasCash;
+
 public:
 	void Init(HDC BackDC);
 	void Update(float CameraX, bool bEndFlag);
 	void SetCollision(float CameraX = 0.0f);
+	void SetThroughCollision(float CameraX = 0.0f);
+
+public:
+	inline RECT GetThroughCollision()
+	{
+		return m_ThroughCollision;
+	}
 };
 
 enum FRONTBITMAPINDEX

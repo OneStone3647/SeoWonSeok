@@ -17,13 +17,23 @@ void Back::Init(HDC BackDC)
 
 	m_Back.Init(m_BackDC, "Bitmap\\back.bmp");
 	m_Deco.Init(m_BackDC, "Bitmap\\back_deco.bmp");
-	m_Normal1.Init(m_BackDC, "Bitmap\\back_normal.bmp");
-	m_Normal2.Init(m_BackDC, "Bitmap\\back_normal2.bmp");
+	m_Normal[NORMAL_1].Init(m_BackDC, "Bitmap\\back_normal.bmp");
+	m_Normal[NORMAL_2].Init(m_BackDC, "Bitmap\\back_normal2.bmp");
 	m_Miter.Init(m_BackDC, "Bitmap\\miter.bmp");
+
+	m_NormalIndex = 0;
+
+	m_bIsWin = false;
+	m_AnimTime = 100.0f;
+	m_StartAnimTimer = GetTickCount();
+	m_CurAnimTimer = 0.0f;
 }
 
-void Back::Update(float CameraX, int FieldIndex)
+void Back::Update(float CameraX, int FieldIndex, bool bWinFlag)
 {
+	m_CurAnimTimer = GetTickCount();
+	m_bIsWin = bWinFlag;
+
 	// 필드 인덱스에 따라 배경을 3개(뒤, 중간, 앞)씩 그린다.
 	m_MiterCount = 100 - FieldIndex * 10;
 	DrawBack(CameraX - FieldWidth * FieldIndex, m_MiterCount);
@@ -44,7 +54,21 @@ void Back::DrawBack(float CameraX, int MiterCount)
 	// 관중 그리기
 	for (int i = 0; i < 12; i++)
 	{
-		m_Normal1.Draw(m_BackDC, i * m_Normal1.GetSize().cx * 1.4f - CameraX, 176);
+		// 이겼을 경우
+		if (m_bIsWin)
+		{
+			if (m_CurAnimTimer - m_StartAnimTimer >= m_AnimTime)
+			{
+				m_NormalIndex++;
+				if (m_NormalIndex > 1)
+				{
+					m_NormalIndex = 0;
+				}
+				m_StartAnimTimer = m_CurAnimTimer;
+			}
+		}
+
+		m_Normal[m_NormalIndex].Draw(m_BackDC, i * m_Normal[m_NormalIndex].GetSize().cx * 1.4f - CameraX, 176);
 	}
 
 	// 코끼리 그리기

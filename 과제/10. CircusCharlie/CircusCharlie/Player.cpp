@@ -54,7 +54,7 @@ void Player::Init(HDC BackDC)
 	m_JumpSpeed = 2.8f;
 }
 
-void Player::Update(int FieldIndex, bool bEndFlag, float EndX, float EndY)
+void Player::Update(int FieldIndex, bool bWinFlag, float EndX, float EndY)
 {
 	m_CurAnimTimer = GetTickCount();
 	m_FieldIndex = FieldIndex;
@@ -62,7 +62,7 @@ void Player::Update(int FieldIndex, bool bEndFlag, float EndX, float EndY)
 	// 디버그 용
 	Rectangle(m_BackDC, m_Collision.left, m_Collision.top, m_Collision.right, m_Collision.bottom);
 
-	if (!bEndFlag && !(m_State == STATE_DIE))
+	if (!bWinFlag && !(m_State == STATE_DIE))
 	{
 		Input();
 		Jump();

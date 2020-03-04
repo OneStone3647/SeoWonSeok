@@ -56,8 +56,11 @@ void Enemy::Update(float CameraX, bool bEndFlag)
 		m_Collision.right -= 2.0f;
 	}
 	SetCollision(CameraX);
+	SetThroughCollision(CameraX);
 
 	// 디버그용
+	Rectangle(m_BackDC, m_ThroughCollision.left, m_ThroughCollision.top,
+		m_ThroughCollision.right, m_ThroughCollision.bottom);
 	Rectangle(m_BackDC, m_Collision.left, m_Collision.top,
 		m_Collision.right, m_Collision.bottom);
 
@@ -78,8 +81,16 @@ void Enemy::SetCollision(float CameraX)
 {
 	m_Collision.left = m_X + m_EnemyBitmap[m_EnemyBitmapIndex].GetSize().cx * 0.3f - CameraX;
 	m_Collision.right = m_X + m_EnemyBitmap[m_EnemyBitmapIndex].GetSize().cx * 1.7f - CameraX;
-	m_Collision.top = m_Y + m_EnemyBitmap[m_EnemyBitmapIndex].GetSize().cy * 1.7f;
+	m_Collision.top = m_Y + m_EnemyBitmap[m_EnemyBitmapIndex].GetSize().cy * 1.8f;
 	m_Collision.bottom = m_Y + m_EnemyBitmap[m_EnemyBitmapIndex].GetSize().cy * 2.0f;
+}
+
+void Enemy::SetThroughCollision(float CameraX)
+{
+	m_ThroughCollision.left = m_X - CameraX;
+	m_ThroughCollision.right = m_X + m_EnemyBitmap[m_EnemyBitmapIndex].GetSize().cx * 2.0f - CameraX;
+	m_ThroughCollision.top = m_Y + m_EnemyBitmap[m_EnemyBitmapIndex].GetSize().cy * 0.2f;
+	m_ThroughCollision.bottom = m_Y + m_EnemyBitmap[m_EnemyBitmapIndex].GetSize().cy * 2.0f;
 }
 
 void Front::Init(HDC BackDC)

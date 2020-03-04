@@ -60,16 +60,36 @@ void GameManager::Init(HWND hWnd)
 	m_Enemy = new Enemy;
 	m_Enemy->Init(m_MemDC);
 
-	if (m_Front != NULL)
+	//if (!m_Enemy.empty())
+	//{
+	//	m_Enemy.clear();
+	//}
+
+
+	//if (m_Front != NULL)
+	//{
+	//	delete[] m_Front;
+	//}
+	//m_Front = new Front[3];
+	//for (int i = 0; i < 3; i++)
+	//{
+	//	m_Front[i].Init(m_MemDC);
+	//}
+
+	// 벡터의 메모리 크기 설정
+	m_Front.reserve(3);
+	if (!m_Front.empty())
 	{
-		delete[] m_Front;
+		m_Front.clear();
 	}
-	m_Front = new Front[3];
 	for (int i = 0; i < 3; i++)
 	{
-		m_Front[i].Init(m_MemDC);
+		Front* tmpFront = new Front;
+		tmpFront->Init(m_MemDC);
+		m_Front.push_back(tmpFront);
 	}
 
+	m_bIsWin = false;
 	m_bIsExit = false;
 	m_ExitTime = 2000.0f;
 	m_StartExitTimer = 0.0f;
@@ -82,8 +102,14 @@ void GameManager::Release()
 	delete m_Back;
 	delete m_Player;
 	delete m_End;		
-	delete[] m_Front;
+	//delete[] m_Front;
 
+	// 백터의 원소를 제거한다.
+	m_Front.clear();
+	// swap을 사용하여 vector의 capacity를 0 으로 만든다.
+	vector<Front*>().swap(m_Front);
+
+	//m_Enemy.clear();
 }
 
 void GameManager::Update()
@@ -102,50 +128,52 @@ void GameManager::Update()
 		m_CameraX = m_Player->GetCameraX();
 		m_FieldIndex = m_CameraX / FieldWidth;
 
-		m_Back->Update(m_CameraX, m_FieldIndex);
+		m_Back->Update(m_CameraX, m_FieldIndex, m_bIsWin);
 		m_End->Update(m_CameraX);
 		m_Enemy->Update(m_CameraX, m_bIsExit);
-		for (int i = 0; i < 3; i++)
-		{
-			if (m_FieldIndex >= 0)
-			{
-				m_Front[i].Update(m_CameraX, i);
-			}
-			if (m_FieldIndex >= 2)
-			{
-				m_Front[i].Update(m_CameraX, i + 3);
-			}
-			if (m_FieldIndex >= 5)
-			{
-				m_Front[i].Update(m_CameraX, i + 6);
-			}
-		}
 
 		//for (int i = 0; i < 3; i++)
 		//{
-		//	for (int j = 0; j < 6; j += 3)
+		//	if (m_FieldIndex >= 0)
 		//	{
-		//		m_Front[i].Update(m_CameraX, i + j);
+		//		m_Front[i].Update(m_CameraX, i);
+		//	}
+		//	if (m_FieldIndex >= 2)
+		//	{
+		//		m_Front[i].Update(m_CameraX, i + 3);
+		//	}
+		//	if (m_FieldIndex >= 5)
+		//	{
+		//		m_Front[i].Update(m_CameraX, i + 6);
 		//	}
 		//}
 
-		// 7까지
-		//m_Front[0].Update(m_CameraX, 0);
-		//m_Front[1].Update(m_CameraX, 1);
-		//m_Front[2].Update(m_CameraX, 2);
-		//m_Front[0].Update(m_CameraX, 3);
-		//m_Front[1].Update(m_CameraX, 4);
-		//m_Front[2].Update(m_CameraX, 5);
-		//m_Front[0].Update(m_CameraX, 6);
-		//m_Front[1].Update(m_CameraX, 7);
+		vector<Front>::size_type i = 0;
+		for (i; i < m_Front.size(); ++i)
+		{
+			if (m_FieldIndex >= 0)
+			{
+				m_Front[i]->Update(m_CameraX, i);
+			}
+			if (m_FieldIndex >= 2)
+			{
+				m_Front[i]->Update(m_CameraX, i + 2);
+			}
+			if (m_FieldIndex >= 4)
+			{
+				m_Front[i]->Update(m_CameraX, i + 4);
+			}
+			if (m_FieldIndex >= 6)
+			{
+				m_Front[i]->Update(m_CameraX, i + 6);
+			}
+		}
 
-		m_Player->Update(m_FieldIndex, m_bIsExit, m_End->GetX(), m_End->GetY());
+		m_Player->Update(m_FieldIndex, m_bIsWin, m_End->GetX(), m_End->GetY());
 
 		// 장애물에 걸렸을 때
 		if (IntersectRect(&tmpRect, &(m_Player->GetCollision()), &(m_Enemy->GetCollision()))
-			|| IntersectRect(&tmpRect, &(m_Player->GetCollision()), &(m_Front[0].GetCollision()))
-			|| IntersectRect(&tmpRect, &(m_Player->GetCollision()), &(m_Front[1].GetCollision()))
-			|| IntersectRect(&tmpRect, &(m_Player->GetCollision()), &(m_Front[2].GetCollision())))
+			|| CheckFrontHit())
 		{
 			m_Player->Die();
 			if (!m_bIsExit)
@@ -158,15 +186,16 @@ void GameManager::Update()
 		// 승리
 		if (IntersectRect(&tmpRect, &(m_Player->GetCollision()), &(m_End->GetCollision())))
 		{
-			if (!m_bIsExit)
+			if (!m_bIsWin)
 			{
 				m_StartExitTimer = GetTickCount();
 			}
-			m_bIsExit = true;
+			m_bIsWin = true;
 		}
 
+		// 장애물에 걸리거나 승리하였을 때 메인화면으로 넘어간다.
 		m_CurExitTimer = GetTickCount();
-		if (m_bIsExit && (m_CurExitTimer - m_StartExitTimer >= m_ExitTime))
+		if ((m_bIsExit || m_bIsWin) && (m_CurExitTimer - m_StartExitTimer >= m_ExitTime))
 		{
 			Init(m_hWnd);
 		}
@@ -179,4 +208,30 @@ void GameManager::Update()
 
 		ReleaseDC(m_hWnd, hdc);
 	}
+}
+
+// Front의 충돌 체크
+bool GameManager::CheckFrontHit()
+{
+	// 교집합 Rect
+	RECT tmpRect;
+
+	//for (int i = 0; i < 3; i++)
+	//{
+	//	if (IntersectRect(&tmpRect, &(m_Player->GetCollision()), &(m_Front[i]->GetCollision())))
+	//	{
+	//		return true;
+	//	}
+	//}
+
+	vector<Front>::size_type i = 0;
+	for (i; i < m_Front.size(); ++i)
+	{
+		if (IntersectRect(&tmpRect, &(m_Player->GetCollision()), &(m_Front[i]->GetCollision())))
+		{
+			return true;
+		}
+	}
+
+	return false;
 }

@@ -68,7 +68,7 @@ public:
 	~Player();
 	
 	void Init(HDC BackDC);
-	void Update(int FieldIndex, bool bEndFlag, float EndX, float EndY);
+	void Update(int FieldIndex, bool bWinFlag, float EndX, float EndY);
 	void Input();
 	void Draw(float x, float y);
 	void Move(float x, float y);
