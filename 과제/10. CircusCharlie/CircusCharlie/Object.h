@@ -4,9 +4,10 @@
 class Object
 {
 protected:
-	HDC				m_BackDC;
+	HDC			m_BackDC;
 
 	RECT			m_Collision;
+	RECT			m_ScoreCollision;
 	
 	float			m_X;
 	float			m_Y;
@@ -17,15 +18,22 @@ protected:
 
 public:
 	Object();
-	~Object();
+	virtual ~Object();
 
 public:
-	void SetCollision(Bitmap* bitmap, float Size = 2.0f, float CameraX = 0.0f);
+	virtual void Init(HDC BackDC) = 0;
+	virtual void SetCollision(float CameraX = 0.0f) = 0;
+	virtual void SetScoreCollision(float CameraX = 0.0f) = 0;
 
 public:
 	inline RECT GetCollision()
 	{
 		return m_Collision;
+	}
+
+	inline RECT GetScoreCollision()
+	{
+		return m_ScoreCollision;
 	}
 };
 
@@ -55,21 +63,13 @@ private:
 
 	int				m_EnemyBitmapIndex;
 
-	RECT			m_ThroughCollision;
-
 	bool			m_bHasCash;
 
 public:
 	void Init(HDC BackDC);
 	void Update(float CameraX, bool bEndFlag);
 	void SetCollision(float CameraX = 0.0f);
-	void SetThroughCollision(float CameraX = 0.0f);
-
-public:
-	inline RECT GetThroughCollision()
-	{
-		return m_ThroughCollision;
-	}
+	void SetScoreCollision(float CameraX = 0.0f);
 };
 
 enum FRONTBITMAPINDEX
@@ -89,14 +89,5 @@ public:
 	void Init(HDC BackDC);
 	void Update(float CameraX, int FieldIndex);
 	void SetCollision(float CameraX = 0.0f);
-};
-
-class Cash : public Object
-{
-private:
-	Bitmap			m_CashBitmap;
-
-public:
-	void Init(HDC BackDC);
-	void Update();
+	void SetScoreCollision(float CameraX = 0.0f);
 };

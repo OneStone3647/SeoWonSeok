@@ -65,17 +65,6 @@ void GameManager::Init(HWND hWnd)
 	//	m_Enemy.clear();
 	//}
 
-
-	//if (m_Front != NULL)
-	//{
-	//	delete[] m_Front;
-	//}
-	//m_Front = new Front[3];
-	//for (int i = 0; i < 3; i++)
-	//{
-	//	m_Front[i].Init(m_MemDC);
-	//}
-
 	// 벡터의 메모리 크기 설정
 	m_Front.reserve(3);
 	if (!m_Front.empty())
@@ -94,6 +83,8 @@ void GameManager::Init(HWND hWnd)
 	m_ExitTime = 2000.0f;
 	m_StartExitTimer = 0.0f;
 	m_CurExitTimer = 0.0f;
+
+	m_Score = 0;
 }
 
 void GameManager::Release()
@@ -101,22 +92,16 @@ void GameManager::Release()
 	delete m_Menu;
 	delete m_Back;
 	delete m_Player;
-	delete m_End;		
-	//delete[] m_Front;
+	delete m_End;
 
 	// 백터의 원소를 제거한다.
 	m_Front.clear();
 	// swap을 사용하여 vector의 capacity를 0 으로 만든다.
 	vector<Front*>().swap(m_Front);
-
-	//m_Enemy.clear();
 }
 
 void GameManager::Update()
 {
-	// 교집합 Rect
-	RECT tmpRect;
-
 	// 게임이 시작하지 않았으면 Menu클래스의 Update함수를 실행한다.
 	if (!m_Menu->GetGameStartFlag())
 	{
@@ -125,30 +110,20 @@ void GameManager::Update()
 	// 게임이 시작할 경우
 	else
 	{
+		// 교집합 Rect
+		RECT tmpRect;
+
+		TCHAR score[256];
+		wsprintf(score, TEXT("    Score :     %d     "), m_Score);
+		TextOut(m_MemDC, 900.0f, 100.0f, score, strlen(score));
+
 		m_CameraX = m_Player->GetCameraX();
 		m_FieldIndex = m_CameraX / FieldWidth;
 
 		m_Back->Update(m_CameraX, m_FieldIndex, m_bIsWin);
 		m_End->Update(m_CameraX);
-		m_Enemy->Update(m_CameraX, m_bIsExit);
 
-		//for (int i = 0; i < 3; i++)
-		//{
-		//	if (m_FieldIndex >= 0)
-		//	{
-		//		m_Front[i].Update(m_CameraX, i);
-		//	}
-		//	if (m_FieldIndex >= 2)
-		//	{
-		//		m_Front[i].Update(m_CameraX, i + 3);
-		//	}
-		//	if (m_FieldIndex >= 5)
-		//	{
-		//		m_Front[i].Update(m_CameraX, i + 6);
-		//	}
-		//}
-
-		vector<Front>::size_type i = 0;
+		vector<Object>::size_type i = 0;
 		for (i; i < m_Front.size(); ++i)
 		{
 			if (m_FieldIndex >= 0)
@@ -169,6 +144,8 @@ void GameManager::Update()
 			}
 		}
 
+		m_Enemy->Update(m_CameraX, m_bIsExit);
+
 		m_Player->Update(m_FieldIndex, m_bIsWin, m_End->GetX(), m_End->GetY());
 
 		// 장애물에 걸렸을 때
@@ -181,6 +158,11 @@ void GameManager::Update()
 				m_StartExitTimer = GetTickCount();
 			}
 			m_bIsExit = true;
+		}
+
+		if (CheckFrontScoreHit())
+		{
+			m_Score += 100;
 		}
 
 		// 승리
@@ -216,18 +198,27 @@ bool GameManager::CheckFrontHit()
 	// 교집합 Rect
 	RECT tmpRect;
 
-	//for (int i = 0; i < 3; i++)
-	//{
-	//	if (IntersectRect(&tmpRect, &(m_Player->GetCollision()), &(m_Front[i]->GetCollision())))
-	//	{
-	//		return true;
-	//	}
-	//}
-
 	vector<Front>::size_type i = 0;
 	for (i; i < m_Front.size(); ++i)
 	{
 		if (IntersectRect(&tmpRect, &(m_Player->GetCollision()), &(m_Front[i]->GetCollision())))
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool GameManager::CheckFrontScoreHit()
+{
+	// 교집합 Rect
+	RECT tmpRect;
+
+	vector<Front>::size_type i = 0;
+	for (i; i < m_Front.size(); ++i)
+	{
+		if (IntersectRect(&tmpRect, &(m_Player->GetCollision()), &(m_Front[i]->GetScoreCollision())))
 		{
 			return true;
 		}

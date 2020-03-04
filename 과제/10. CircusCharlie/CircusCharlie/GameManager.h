@@ -25,7 +25,6 @@ private:
 	End*				m_End;
 	Enemy*				m_Enemy;
 	//list<Enemy*>		m_Enemy;
-	//Front*			m_Front;
 	vector<Front*>		m_Front;
 
 	float				m_CameraX;
@@ -36,6 +35,8 @@ private:
 	float				m_ExitTime;
 	float				m_StartExitTimer;
 	float				m_CurExitTimer;
+
+	int					m_Score;
 	
 public:
 	GameManager();
@@ -45,5 +46,6 @@ public:
 	void Release();
 	void Update();
 	bool CheckFrontHit();
+	bool CheckFrontScoreHit();
 };
 
