@@ -203,12 +203,12 @@ void GameManager::Update()
 			m_bIsWin = true;
 		}
 
-		//// 장애물에 걸리거나 승리하였을 때 메인화면으로 넘어간다.
-		//m_CurExitTimer = GetTickCount();
-		//if ((m_bIsExit || m_bIsWin) && (m_CurExitTimer - m_StartExitTimer >= m_ExitTime))
-		//{
-		//	Init(m_hWnd);
-		//}
+		// 장애물에 걸리거나 승리하였을 때 메인화면으로 넘어간다.
+		m_CurExitTimer = GetTickCount();
+		if ((m_bIsExit || m_bIsWin) && (m_CurExitTimer - m_StartExitTimer >= m_ExitTime))
+		{
+			Init(m_hWnd);
+		}
 
 		// GetDC를 통해 DC를 받는다.
 		HDC hdc = GetDC(m_hWnd);

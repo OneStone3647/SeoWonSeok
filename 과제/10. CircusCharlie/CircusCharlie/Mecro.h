@@ -14,3 +14,6 @@
 
 // 필드 최대 크기
 #define MaxField				2100
+
+// 마지막 필드
+#define LastField				9360.0f
