@@ -20,6 +20,7 @@ private:
 	int				m_NormalIndex;
 
 	float			m_CameraX;
+	int				m_FieldIndex;
 
 	int				m_MiterCount;
 
@@ -34,7 +35,7 @@ public:
 
 	void Init(HDC BackDC);
 	void Update(float CameraX, int FieldIndex, bool bWinFlag);
-	void Draw(float CameraX);
+	void Draw();
 	void DrawBack(float CameraX, int MiterCount);
 };
 

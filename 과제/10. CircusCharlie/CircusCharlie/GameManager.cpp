@@ -32,26 +32,39 @@ void GameManager::Init(HWND hWnd)
 	m_Menu = new Menu;
 	m_Menu->Init(hWnd);
 
-	if (m_Back != NULL)
+	//if (m_Back != NULL)
+	//{
+	//	delete m_Back;
+	//}
+	//m_Back = new Back;
+	//m_Back->Init(m_MemDC);
+
+	// 벡터의 메모리 크기 설정
+	m_Back.reserve(3);
+	if (!m_Back.empty())
 	{
-		delete m_Back;
+		m_Back.clear();
 	}
-	m_Back = new Back;
-	m_Back->Init(m_MemDC);
+	for (int i = 0; i < 3; i++)
+	{
+		Back* tmpBack = new Back;
+		tmpBack->Init(m_MemDC);
+		m_Back.push_back(tmpBack);
+	}
 
-	//if (m_Player != NULL)
-	//{
-	//	delete m_Player;
-	//}
-	//m_Player = new Player;
-	//m_Player->Init(m_MemDC);
+	if (m_Player != NULL)
+	{
+		delete m_Player;
+	}
+	m_Player = new Player;
+	m_Player->Init(m_MemDC);
 
-	//if (m_End != NULL)
-	//{
-	//	delete m_End;
-	//}
-	//m_End = new End;
-	//m_End->Init(m_MemDC);
+	if (m_End != NULL)
+	{
+		delete m_End;
+	}
+	m_End = new End;
+	m_End->Init(m_MemDC);
 
 	//if (m_Enemy != NULL)
 	//{
@@ -85,9 +98,14 @@ void GameManager::Init(HWND hWnd)
 void GameManager::Release()
 {
 	delete m_Menu;
-	delete m_Back;
-	//delete m_Player;
+	//delete m_Back;
+	delete m_Player;
 	//delete m_End;
+
+	// 백터의 원소를 제거한다.
+	m_Back.clear();
+	// swap을 사용하여 vector의 capacity를 0 으로 만든다.
+	vector<Back*>().swap(m_Back);
 
 	//// 백터의 원소를 제거한다.
 	//m_Front.clear();
@@ -105,10 +123,19 @@ void GameManager::Update()
 	// 게임이 시작할 경우
 	else
 	{
-		m_Back->Update(m_CameraX, m_FieldIndex, m_bIsWin);
+		m_CameraX = m_Player->GetCameraX();
+		m_FieldIndex = m_CameraX / FieldWidth;
 
-		//// 교집합 Rect
-		//RECT tmpRect;
+		//m_Back[1]->Update(m_CameraX, m_FieldIndex + 1, m_bIsWin);
+
+		vector<Back>::size_type i = 0;
+		for (i; i < m_Back.size(); ++i)
+		{
+			m_Back[i]->Update(m_CameraX, m_FieldIndex + i, m_bIsWin);
+		}
+
+		// 교집합 Rect
+		RECT tmpRect;
 
 		//TCHAR score[256];
 		//wsprintf(score, TEXT("    Score :     %d     "), m_Score);
@@ -122,7 +149,7 @@ void GameManager::Update()
 		//TextOut(m_MemDC, 1100.0f, 100.0f, FieldIndex, strlen(FieldIndex));
 
 		//m_Back->Update(m_CameraX, m_FieldIndex, m_bIsWin);
-		//m_End->Update(m_CameraX);
+		m_End->Update(m_CameraX);
 
 		//vector<Object>::size_type i = 0;
 		//for (i; i < m_Front.size(); ++i)
@@ -147,7 +174,7 @@ void GameManager::Update()
 
 		//m_Enemy->Update(m_CameraX, m_bIsExit);
 
-		//m_Player->Update(m_FieldIndex, m_bIsWin, m_End->GetX(), m_End->GetY());
+		m_Player->Update(m_FieldIndex, m_bIsWin, m_End->GetX(), m_End->GetY());
 
 		//// 장애물에 걸렸을 때
 		//if (IntersectRect(&tmpRect, &(m_Player->GetCollision()), &(m_Enemy->GetCollision()))
@@ -166,15 +193,15 @@ void GameManager::Update()
 		//	m_Score += 100;
 		//}
 
-		//// 승리
-		//if (IntersectRect(&tmpRect, &(m_Player->GetCollision()), &(m_End->GetCollision())))
-		//{
-		//	if (!m_bIsWin)
-		//	{
-		//		m_StartExitTimer = GetTickCount();
-		//	}
-		//	m_bIsWin = true;
-		//}
+		// 승리
+		if (IntersectRect(&tmpRect, &(m_Player->GetCollision()), &(m_End->GetCollision())))
+		{
+			if (!m_bIsWin)
+			{
+				m_StartExitTimer = GetTickCount();
+			}
+			m_bIsWin = true;
+		}
 
 		//// 장애물에 걸리거나 승리하였을 때 메인화면으로 넘어간다.
 		//m_CurExitTimer = GetTickCount();
@@ -187,7 +214,7 @@ void GameManager::Update()
 		HDC hdc = GetDC(m_hWnd);
 
 		// 숨겨 그린 것을 원래 보여야할 hdc에 그린다.
-		BitBlt(hdc, 0, 0, MaxField, WindowHeight, m_MemDC, 0, 0, SRCCOPY);
+		BitBlt(hdc, -300, 0, MaxField, WindowHeight, m_MemDC, 0, 0, SRCCOPY);
 
 		ReleaseDC(m_hWnd, hdc);
 	}

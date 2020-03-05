@@ -20,7 +20,8 @@ private:
 	HBITMAP				m_OldBitmap;
 
 	Menu*				m_Menu;
-	Back*					m_Back;
+	//Back*					m_Back;
+	vector<Back*>		m_Back;
 	Player*				m_Player;
 	End*					m_End;
 	Enemy*				m_Enemy;

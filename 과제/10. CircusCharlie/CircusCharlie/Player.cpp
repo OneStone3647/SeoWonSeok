@@ -29,9 +29,9 @@ void Player::Init(HDC BackDC)
 	//m_Player_Win2.Init(m_BackDC, "Bitmap\\win2.bmp");
 	//m_Player_Die.Init(m_BackDC, "Bitmap\\die.bmp");
 
-	m_X = 900.0f;
+	m_X = 500.0f;
 	m_Y = 440.0f;
-	m_CameraX = 500.0f;
+	m_CameraX = 0.0f;
 
 	SetCollision();
 	//m_Speed = 5.0f;
@@ -59,6 +59,7 @@ void Player::Update(int FieldIndex, bool bWinFlag, float EndX, float EndY)
 	m_CurAnimTimer = GetTickCount();
 	m_FieldIndex = FieldIndex;
 
+	SetCollision();
 	// 디버그 용
 	Rectangle(m_BackDC, m_Collision.left, m_Collision.top, m_Collision.right, m_Collision.bottom);
 
@@ -143,7 +144,7 @@ void Player::Move(float x, float y)
 	//m_CameraX += x* 1.5f;
 
 	// 맵의 끝에 도달하지 않았을 경우 플레이어 대신 카메라를 움직인다.
-	if (m_FieldIndex != 9)
+	if (m_CameraX <= 9360.0f)
 	{
 		m_CameraX += x;
 	}
@@ -152,17 +153,17 @@ void Player::Move(float x, float y)
 		m_X += x;
 		m_Collision.left = m_X;
 		m_Collision.right = m_X + m_PlayerBitmap[BITMAPINDEX_IDLE].GetSize().cx * 1.5f;
-		if (m_X < 900.0f)
+		if (m_X < 500.0f)
 		{
-			m_X = 900.0f;
+			m_X = 500.0f;
 			m_CameraX += x;
 		}
 	}
 
 	// 제일 왼쪽 맵일 경우
-	if (m_FieldIndex == 0 && m_CameraX < 500.0f)
+	if (m_FieldIndex == 0 && m_CameraX < 0.0f)
 	{
-		m_CameraX = 500.0f;
+		m_CameraX = 0.0f;
 	}
 
 	//// 맵의 왼쪽에 있을 경우 이동가능한 범위를 지정한다.
@@ -249,7 +250,7 @@ void Player::Jump()
 				m_Collision.right -= m_Speed;
 			}
 
-			if (m_X < 100.0f)
+			if (m_X < 500.0f)
 			{
 				//m_X = 100.0f;
 				m_CameraX = 0.0f;

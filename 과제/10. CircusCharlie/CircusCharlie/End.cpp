@@ -27,16 +27,16 @@ void End::Update(float CameraX)
 {
 	// 디버그 용
 	//m_End_Bitmap.Draw(m_BackDC, m_X - CameraX + FieldWidth * 1 - 130.0f, m_Y);
-	//Rectangle(m_BackDC, m_Collision.left, m_Collision.top, 
-	//	m_Collision.right, m_Collision.bottom);
+	Rectangle(m_BackDC, m_Collision.left, m_Collision.top, 
+		m_Collision.right, m_Collision.bottom);
 
-	m_End_Bitmap.Draw(m_BackDC, m_X - CameraX + FieldWidth * 10 - 130.0f, m_Y);	
+	m_End_Bitmap.Draw(m_BackDC, m_X - CameraX + FieldWidth * 9 + 500.0f, m_Y);	
 }
 
 void End::SetCollision()
 {
-	m_Collision.left = m_X + 870.0f;
-	m_Collision.right = m_X + m_End_Bitmap.GetSize().cx * 1.5f + 870.0f;
+	m_Collision.left = m_X + 402.0f;
+	m_Collision.right = m_X + m_End_Bitmap.GetSize().cx * 1.5f + 402.0f;
 	m_Collision.top = m_Y - 50.0f;
 	m_Collision.bottom = m_Y + m_End_Bitmap.GetSize().cy * 1.5f;
 }
