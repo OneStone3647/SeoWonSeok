@@ -142,12 +142,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Bitmap.cpp" />
+    <ClCompile Include="Field.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bitmap.h" />
+    <ClInclude Include="Field.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Mecro.h" />
     <ClInclude Include="Menu.h" />

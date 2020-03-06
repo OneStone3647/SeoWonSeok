@@ -1,5 +1,6 @@
 #pragma once
 #include "Menu.h"
+#include "Field.h"
 
 class GameManager
 {
@@ -9,8 +10,13 @@ private:
 	HBITMAP			m_NewBitmap;
 	HBITMAP			m_OldBitmap;
 
-	Menu*			m_Menu;
 	bool				m_bGameStart;
+	bool				m_bWin;
+
+	Menu*			m_Menu;
+	Field*				m_Field;
+
+	float				m_CameraX;
 
 public:
 	GameManager();

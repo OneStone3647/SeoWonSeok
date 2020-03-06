@@ -9,8 +9,5 @@
 #define ScreenWidth				1280
 #define ScreenHeight				720
 
-// 뒤에서 출력되는 창 크기
-#define BackScreenWidth			2030.0f
-
-// 필드 크기
-#define FieldWidth					1030.0f
+// 최대 필드 개수
+#define MaxField					10

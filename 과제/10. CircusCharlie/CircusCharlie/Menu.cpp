@@ -12,24 +12,21 @@ Menu::~Menu()
 	// m_MemDC에 이전 비트맵을 연결한다.
 	SelectObject(m_MemDC, m_OldBitmap);
 	DeleteObject(m_NewBitmap);
-	// CreateCompatibleDC로 만들어 진 DC는 DeleteDC로 지워야한다.
+	// CreateCompatibleDC로 만들어진 DC는 DeleteDC로 지워야한다.
 	DeleteDC(m_MemDC);
 }
 
-void Menu::Init(HWND hWnd)
+void Menu::Init(HWND hWnd, bool * GameStartFlag)
 {
 	m_hWnd = hWnd;
 	// GetDC를 통해 DC를 받는다.
 	HDC hdc = GetDC(hWnd);
 	// hdc와 호환되는 DC를 만든다.
 	m_MemDC = CreateCompatibleDC(hdc);
-	// hdc와 호환되는 비트맵을 폭 BackScreenWidth, 높이 WindowHeight의 크기로 만든다.
-	m_NewBitmap = CreateCompatibleBitmap(hdc, BackScreenWidth, WindowHeight);
-	// m_MemDC에 m_NewBitmap을 연결하고 이전 비트맵을 m_OldBitmap에 저장한다.
+	// hdc와 호환되는 비트맵을 폭 SceenWidth, 높이 ScreeenHeight의 크기로 만든다.
+	m_NewBitmap = CreateCompatibleBitmap(hdc, ScreenWidth, ScreenHeight);
+	// m_MemDC에 m_NewBitmap을 연결한다.
 	m_OldBitmap = (HBITMAP)SelectObject(m_MemDC, m_NewBitmap);
-
-	// 사용한 DC를 해제 한다.
-	ReleaseDC(hWnd, hdc);
 
 	m_Icon.Init(m_MemDC, "Bitmap\\icon.bmp");
 
@@ -46,12 +43,11 @@ void Menu::Init(HWND hWnd)
 
 	// 현재 아이콘의 위치를 설정한다.
 	m_Select = SELECTMENU_GAMESTART;
-	m_bGameStartFlag = NULL;
+	m_bGameStartFlag = GameStartFlag;
 }
 
-void Menu::Update(bool* GameStartFlag)
+void Menu::Update()
 {
-	m_bGameStartFlag = GameStartFlag;
 	m_CurAnimTimer = GetTickCount();
 
 	Input();
@@ -126,7 +122,6 @@ void Menu::DrawMenu(int Start_X, int Start_Y, int Width, int Height)
 		m_Icon.Draw(m_MemDC, ScreenWidth / 2 - 100, ScreenHeight / 3 + 200);
 		break;
 	}
-
 	// GetDC를 통해 DC를 받는다.
 	HDC hdc = GetDC(m_hWnd);
 	// 숨겨 그린 것을 원래 보여야할 hdc에 그린다.
