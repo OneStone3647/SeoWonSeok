@@ -9,9 +9,10 @@ Menu::Menu()
 
 Menu::~Menu()
 {
+	// m_MemDC에 이전 비트맵을 연결한다.
 	SelectObject(m_MemDC, m_OldBitmap);
 	DeleteObject(m_NewBitmap);
-	// CreateCompatibleDC로 만들어진 DC는 DeleteDC로 지워야한다.
+	// CreateCompatibleDC로 만들어 진 DC는 DeleteDC로 지워야한다.
 	DeleteDC(m_MemDC);
 }
 
@@ -20,40 +21,41 @@ void Menu::Init(HWND hWnd)
 	m_hWnd = hWnd;
 	// GetDC를 통해 DC를 받는다.
 	HDC hdc = GetDC(hWnd);
-
 	// hdc와 호환되는 DC를 만든다.
 	m_MemDC = CreateCompatibleDC(hdc);
-	// hdc와 호환되는 비트맵을 폭 SceenWidth, 높이 ScreeenHeight의 크기로 만든다.
-	m_NewBitmap = CreateCompatibleBitmap(hdc, ScreenWidth, ScreenHeight);
-	// m_MemDC에 m_NewBitmap을 연결한다.
+	// hdc와 호환되는 비트맵을 폭 BackScreenWidth, 높이 WindowHeight의 크기로 만든다.
+	m_NewBitmap = CreateCompatibleBitmap(hdc, BackScreenWidth, WindowHeight);
+	// m_MemDC에 m_NewBitmap을 연결하고 이전 비트맵을 m_OldBitmap에 저장한다.
 	m_OldBitmap = (HBITMAP)SelectObject(m_MemDC, m_NewBitmap);
+
+	// 사용한 DC를 해제 한다.
+	ReleaseDC(hWnd, hdc);
+
+	m_Icon.Init(m_MemDC, "Bitmap\\icon.bmp");
 
 	m_Star[0].Init(m_MemDC, "Bitmap\\star.bmp");
 	m_Star[1].Init(m_MemDC, "Bitmap\\star1.bmp");
 	m_Star[2].Init(m_MemDC, "Bitmap\\star2.bmp");
 	m_StarIndex = 0;
 
-	m_Icon.Init(m_MemDC, "Bitmap\\icon.bmp");
-
-	// GetDC를 통해 얻은 DC를 반환한다.
-	ReleaseDC(hWnd, hdc);
-
+	// 애니메이션을 재생할 시간 빈도(0.1초)
+	m_AnimTime = 100;
 	// 매 프레임마다 찍히는 TickCount를 받는다.
 	m_StartAnimTimer = GetTickCount();
 	m_CurAnimTimer = 0;
-	// 애니메이션을 재생할 시간 빈도
-	m_AnimTime = 100;
 
 	// 현재 아이콘의 위치를 설정한다.
 	m_Select = SELECTMENU_GAMESTART;
-	m_bGameStart = false;
+	m_bGameStartFlag = NULL;
 }
 
-void Menu::Update()
+void Menu::Update(bool* GameStartFlag)
 {
-	// 처음 출력했을 때 별 상자가 늦게 나오기 때문에 500을 더한다.
-	m_CurAnimTimer = GetTickCount() + m_AnimTime;
+	m_bGameStartFlag = GameStartFlag;
+	m_CurAnimTimer = GetTickCount();
+
 	Input();
+
 	DrawMenu((ScreenWidth / 3) + 4, ScreenHeight / 3 - 60, 20, 7);
 }
 
@@ -78,7 +80,7 @@ void Menu::Input()
 		switch (m_Select)
 		{
 		case SELECTMENU_GAMESTART:
-			m_bGameStart = true;
+			*m_bGameStartFlag = true;
 			break;
 		case SELECTMENU_EXIT:
 			PostQuitMessage(0);
@@ -89,8 +91,6 @@ void Menu::Input()
 
 void Menu::DrawMenu(int Start_X, int Start_Y, int Width, int Height)
 {
-	// GetDC를 통해 DC를 받는다.
-	HDC hdc = GetDC(m_hWnd);
 	SIZE BitmapSize = m_Star[0].GetSize();
 
 	// 별 상자를 그린다.
@@ -127,20 +127,25 @@ void Menu::DrawMenu(int Start_X, int Start_Y, int Width, int Height)
 		break;
 	}
 
+	// GetDC를 통해 DC를 받는다.
+	HDC hdc = GetDC(m_hWnd);
 	// 숨겨 그린 것을 원래 보여야할 hdc에 그린다.
 	BitBlt(hdc, 0, 0, ScreenWidth, ScreenHeight, m_MemDC, 0, 0, SRCCOPY);
-
 	// GetDC를 통해 얻은 DC를 반환한다.
 	ReleaseDC(m_hWnd, hdc);
 }
 
-void Menu::DrawBackGround(int start_X, int start_Y, int width, int height)
+void Menu::DrawBackGround(int Start_X, int Start_Y, int Width, int Height)
 {
+	// 새로운 브러시를 생성한다.
 	m_NewBrush = CreateSolidBrush(RGB(0, 0, 0));
+	// m_MemDC에 m_NewBrush를 연결하고 이전 브러시를 m_OldBrush에 저장한다.
 	m_OldBrush = (HBRUSH)SelectObject(m_MemDC, m_NewBrush);
 
-	Rectangle(m_MemDC, start_X, start_Y, width, height);
+	Rectangle(m_MemDC, Start_X, Start_Y, Width, Height);
 
+	// m_MemDC에 m_OldBrush를 연결한다.
 	SelectObject(m_MemDC, m_OldBrush);
+	// 생성한 오브젝트를 삭제한다.
 	DeleteObject(m_NewBrush);
 }

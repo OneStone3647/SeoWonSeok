@@ -29,9 +29,9 @@ void Player::Init(HDC BackDC)
 	//m_Player_Win2.Init(m_BackDC, "Bitmap\\win2.bmp");
 	//m_Player_Die.Init(m_BackDC, "Bitmap\\die.bmp");
 
-	m_X = 900.0f;
+	m_X = 500.0f;
 	m_Y = 440.0f;
-	m_CameraX = 500.0f;
+	m_CameraX = 0.0f;
 
 	SetCollision();
 	//m_Speed = 5.0f;
@@ -73,7 +73,7 @@ void Player::Update(int FieldIndex, bool bWinFlag, float EndX, float EndY)
 	}
 	else
 	{
-		Win(EndX + 875.0f, EndY - 90.0f);
+		Win(EndX + 410.0f, EndY - 90.0f);
 	}
 }
 
@@ -143,26 +143,27 @@ void Player::Move(float x, float y)
 	//m_CameraX += x* 1.5f;
 
 	// 맵의 끝에 도달하지 않았을 경우 플레이어 대신 카메라를 움직인다.
-	if (m_FieldIndex != 9)
+	if (m_CameraX <= LastField)
 	{
-		m_CameraX += x;
+		m_CameraX += x;		
 	}
 	else
 	{
 		m_X += x;
-		m_Collision.left = m_X;
-		m_Collision.right = m_X + m_PlayerBitmap[BITMAPINDEX_IDLE].GetSize().cx * 1.5f;
-		if (m_X < 900.0f)
+		if (m_X < 500.0f)
 		{
-			m_X = 900.0f;
+			m_X = 500.0f;
 			m_CameraX += x;
 		}
+		m_Collision.left = m_X;
+		m_Collision.right = m_X + m_PlayerBitmap[BITMAPINDEX_IDLE].GetSize().cx * 1.5f;
 	}
 
+
 	// 제일 왼쪽 맵일 경우
-	if (m_FieldIndex == 0 && m_CameraX < 500.0f)
+	if (m_CameraX < 0.0f)
 	{
-		m_CameraX = 500.0f;
+		m_CameraX = 0.0f;
 	}
 
 	//// 맵의 왼쪽에 있을 경우 이동가능한 범위를 지정한다.
@@ -238,21 +239,49 @@ void Player::Jump()
 			//m_CameraX -= m_Speed;
 
 			// 맵의 끝에 도달하지 않았을 경우 플레이어 대신 카메라를 움직인다.
-			if (m_FieldIndex != 9)
+			//if (m_FieldIndex != 9)
+			//{
+			//	m_CameraX -= m_Speed;
+			//	if (m_CameraX < 0.0f)
+			//	{
+			//		m_CameraX = 0.0f;
+			//	}
+			//	if (m_X < 500.0f)
+			//	{
+			//		m_X = 500.0f;
+			//	}
+			//}
+			//else
+			//{
+			//	m_X -= m_Speed;
+			//	m_Collision.left -= m_Speed;
+			//	m_Collision.right -= m_Speed;
+			//}
+
+			//if (m_FieldIndex == 0 && m_CameraX < 0.0f)
+			//{
+			//	m_CameraX = 0.0f;
+			//}
+
+						// 맵의 끝에 도달하지 않았을 경우 플레이어 대신 카메라를 움직인다.
+			if (m_CameraX <= LastField)
 			{
 				m_CameraX -= m_Speed;
+				if (m_CameraX < 0.0f)
+				{
+					m_CameraX = 0.0f;
+				}
 			}
 			else
 			{
 				m_X -= m_Speed;
-				m_Collision.left -= m_Speed;
-				m_Collision.right -= m_Speed;
-			}
-
-			if (m_X < 100.0f)
-			{
-				//m_X = 100.0f;
-				m_CameraX = 0.0f;
+				if (m_X < 500.0f)
+				{
+					m_X = 500.0f;
+					m_CameraX -= m_Speed;
+				}
+				m_Collision.left = m_X;
+				m_Collision.right = m_X + m_PlayerBitmap[BITMAPINDEX_IDLE].GetSize().cx * 1.5f;
 			}
 		}
 		if (m_State == STATE_RIGHTJUMP)
@@ -264,7 +293,7 @@ void Player::Jump()
 			//m_CameraX += m_Speed;
 
 			// 맵의 끝에 도달하지 않았을 경우 플레이어 대신 카메라를 움직인다.
-			if (m_FieldIndex != 9)
+			if (m_CameraX <= LastField)
 			{
 				m_CameraX += m_Speed;
 			}

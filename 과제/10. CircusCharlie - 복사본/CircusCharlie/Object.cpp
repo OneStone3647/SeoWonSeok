@@ -92,7 +92,7 @@ void Front::Init(HDC BackDC)
 	m_FrontBitmap[FRONTBITMAPINDEX_FRONT1].Init(m_BackDC, "Bitmap\\front.bmp");
 	m_FrontBitmap[FRONTBITMAPINDEX_FRONT2].Init(m_BackDC, "Bitmap\\front2.bmp");
 
-	m_X = 1400;
+	m_X = 1450;
 	m_Y = 460.0f;
 
 	m_FrontBitmapIndex = FRONTBITMAPINDEX_FRONT1;
@@ -109,14 +109,14 @@ void Front::Update(float CameraX, int FieldIndex)
 {
 	m_CurAnimTimer = GetTickCount();
 
-	SetCollision(CameraX - FieldWidth * (FieldIndex + 2));
-	SetScoreCollision(CameraX - FieldWidth * (FieldIndex + 2));
+	SetCollision(CameraX - FieldWidth * (FieldIndex + 1));
+	SetScoreCollision(CameraX - FieldWidth * (FieldIndex + 1));
 
 	// 디버그용
-	Rectangle(m_BackDC, m_ScoreCollision.left, m_ScoreCollision.top,
-		m_ScoreCollision.right, m_ScoreCollision.bottom);
 	Rectangle(m_BackDC, m_Collision.left, m_Collision.top,
 		m_Collision.right, m_Collision.bottom);
+	Rectangle(m_BackDC, m_ScoreCollision.left, m_ScoreCollision.top,
+		m_ScoreCollision.right, m_ScoreCollision.bottom);
 
 	if (m_CurAnimTimer - m_StartAnimTimer >= m_AnimTime)
 	{
@@ -127,7 +127,7 @@ void Front::Update(float CameraX, int FieldIndex)
 		}
 		m_StartAnimTimer = m_CurAnimTimer;
 	}
-	m_FrontBitmap[m_FrontBitmapIndex].Draw(m_BackDC, m_X - CameraX - FieldWidth * (-FieldIndex - 2), m_Y);
+	m_FrontBitmap[m_FrontBitmapIndex].Draw(m_BackDC, m_X - CameraX - FieldWidth * (-FieldIndex - 1), m_Y);
 }
 
 void Front::SetCollision(float CameraX)

@@ -10,39 +10,35 @@ enum SELECTMENU
 class Menu
 {
 private:
-	HWND					m_hWnd;
-	HDC						m_MemDC;
-	HBITMAP					m_NewBitmap;
-	HBITMAP					m_OldBitmap;
+	HWND				m_hWnd;
+	HDC					m_MemDC;
+	HBITMAP				m_NewBitmap;
+	HBITMAP				m_OldBitmap;
 
-	Bitmap					m_Star[3];
-	int							m_StarIndex;
-	Bitmap					m_Icon;
+	Bitmap				m_Icon;
 
-	HBRUSH					m_NewBrush;
-	HBRUSH					m_OldBrush;
+	Bitmap				m_Star[3];
+	int						m_StarIndex;
 
-	float						m_StartAnimTimer;
-	float						m_CurAnimTimer;
-	float						m_AnimTime;
+	HBRUSH				m_NewBrush;
+	HBRUSH				m_OldBrush;
 
-	SELECTMENU			m_Select;
-	bool						m_bGameStart;
+	float					m_AnimTime;
+	float					m_StartAnimTimer;
+	float					m_CurAnimTimer;
+
+	SELECTMENU		m_Select;
+	bool*					m_bGameStartFlag;
 
 public:
 	Menu();
 	~Menu();
 
+public:
 	void Init(HWND hWnd);
-	void Update();
+	void Update(bool* GameStartFlag);
 	void Input();
 	void DrawMenu(int Start_X, int Start_Y, int Width, int Height);
-	void DrawBackGround(int start_X, int start_Y, int width, int height);
-
-public:
-	bool GetGameStartFlag()
-	{
-		return m_bGameStart;
-	}
+	void DrawBackGround(int Start_X, int Start_Y, int Width, int Height);
 };
 

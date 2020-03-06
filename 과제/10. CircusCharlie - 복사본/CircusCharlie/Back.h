@@ -15,13 +15,12 @@ private:
 	Bitmap			m_Back;
 	Bitmap			m_Deco;
 	Bitmap			m_Normal[2];
-	Bitmap			m_Normal1;
-	Bitmap			m_Normal2;
 	Bitmap			m_Miter;
 
 	int				m_NormalIndex;
 
 	float			m_CameraX;
+	int				m_FieldIndex;
 
 	int				m_MiterCount;
 
@@ -36,6 +35,7 @@ public:
 
 	void Init(HDC BackDC);
 	void Update(float CameraX, int FieldIndex, bool bWinFlag);
+	void Draw();
 	void DrawBack(float CameraX, int MiterCount);
 };
 
