@@ -1,6 +1,8 @@
 #pragma once
 #include "Menu.h"
 #include "Field.h"
+#include "Player.h"
+#include "End.h"
 
 class GameManager
 {
@@ -12,9 +14,15 @@ private:
 
 	bool				m_bGameStart;
 	bool				m_bWin;
+	float				m_ExitTime;
+	float				m_StartExitTimer;
+	float				m_CurExitTimer;
 
 	Menu*			m_Menu;
 	Field*				m_Field;
+	int					m_FieldIndex;
+	Player*			m_Player;
+	End*				m_End;
 
 	float				m_CameraX;
 

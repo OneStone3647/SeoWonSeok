@@ -10,4 +10,7 @@
 #define ScreenHeight				720
 
 // 최대 필드 개수
-#define MaxField					10
+#define MaxField					12
+
+// 마지막 필드 거리
+#define LastFieldWidth				9700

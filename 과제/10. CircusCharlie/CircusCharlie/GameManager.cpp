@@ -28,6 +28,9 @@ void GameManager::Init(HWND hWnd)
 
 	m_bGameStart = false;
 	m_bWin = false;
+	m_ExitTime = 2000.0f;
+	m_StartExitTimer = 0.0f;
+	m_CurExitTimer = 0.0f;
 
 	// Menu 클래스 객체 동적 할당
 	if (m_Menu != NULL)
@@ -47,14 +50,31 @@ void GameManager::Init(HWND hWnd)
 	{
 		m_Field[i].Init(m_MemDC, &m_bWin);
 	}
+	m_FieldIndex = 0;
 
-	m_CameraX = -100.0f;
+	// Player 클래스 객체 동적 할당
+	if (m_Player != NULL)
+	{
+		delete m_Player;
+	}
+	m_Player = new Player;
+	m_Player->Init(m_MemDC);
+
+	// End 클래스 객체 동적 할당
+	if (m_End != NULL)
+	{
+		delete m_End;
+	}
+	m_End = new End;
+	m_End->Init(m_MemDC, m_Field->GetFieldWidth());
 }
 
 void GameManager::Release()
 {
 	delete m_Menu;
 	delete[] m_Field;
+	delete m_Player;
+	delete m_End;
 
 	// m_MemDC에 이전 비트맵을 연결한다.
 	SelectObject(m_MemDC, m_OldBitmap);
@@ -75,16 +95,46 @@ void GameManager::Update()
 		//TCHAR score[256];
 		//wsprintf(score, TEXT("    Score :     %d     "), m_Score);
 		//TextOut(m_MemDC, 900.0f, 100.0f, score, strlen(score));
-		
-		m_Field->Update(m_CameraX);
+		m_CameraX = m_Player->GetCameraX();
+		m_FieldIndex = m_CameraX / m_Field->GetFieldWidth();		
+		TCHAR FieldIndex[256];
+		wsprintf(FieldIndex, TEXT("    FieldIndex :     %d     "), m_FieldIndex);
+		TextOut(m_MemDC, 1100.0f, 100.0f, FieldIndex, strlen(FieldIndex));
 
-		if (GetKeyState(VK_LEFT) & 0x8000)
+		//TCHAR CameraX[256];
+		//wsprintf(FieldIndex, TEXT("    CameraX :     %d     "), m_CameraX);
+		//TextOut(m_MemDC, 900.0f, 100.0f, CameraX, strlen(CameraX));
+
+		for (int i = 0; i < 3; i++)
 		{
-			m_CameraX -= 2.0f;
+			m_Field[m_FieldIndex + i].Update(&m_CameraX, m_FieldIndex + i);
 		}
-		if (GetKeyState(VK_RIGHT) & 0x8000)
+
+		if (m_FieldIndex >= 8)
 		{
-			m_CameraX += 2.0f;
+			m_End->Update(&m_CameraX);
+		}
+
+		m_Player->Update(&m_FieldIndex, &m_bWin, m_End->GetX(), m_End->GetY());
+
+		// 교집합 Rect
+		RECT tmpRect;
+
+		// 승리
+		if (IntersectRect(&tmpRect, &(m_Player->GetCollision()), &(m_End->GetCollision())))
+		{
+			if (!m_bWin)
+			{
+				m_StartExitTimer = GetTickCount();
+			}
+			m_bWin = true;
+		}
+
+		// 장애물에 걸리거나 승리하였을 때 메인화면으로 넘어간다.
+		m_CurExitTimer = GetTickCount();
+		if (m_bWin && (m_CurExitTimer - m_StartExitTimer >= m_ExitTime))
+		{
+			Init(m_hWnd);
 		}
 
 		// GetDC를 통해 DC를 받는다.
