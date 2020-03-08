@@ -28,6 +28,10 @@ private:
 	End*					m_End;
 	vector<Front*>		m_Front;
 	Front*					m_CurScoreFront;
+	list<Enemy*>			m_Enemy;
+	float					m_SpawnTime;
+	float					m_StartSpawnTimer;
+	float					m_CurSpawnTimer;
 
 	float					m_CameraX;
 
