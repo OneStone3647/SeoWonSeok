@@ -28,8 +28,8 @@ void Player::Init(HDC MemDC)
 	m_X = 200.0f;
 	m_Y = 440.0f;
 	m_CameraX = 200.0f;
-	//m_Speed = 1.0f;
-	m_Speed = 10.0f;
+	m_Speed = 1.0f;
+	//m_Speed = 10.0f;
 	
 	SetCollision();
 
@@ -237,7 +237,15 @@ void Player::Jump()
 		}
 
 		m_JumpY = m_JumpTime * m_JumpTime - m_JumpForce * m_JumpTime;
-		m_JumpTime += 0.1f;
+		if (m_State == STATE_LEFTJUMP || m_State == STATE_RIGHTJUMP)
+		{
+			m_JumpTime += 0.07f;
+		}
+		else
+		{
+			m_JumpTime += 0.1f;
+		}
+
 
 		m_BitmapIndex = BITMAPINDEX_MOVE2;
 		m_Collision.top = m_JumpY + m_Y;

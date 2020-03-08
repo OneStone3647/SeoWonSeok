@@ -26,8 +26,8 @@ void End::Init(HDC MemDC, float FieldWidth)
 void End::Update(float * CameraX)
 {
 	// 디버그 용
-	Rectangle(m_MemDC, m_Collision.left, m_Collision.top,
-		m_Collision.right, m_Collision.bottom);
+	//Rectangle(m_MemDC, m_Collision.left, m_Collision.top,
+	//	m_Collision.right, m_Collision.bottom);
 
 	m_EndBitmap.Draw(m_MemDC, m_X * 10 - (*CameraX) + 500.0f, m_Y);
 }

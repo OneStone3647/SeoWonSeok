@@ -1,5 +1,9 @@
 #pragma once
 #include <Windows.h>
+#include <iostream>
+#include <vector>
+
+using namespace std;
 
 // 윈도우 창 전체 크기
 #define WindowWidth				1296
@@ -14,3 +18,6 @@
 
 // 마지막 필드 거리
 #define LastFieldWidth				9700
+
+// 쵀대 Front 개수
+#define MaxFront					9

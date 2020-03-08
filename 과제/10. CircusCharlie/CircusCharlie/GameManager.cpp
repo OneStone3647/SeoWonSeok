@@ -28,9 +28,11 @@ void GameManager::Init(HWND hWnd)
 
 	m_bGameStart = false;
 	m_bWin = false;
+	m_bExit = false;
 	m_ExitTime = 2000.0f;
 	m_StartExitTimer = 0.0f;
 	m_CurExitTimer = 0.0f;
+	m_Score = 0;
 
 	// Menu 클래스 객체 동적 할당
 	if (m_Menu != NULL)
@@ -67,6 +69,21 @@ void GameManager::Init(HWND hWnd)
 	}
 	m_End = new End;
 	m_End->Init(m_MemDC, m_Field->GetFieldWidth());
+
+	// Front 클래스 백터 동적 할당
+	// 벡터의 메모리 크기 설정
+	m_Front.reserve(MaxFront);
+	if (!m_Front.empty())
+	{
+		m_Front.clear();
+	}
+	for (int i = 0; i < MaxFront; i++)
+	{
+		Front* tmpFront = new Front;
+		tmpFront->Init(m_MemDC);
+		m_Front.push_back(tmpFront);
+	}
+	m_CurScoreFront = NULL;
 }
 
 void GameManager::Release()
@@ -75,6 +92,11 @@ void GameManager::Release()
 	delete[] m_Field;
 	delete m_Player;
 	delete m_End;
+
+	// 백터의 원소를 제거한다.
+	m_Front.clear();
+	// swap을 사용하여 vector의 capacity를 0 으로 만든다.
+	vector<Front*>().swap(m_Front);
 
 	// m_MemDC에 이전 비트맵을 연결한다.
 	SelectObject(m_MemDC, m_OldBitmap);
@@ -91,23 +113,27 @@ void GameManager::Update()
 	}
 	else
 	{
-		//float m_Score = 100.0f;
-		//TCHAR score[256];
-		//wsprintf(score, TEXT("    Score :     %d     "), m_Score);
-		//TextOut(m_MemDC, 900.0f, 100.0f, score, strlen(score));
+		// 점수 출력
+		TCHAR score[256];
+		wsprintf(score, TEXT("    Score :     %d     "), m_Score);
+		TextOut(m_MemDC, 900.0f, 100.0f, score, strlen(score));
+
 		m_CameraX = m_Player->GetCameraX();
-		m_FieldIndex = m_CameraX / m_Field->GetFieldWidth();		
+		m_FieldIndex = m_CameraX / m_Field->GetFieldWidth();
+		
+		// 디버그용 FieldIndex 출력
 		TCHAR FieldIndex[256];
 		wsprintf(FieldIndex, TEXT("    FieldIndex :     %d     "), m_FieldIndex);
 		TextOut(m_MemDC, 1100.0f, 100.0f, FieldIndex, strlen(FieldIndex));
 
-		//TCHAR CameraX[256];
-		//wsprintf(FieldIndex, TEXT("    CameraX :     %d     "), m_CameraX);
-		//TextOut(m_MemDC, 900.0f, 100.0f, CameraX, strlen(CameraX));
-
 		for (int i = 0; i < 3; i++)
 		{
 			m_Field[m_FieldIndex + i].Update(&m_CameraX, m_FieldIndex + i);
+		}
+
+		for (int i = 0; i < MaxFront; i++)
+		{
+			m_Front[i]->Update(&m_CameraX, i + 1, m_Field->GetFieldWidth());
 		}
 
 		if (m_FieldIndex >= 8)
@@ -116,6 +142,27 @@ void GameManager::Update()
 		}
 
 		m_Player->Update(&m_FieldIndex, &m_bWin, m_End->GetX(), m_End->GetY());
+
+		// Front관련 충돌
+		vector<Front>::size_type i = 0;
+		for (i; i < m_Front.size(); ++i)
+		{
+			if (CheckCollision(m_Front[i]))
+			{
+				m_Player->Die();
+				if (!m_bExit)
+				{
+					m_StartExitTimer = GetTickCount();
+				}
+				m_bExit = true;
+			}
+
+			if (CheckScoreCollision(m_Front[i]) && m_CurScoreFront != m_Front[i])
+			{
+				m_CurScoreFront = m_Front[i];
+				m_Score += 100;
+			}
+		}
 
 		// 교집합 Rect
 		RECT tmpRect;
@@ -132,7 +179,7 @@ void GameManager::Update()
 
 		// 장애물에 걸리거나 승리하였을 때 메인화면으로 넘어간다.
 		m_CurExitTimer = GetTickCount();
-		if (m_bWin && (m_CurExitTimer - m_StartExitTimer >= m_ExitTime))
+		if ((m_bExit || m_bWin) && (m_CurExitTimer - m_StartExitTimer >= m_ExitTime))
 		{
 			Init(m_hWnd);
 		}
@@ -143,4 +190,27 @@ void GameManager::Update()
 		BitBlt(hdc, 0, 0, ScreenWidth, ScreenHeight, m_MemDC, 0, 0, SRCCOPY);
 		ReleaseDC(m_hWnd, hdc);
 	}
+}
+
+bool GameManager::CheckCollision(Object * obejct)
+{
+	// 교집합 Rect
+	RECT tmpRect;
+	if (IntersectRect(&tmpRect, &(m_Player->GetCollision()), &(obejct->GetCollision())))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool GameManager::CheckScoreCollision(Object * obejct)
+{
+	// 교집합 Rect
+	RECT tmpRect;
+	if (IntersectRect(&tmpRect, &(m_Player->GetCollision()), &(obejct->GetScoreCollision())))
+	{
+		return true;
+	}
+	return false;
 }
