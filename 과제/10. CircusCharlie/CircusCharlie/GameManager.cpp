@@ -185,7 +185,6 @@ void GameManager::Update()
 			for (iterEnemy = m_Enemy.begin(); iterEnemy != m_Enemy.end(); ++iterEnemy)
 			{
 				(*iterEnemy)->Update(m_Player->GetState(), &m_CameraX, &m_bWin, &m_bExit);
-				(*iterEnemy)->FrontDraw();
 			}
 		}
 
@@ -198,7 +197,11 @@ void GameManager::Update()
 			list<Enemy*>::iterator iterEnemy;
 			for (iterEnemy = m_Enemy.begin(); iterEnemy != m_Enemy.end(); ++iterEnemy)
 			{
-				(*iterEnemy)->BackDraw();
+				(*iterEnemy)->DrawBack();
+				if ((*iterEnemy)->GetCashFlag())
+				{
+					(*iterEnemy)->DrawCash();
+				}
 				// 맵의 왼쪽 끝에 도달했을 경우 리스트의 첫 원소를 제거 한다.
 				if ((*iterEnemy)->GetX() <= -200.0f)
 				{
@@ -227,7 +230,7 @@ void GameManager::Update()
 			if (CheckScoreCollision(m_Front[i]) && m_CurScoreFront != m_Front[i])
 			{
 				m_CurScoreFront = m_Front[i];
-				m_Score += 100;
+				m_Score += m_CurScoreFront->GetScore();
 			}
 		}
 
@@ -248,7 +251,13 @@ void GameManager::Update()
 			if (CheckScoreCollision(*iterEnemy) && m_CurScoreEnemy != *iterEnemy)
 			{
 				m_CurScoreEnemy = (*iterEnemy);
-				m_Score += 100;
+				m_Score += (*iterEnemy)->GetScore();
+			}
+
+			if ((*iterEnemy)->GetCashFlag() && (*iterEnemy)->CheckCashCollision(m_Player->GetCollision()))
+			{
+				m_Score += (*iterEnemy)->GetCashScore();
+				(*iterEnemy)->SetCashFlag(false);
 			}
 		}
 

@@ -53,7 +53,7 @@ void Player::Update(int * FieldIndex, bool * bWinFlag, float EndX, float EndY)
 	m_bWinFlag = bWinFlag;
 
 	// 디버그 용
-	Rectangle(m_MemDC, m_Collision.left, m_Collision.top, m_Collision.right, m_Collision.bottom);
+	//Rectangle(m_MemDC, m_Collision.left, m_Collision.top, m_Collision.right, m_Collision.bottom);
 
 	if (!(*m_bWinFlag) && !(m_State == STATE_DIE))
 	{

@@ -16,6 +16,8 @@ protected:
 	float			m_StartAnimTimer;
 	float			m_CurAnimTimer;
 
+	int				m_Score;
+
 public:
 	Object();
 	virtual ~Object();
@@ -33,6 +35,11 @@ public:
 	inline RECT GetScoreCollision()
 	{
 		return m_ScoreCollision;
+	}
+
+	inline int GetScore()
+	{
+		return m_Score;
 	}
 };
 
@@ -68,32 +75,60 @@ enum ENEMYINDEX
 class Enemy : public Object
 {
 private:
-	Bitmap		m_EnemyBitmap[6];
+	Bitmap		m_EnemyBitmap[4];
 	int				m_EnemyIndex;
+
+	Bitmap		m_CashBitmap;
+	RECT			m_CashCollision;
 
 	int				m_Speed;
 
-	bool			m_bHaveMoney;
+	bool			m_bHaveCash;
+	int				m_CashScore;
 
 public:
 	void Init(HDC MemDC);
 	void Update(STATE PlayerState, float* CameraX, bool* bWinFlag, bool* bExitFlag);
-	void SetCollision(float CameraX = 0.0f);
+	void SetCollision();
 	void SetScoreCollision(float CameraX = 0.0f);
+	void SetCashCollision();
+	bool CheckCashCollision(RECT PlayerCollision);
 
 public:
-	inline void FrontDraw()
+	inline void DrawFront()
 	{
 		m_EnemyBitmap[m_EnemyIndex].Draw(m_MemDC, m_X, m_Y);
 	}
-	inline void BackDraw()
+	inline void DrawBack()
 	{
 		m_EnemyBitmap[m_EnemyIndex + 1].Draw(m_MemDC, m_X + m_EnemyBitmap[m_EnemyIndex].GetSize().cx * 1.5f, m_Y);
+	}
+	inline void DrawCash()
+	{
+		m_CashBitmap.Draw(m_MemDC, m_X + m_CashBitmap.GetSize().cx * 0.7f, m_Y + 20.0f);
 	}
 
 	inline float GetX()
 	{
 		return m_X;
+	}
+
+	inline bool GetCashFlag()
+	{
+		return m_bHaveCash;
+	}
+	inline void SetCashFlag(bool bFlag)
+	{
+		m_bHaveCash = bFlag;
+	}
+
+	inline RECT GetCashCollision()
+	{
+		return m_CashCollision;
+	}
+	inline int GetCashScore()
+	{
+		return m_CashScore;
 	}
 };
 
