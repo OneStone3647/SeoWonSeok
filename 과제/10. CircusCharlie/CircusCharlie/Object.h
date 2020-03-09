@@ -22,7 +22,6 @@ public:
 
 public:
 	virtual void Init(HDC MemDC) = 0;
-	virtual void SetCollision(float CameraX = 0.0f) = 0;
 	virtual void SetScoreCollision(float CameraX = 0.0f) = 0;
 
 public:
@@ -52,33 +51,6 @@ private:
 public:
 	void Init(HDC MemDC);
 	void Update(float* CameraX, int FieldIndex, float FieldWidth);
-	void SetCollision(float CameraX = 0.0f);
-	void SetScoreCollision(float CameraX = 0.0f);
-};
-
-enum ENEMYINDEX
-{
-	ENEMYINDEX_ENEMY1_B,
-	ENEMYINDEX_ENEMY1_F,
-	ENEMYINDEX_ENEMY2_B,
-	ENEMYINDEX_ENEMY2_F,
-	ENEMYINDEX_ENEMY_L_B,
-	ENEMYINDEX_ENEMY_L_F,
-};
-
-class Enemy : public Object
-{
-private:
-	Bitmap		m_EnemyBitmap[6];
-	int				m_EnemyIndex;
-
-	bool			m_bHaveMoney;
-
-public:
-	void Init(HDC MemDC);
-	void Update(float* CameraX, int FieldIndex, float FieldWidth);
-	void FrontDraw(float* CameraX);
-	void BackDraw(float* CameraX);
 	void SetCollision(float CameraX = 0.0f);
 	void SetScoreCollision(float CameraX = 0.0f);
 };

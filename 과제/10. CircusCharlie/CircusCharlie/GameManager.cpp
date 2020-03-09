@@ -70,7 +70,7 @@ void GameManager::Init(HWND hWnd)
 	m_End = new End;
 	m_End->Init(m_MemDC, m_Field->GetFieldWidth());
 
-	// Front 클래스 백터
+	// Front 클래스 백터 동적 할당
 	// 벡터의 메모리 크기 설정
 	m_Front.reserve(MaxFront);
 	if (!m_Front.empty())
@@ -84,15 +84,6 @@ void GameManager::Init(HWND hWnd)
 		m_Front.push_back(tmpFront);
 	}
 	m_CurScoreFront = NULL;
-
-	// Enemy 클래스 리스트
-	if (!m_Enemy.empty())
-	{
-		m_Enemy.clear();
-	}
-	m_SpawnTime = 300.0f;
-	m_StartSpawnTimer = GetTickCount();
-	m_CurSpawnTimer = 0.0f;
 }
 
 void GameManager::Release()
@@ -102,26 +93,10 @@ void GameManager::Release()
 	delete m_Player;
 	delete m_End;
 
-
 	// 백터의 원소를 제거한다.
-	vector<Front*>::iterator iterFront;
-	for (iterFront = m_Front.begin(); iterFront != m_Front.end(); ++iterFront)
-	{
-		delete (*iterFront);
-	}
 	m_Front.clear();
 	// swap을 사용하여 vector의 capacity를 0 으로 만든다.
 	vector<Front*>().swap(m_Front);
-
-	// 리스트의 원소를 제거한다.
-	list<Enemy*>::iterator iterEnemy;
-	for (iterEnemy = m_Enemy.begin(); iterEnemy != m_Enemy.end(); ++iterEnemy)
-	{
-		delete (*iterEnemy);
-	}
-	m_Enemy.clear();
-	// swap을 사용하여 list의 메모리를 해제한다.
-	list<Enemy*>().swap(m_Enemy);
 
 	// m_MemDC에 이전 비트맵을 연결한다.
 	SelectObject(m_MemDC, m_OldBitmap);
@@ -138,8 +113,6 @@ void GameManager::Update()
 	}
 	else
 	{
-		m_CurSpawnTimer = GetTickCount();
-
 		// 점수 출력
 		TCHAR score[256];
 		wsprintf(score, TEXT("    Score :     %d     "), m_Score);
@@ -158,8 +131,7 @@ void GameManager::Update()
 			m_Field[m_FieldIndex + i].Update(&m_CameraX, m_FieldIndex + i);
 		}
 
-		vector<Front*>::size_type i = 0;
-		for (i; i < m_Front.size(); ++i)
+		for (int i = 0; i < MaxFront; i++)
 		{
 			m_Front[i]->Update(&m_CameraX, i + 1, m_Field->GetFieldWidth());
 		}
@@ -169,21 +141,10 @@ void GameManager::Update()
 			m_End->Update(&m_CameraX);
 		}
 
-		if (m_CurSpawnTimer - m_StartSpawnTimer >= m_SpawnTime)
-		{
-			Enemy* tmpEnemy = new Enemy;
-			tmpEnemy->Init(m_MemDC);
-		}
-		list<Enemy*>::iterator iterEnemy;
-		for (iterEnemy = m_Enemy.begin(); iterEnemy != m_Enemy.end(); ++iterEnemy)
-		{
-			(*iterEnemy)->Update(&m_CameraX, m_FieldIndex, LastFieldWidth);
-		}
-
 		m_Player->Update(&m_FieldIndex, &m_bWin, m_End->GetX(), m_End->GetY());
 
 		// Front관련 충돌
-		vector<Front*>::size_type i = 0;
+		vector<Front>::size_type i = 0;
 		for (i; i < m_Front.size(); ++i)
 		{
 			if (CheckCollision(m_Front[i]))
