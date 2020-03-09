@@ -94,6 +94,11 @@ void GameManager::Release()
 	delete m_End;
 
 	// 백터의 원소를 제거한다.
+	vector<Front*>::iterator iterFront;
+	for (iterFront = m_Front.begin(); iterFront != m_Front.end(); ++iterFront)
+	{
+		delete (*iterFront);
+	}
 	m_Front.clear();
 	// swap을 사용하여 vector의 capacity를 0 으로 만든다.
 	vector<Front*>().swap(m_Front);
@@ -131,7 +136,7 @@ void GameManager::Update()
 			m_Field[m_FieldIndex + i].Update(&m_CameraX, m_FieldIndex + i);
 		}
 
-		for (int i = 0; i < MaxFront; i++)
+		for (vector<Front*>::size_type i = 0; i < m_Front.size(); ++i)
 		{
 			m_Front[i]->Update(&m_CameraX, i + 1, m_Field->GetFieldWidth());
 		}
@@ -144,8 +149,7 @@ void GameManager::Update()
 		m_Player->Update(&m_FieldIndex, &m_bWin, m_End->GetX(), m_End->GetY());
 
 		// Front관련 충돌
-		vector<Front>::size_type i = 0;
-		for (i; i < m_Front.size(); ++i)
+		for (vector<Front*>::size_type i = 0; i < m_Front.size(); ++i)
 		{
 			if (CheckCollision(m_Front[i]))
 			{

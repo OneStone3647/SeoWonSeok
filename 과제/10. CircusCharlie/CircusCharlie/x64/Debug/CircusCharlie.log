@@ -1,0 +1,17 @@
+﻿  GameManager.cpp
+d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\bitmap.h(24): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\bitmap.h(31): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\gamemanager.cpp(124): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\gamemanager.cpp(124): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\gamemanager.cpp(127): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\gamemanager.cpp(132): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\gamemanager.cpp(132): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\gamemanager.cpp(142): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\gamemanager.cpp(153): error C2374: 'FrontIndex': 재정의. 여러 번 초기화했습니다.
+  d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\gamemanager.cpp(139): note: 'FrontIndex' 선언을 참조하십시오.
+d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\gamemanager.cpp(156): error C2088: '[': class에 맞지 않습니다.
+d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\gamemanager.cpp(161): warning C4244: '=': 'DWORD'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\gamemanager.cpp(166): error C2088: '[': class에 맞지 않습니다.
+d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\gamemanager.cpp(168): error C2088: '[': class에 맞지 않습니다.
+d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\gamemanager.cpp(181): warning C4244: '=': 'DWORD'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\study\programing\seowonseok\과제\10. circuscharlie\circuscharlie\gamemanager.cpp(187): warning C4244: '=': 'DWORD'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
