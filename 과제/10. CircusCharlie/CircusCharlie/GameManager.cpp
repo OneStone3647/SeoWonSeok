@@ -84,6 +84,18 @@ void GameManager::Init(HWND hWnd)
 		m_Front.push_back(tmpFront);
 	}
 	m_CurScoreFront = NULL;
+
+	// Enemy 클래스 리스트
+	if (!m_Enemy.empty())
+	{
+		m_Enemy.clear();
+	}
+	m_CurScoreEnemy = NULL;
+	m_SpawnTime = 3000.0f;
+	m_StartSpawnTimer = GetTickCount();
+	m_CurSpawnTimer = 0.0f;
+
+	m_CameraX = 0;
 }
 
 void GameManager::Release()
@@ -103,6 +115,16 @@ void GameManager::Release()
 	// swap을 사용하여 vector의 capacity를 0 으로 만든다.
 	vector<Front*>().swap(m_Front);
 
+	// 리스트의 원소를 제거한다.
+	list<Enemy*>::iterator iterEnemy;
+	for (iterEnemy = m_Enemy.begin(); iterEnemy != m_Enemy.end(); ++iterEnemy)
+	{
+		delete (*iterEnemy);
+	}
+	m_Enemy.clear();
+	// swap을 사용하여 list의 메모리를 해제한다.
+	list<Enemy*>().swap(m_Enemy);
+
 	// m_MemDC에 이전 비트맵을 연결한다.
 	SelectObject(m_MemDC, m_OldBitmap);
 	DeleteObject(m_NewBitmap);
@@ -118,6 +140,10 @@ void GameManager::Update()
 	}
 	else
 	{
+		// 2초에서 5초 사이로 소환
+		m_SpawnTime = ((rand() % 5) + 2) * 1000.0f;
+		m_CurSpawnTimer = GetTickCount();
+
 		// 점수 출력
 		TCHAR score[256];
 		wsprintf(score, TEXT("    Score :     %d     "), m_Score);
@@ -125,11 +151,6 @@ void GameManager::Update()
 
 		m_CameraX = m_Player->GetCameraX();
 		m_FieldIndex = m_CameraX / m_Field->GetFieldWidth();
-		
-		// 디버그용 FieldIndex 출력
-		TCHAR FieldIndex[256];
-		wsprintf(FieldIndex, TEXT("    FieldIndex :     %d     "), m_FieldIndex);
-		TextOut(m_MemDC, 1100.0f, 100.0f, FieldIndex, strlen(FieldIndex));
 
 		for (int i = 0; i < 3; i++)
 		{
@@ -146,7 +167,49 @@ void GameManager::Update()
 			m_End->Update(&m_CameraX);
 		}
 
+		// 맵끝에 도달하지 않았을 경우
+		if (m_CameraX < LastFieldWidth && (m_CurSpawnTimer - m_StartSpawnTimer >= m_SpawnTime))
+		{
+			if (m_Enemy.size() <= MaxEnemy)
+			{
+				Enemy* tmpEnemy = new Enemy;
+				tmpEnemy->Init(m_MemDC);
+				m_Enemy.push_back(tmpEnemy);
+				m_StartSpawnTimer = m_CurSpawnTimer;
+			}
+		}
+		// m_Enemy 리스트가 비어 있지 않으면 리스트 안의 모든 Enemy의 Update를 실행하고 앞부분을 그린다.
+		if (!m_Enemy.empty())
+		{
+			list<Enemy*>::iterator iterEnemy;
+			for (iterEnemy = m_Enemy.begin(); iterEnemy != m_Enemy.end(); ++iterEnemy)
+			{
+				(*iterEnemy)->Update(m_Player->GetState(), &m_CameraX, &m_bWin, &m_bExit);
+				(*iterEnemy)->FrontDraw();
+			}
+		}
+
 		m_Player->Update(&m_FieldIndex, &m_bWin, m_End->GetX(), m_End->GetY());
+
+		// m_Enemy 리스트가 비어 있지 않으면 리스트 안의 모든 Enemy의 뒷부분을 그린다.
+		if (!m_Enemy.empty())
+		{
+			bool bIsUnSpawn = false;
+			list<Enemy*>::iterator iterEnemy;
+			for (iterEnemy = m_Enemy.begin(); iterEnemy != m_Enemy.end(); ++iterEnemy)
+			{
+				(*iterEnemy)->BackDraw();
+				// 맵의 왼쪽 끝에 도달했을 경우 리스트의 첫 원소를 제거 한다.
+				if ((*iterEnemy)->GetX() <= -200.0f)
+				{
+					bIsUnSpawn = true;
+				}
+			}
+			if (bIsUnSpawn)
+			{
+				m_Enemy.pop_front();
+			}
+		}
 
 		// Front관련 충돌
 		for (vector<Front*>::size_type i = 0; i < m_Front.size(); ++i)
@@ -164,6 +227,27 @@ void GameManager::Update()
 			if (CheckScoreCollision(m_Front[i]) && m_CurScoreFront != m_Front[i])
 			{
 				m_CurScoreFront = m_Front[i];
+				m_Score += 100;
+			}
+		}
+
+		// Enemy관련 충돌
+		list<Enemy*>::iterator iterEnemy;
+		for (iterEnemy = m_Enemy.begin(); iterEnemy != m_Enemy.end(); ++iterEnemy)
+		{
+			if (CheckCollision(*iterEnemy))
+			{
+				m_Player->Die();
+				if (!m_bExit)
+				{
+					m_StartExitTimer = GetTickCount();
+				}
+				m_bExit = true;
+			}
+
+			if (CheckScoreCollision(*iterEnemy) && m_CurScoreEnemy != *iterEnemy)
+			{
+				m_CurScoreEnemy = (*iterEnemy);
 				m_Score += 100;
 			}
 		}

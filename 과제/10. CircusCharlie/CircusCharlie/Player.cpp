@@ -28,7 +28,7 @@ void Player::Init(HDC MemDC)
 	m_X = 200.0f;
 	m_Y = 440.0f;
 	m_CameraX = 200.0f;
-	m_Speed = 1.0f;
+	m_Speed = 2.0f;
 	//m_Speed = 10.0f;
 	
 	SetCollision();
@@ -43,7 +43,7 @@ void Player::Init(HDC MemDC)
 	m_JumpForce = 24.0f;
 	m_JumpTime = 0;
 	m_JumpY = 0;
-	m_JumpSpeed = 1.0f;
+	m_JumpSpeed = 2.0f;
 }
 
 void Player::Update(int * FieldIndex, bool * bWinFlag, float EndX, float EndY)
@@ -74,32 +74,35 @@ void Player::Input()
 {
 	if (GetKeyState(VK_LEFT) & 0x8000 && m_bIsJump == false)
 	{
+		m_State = STATE_MOVELEFT;
 		Move(-m_Speed, 0.0f);
 		AnimMoveBack();
 	}
 	if (GetKeyState(VK_RIGHT) & 0x8000 && m_bIsJump == false)
 	{
+		m_State = STATE_MOVERIGHT;
 		Move(m_Speed, 0.0f);
 		AnimMoveForward();
 	}
 	if (((GetKeyState(VK_LEFT) & GetKeyState(VK_SPACE)) & 0x8000) && m_bIsJump == false)
 	{
-		m_bIsJump = true;
 		m_State = STATE_LEFTJUMP;
+		m_bIsJump = true;
 	}
 	if (((GetKeyState(VK_RIGHT) & GetKeyState(VK_SPACE)) & 0x8000) && m_bIsJump == false)
 	{
-		m_bIsJump = true;
 		m_State = STATE_RIGHTJUMP;
+		m_bIsJump = true;
 	}
 	if (GetKeyState(VK_SPACE) & 0x8000 && m_bIsJump == false)
 	{
-		m_bIsJump = true;
 		m_State = STATE_JUMP;
+		m_bIsJump = true;
 	}
 	// ¸ØÃá »óÅÂ
 	if (!((GetKeyState(VK_LEFT) | GetKeyState(VK_RIGHT)) & 0x8000) && m_bIsJump == false)
 	{
+		m_State = STATE_IDLE;
 		StopAnim();
 	}
 }
@@ -135,10 +138,10 @@ void Player::Move(float x, float y)
 
 	m_Y += y;
 
-	if (!m_bIsJump)
-	{
-		m_State = STATE_MOVE;
-	}
+	//if (!m_bIsJump)
+	//{
+	//	m_State = STATE_MOVE;
+	//}
 }
 
 void Player::SetCollision()
@@ -160,7 +163,7 @@ void Player::StopAnim()
 
 void Player::AnimMoveForward()
 {
-	if (m_State == STATE_MOVE)
+	if (m_State == STATE_MOVELEFT || m_State == STATE_MOVERIGHT)
 	{
 		if (m_CurAnimTimer - m_StartAnimTimer >= m_AnimMoveForwardTime)
 		{
@@ -178,7 +181,7 @@ void Player::AnimMoveForward()
 
 void Player::AnimMoveBack()
 {
-	if (m_State == STATE_MOVE)
+	if (m_State == STATE_MOVELEFT || m_State == STATE_MOVERIGHT)
 	{
 		if (m_CurAnimTimer - m_StartAnimTimer >= m_AnimMoveBackTime)
 		{
@@ -239,7 +242,7 @@ void Player::Jump()
 		m_JumpY = m_JumpTime * m_JumpTime - m_JumpForce * m_JumpTime;
 		if (m_State == STATE_LEFTJUMP || m_State == STATE_RIGHTJUMP)
 		{
-			m_JumpTime += 0.07f;
+			m_JumpTime += 0.15f;
 		}
 		else
 		{

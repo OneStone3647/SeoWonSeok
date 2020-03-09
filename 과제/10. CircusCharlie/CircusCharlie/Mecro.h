@@ -2,6 +2,8 @@
 #include <Windows.h>
 #include <iostream>
 #include <vector>
+#include <list>
+#include <time.h>
 
 using namespace std;
 
@@ -19,5 +21,20 @@ using namespace std;
 // 마지막 필드 거리
 #define LastFieldWidth				9700
 
-// 쵀대 Front 개수
+// 최대 Front 개수
 #define MaxFront					9
+
+// 최대 Enemy 소환 개수
+#define MaxEnemy					4
+
+enum STATE
+{
+	STATE_IDLE,
+	STATE_MOVELEFT,
+	STATE_MOVERIGHT,
+	STATE_JUMP,
+	STATE_LEFTJUMP,
+	STATE_RIGHTJUMP,
+	STATE_WIN,
+	STATE_DIE
+};

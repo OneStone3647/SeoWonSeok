@@ -2,17 +2,6 @@
 #include "Bitmap.h"
 #include <math.h>
 
-enum STATE
-{
-	STATE_IDLE,
-	STATE_MOVE,
-	STATE_JUMP,
-	STATE_LEFTJUMP,
-	STATE_RIGHTJUMP,
-	STATE_WIN,
-	STATE_DIE
-};
-
 enum BITMAPINDEX
 {
 	BITMAPINDEX_IDLE,
@@ -83,6 +72,15 @@ public:
 	inline float GetCameraX()
 	{
 		return m_CameraX;
+	}
+
+	inline bool GetJumpFlag()
+	{
+		return m_bIsJump;
+	}
+	inline STATE GetState()
+	{
+		return m_State;
 	}
 };
 
