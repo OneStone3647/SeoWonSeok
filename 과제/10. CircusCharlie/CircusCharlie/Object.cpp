@@ -54,7 +54,8 @@ void Front::Update(float * CameraX, int FieldIndex, float FieldWidth)
 		}
 		m_StartAnimTimer = m_CurAnimTimer;
 	}
-	m_FrontBitmap[m_FrontIndex].Draw(m_MemDC, m_X - *CameraX - FieldWidth * (-FieldIndex), m_Y);
+	m_FrontX = m_X - *CameraX - FieldWidth * (-FieldIndex);
+	m_FrontBitmap[m_FrontIndex].Draw(m_MemDC, m_FrontX, m_Y);
 }
 
 void Front::SetCollision(float CameraX)

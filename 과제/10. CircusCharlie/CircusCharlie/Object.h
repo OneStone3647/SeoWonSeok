@@ -55,11 +55,19 @@ private:
 	Bitmap		m_FrontBitmap[2];
 	int				m_FrontIndex;
 
+	float			m_FrontX;
+
 public:
 	void Init(HDC MemDC);
 	void Update(float* CameraX, int FieldIndex, float FieldWidth);
 	void SetCollision(float CameraX = 0.0f);
 	void SetScoreCollision(float CameraX = 0.0f);
+
+public:
+	inline float GetFrontX()
+	{
+		return m_FrontX;
+	}
 };
 
 enum ENEMYINDEX

@@ -291,7 +291,7 @@ void GameManager::Update()
 				{
 					int tmpScore = m_Score;
 					int tmpLife = m_Player->GetLife() - 1;
-					float tmpCameraX = m_Player->GetCameraX() - 700.0f;
+					float tmpCameraX = m_FieldIndex * m_Field->GetFieldWidth();
 					Init(m_hWnd);
 					m_Score = tmpScore;
 					m_Player->SetLife(tmpLife);
