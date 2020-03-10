@@ -35,8 +35,8 @@ public:
 	~Field();
 
 public:
-	void Init(HDC MemDC, bool* bWinFlag);
-	void Update(float* CameraX, int FieldIndex);
+	void Init(HDC MemDC);
+	void Update(float* CameraX, int FieldIndex, bool* bWinFlag);
 
 public:
 	inline float GetFieldWidth()

@@ -11,7 +11,7 @@ Field::~Field()
 {
 }
 
-void Field::Init(HDC MemDC, bool* bWinFlag)
+void Field::Init(HDC MemDC)
 {
 	m_MemDC = MemDC;
 
@@ -19,7 +19,7 @@ void Field::Init(HDC MemDC, bool* bWinFlag)
 	m_Deco.Init(m_MemDC, "Bitmap\\back_deco.bmp");
 
 	m_Normal[NORMALINDEX_1].Init(m_MemDC, "Bitmap\\back_normal.bmp");
-	m_Normal[NORMALINDEX_2].Init(m_MemDC, "Bitmap\\back_normal.bmp");
+	m_Normal[NORMALINDEX_2].Init(m_MemDC, "Bitmap\\back_normal2.bmp");
 	m_NormalIndex = NORMALINDEX_1;
 
 	m_Miter.Init(m_MemDC, "Bitmap\\miter.bmp");
@@ -29,14 +29,14 @@ void Field::Init(HDC MemDC, bool* bWinFlag)
 	m_StartAnimTimer = GetTickCount();
 	m_CurAnimTimer = 0;
 
-	m_bWinFlag = bWinFlag;
-
 	m_X = 0;
 	m_FieldWidth = 7 * m_Back.GetSize().cx * 2.2f;
 }
 
-void Field::Update(float* CameraX, int FieldIndex)
+void Field::Update(float* CameraX, int FieldIndex, bool* bWinFlag)
 {
+	m_bWinFlag = bWinFlag;
+
 	float newPos = m_X + (FieldIndex * m_FieldWidth) - (*CameraX);
 
 	if (*m_bWinFlag)

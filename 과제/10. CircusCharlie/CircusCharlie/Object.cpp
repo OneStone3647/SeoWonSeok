@@ -98,7 +98,6 @@ void Enemy::Init(HDC MemDC)
 	{
 		m_bHaveCash = true;
 	}
-	m_bHaveCash = true;
 	m_Score = 100;
 	m_CashScore = 300;
 

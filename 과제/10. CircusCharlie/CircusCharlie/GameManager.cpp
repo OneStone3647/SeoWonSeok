@@ -50,7 +50,7 @@ void GameManager::Init(HWND hWnd)
 	m_Field = new Field[MaxField];
 	for (int i = 0; i < MaxField; i++)
 	{
-		m_Field[i].Init(m_MemDC, &m_bWin);
+		m_Field[i].Init(m_MemDC);
 	}
 	m_FieldIndex = 0;
 
@@ -154,7 +154,7 @@ void GameManager::Update()
 
 		for (int i = 0; i < 3; i++)
 		{
-			m_Field[m_FieldIndex + i].Update(&m_CameraX, m_FieldIndex + i);
+			m_Field[m_FieldIndex + i].Update(&m_CameraX, m_FieldIndex + i, &m_bWin);
 		}
 
 		for (vector<Front*>::size_type i = 0; i < m_Front.size(); ++i)
