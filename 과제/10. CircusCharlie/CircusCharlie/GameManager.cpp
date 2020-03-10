@@ -91,7 +91,7 @@ void GameManager::Init(HWND hWnd)
 		m_Enemy.clear();
 	}
 	m_CurScoreEnemy = NULL;
-	m_SpawnTime = 3000.0f;
+	m_SpawnTime = 1000.0f;
 	m_StartSpawnTimer = GetTickCount();
 	m_CurSpawnTimer = 0.0f;
 
@@ -141,13 +141,19 @@ void GameManager::Update()
 	else
 	{
 		// 2초에서 5초 사이로 소환
-		m_SpawnTime = ((rand() % 5) + 2) * 1000.0f;
+		m_SpawnTime = ((rand() % 3) + 2) * 1000.0f;
 		m_CurSpawnTimer = GetTickCount();
 
 		// 점수 출력
 		TCHAR score[256];
 		wsprintf(score, TEXT("    Score :     %d     "), m_Score);
 		TextOut(m_MemDC, 900.0f, 100.0f, score, strlen(score));
+
+		// 생명 출력
+		TCHAR life[256];
+		wsprintf(life, TEXT("  Life : "));
+		TextOut(m_MemDC, 350.0f, 100.0f, life, strlen(life));
+		m_Player->DrawLife(400.0f, 100.0f);
 
 		m_CameraX = m_Player->GetCameraX();
 		m_FieldIndex = m_CameraX / m_Field->GetFieldWidth();
@@ -276,9 +282,33 @@ void GameManager::Update()
 
 		// 장애물에 걸리거나 승리하였을 때 메인화면으로 넘어간다.
 		m_CurExitTimer = GetTickCount();
-		if ((m_bExit || m_bWin) && (m_CurExitTimer - m_StartExitTimer >= m_ExitTime))
+		if (m_CurExitTimer - m_StartExitTimer >= m_ExitTime)
 		{
-			Init(m_hWnd);
+			if (m_bExit)
+			{
+				// 목숨이 남아 있을 경우 일정거리 뒤로 이동한 후 다시 시작한다.
+				if (m_Player->GetLife() > 1)
+				{
+					int tmpScore = m_Score;
+					int tmpLife = m_Player->GetLife() - 1;
+					float tmpCameraX = m_Player->GetCameraX() - 700.0f;
+					Init(m_hWnd);
+					m_Score = tmpScore;
+					m_Player->SetLife(tmpLife);
+					m_Player->SetCameraX(tmpCameraX);
+					m_bGameStart = true;
+				}
+				// 목숨이 남아 있지 않을 경우 메인화면으로 넘어간다.
+				else
+				{
+					Init(m_hWnd);
+				}
+			}
+			// 승리하였을 때 메인화면으로 넘어간다.
+			if (m_bWin)
+			{
+				Init(m_hWnd);
+			}
 		}
 
 		// GetDC를 통해 DC를 받는다.

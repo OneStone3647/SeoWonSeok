@@ -25,6 +25,9 @@ void Player::Init(HDC MemDC)
 
 	m_State = STATE_IDLE;
 
+	m_LifeBitmap.Init(m_MemDC, "Bitmap\\icon.bmp");
+	m_Life = 3;
+
 	m_X = 200.0f;
 	m_Y = 440.0f;
 	m_CameraX = 200.0f;
@@ -286,4 +289,12 @@ void Player::Die()
 {
 	m_State = STATE_DIE;
 	m_BitmapIndex = BITMAPINDEX_DIE;
+}
+
+void Player::DrawLife(float x, float y)
+{
+	for (int i = 0; i < m_Life; i++)
+	{
+		m_LifeBitmap.Draw(m_MemDC, x + i * m_LifeBitmap.GetSize().cx * 1.8f, y);
+	}
 }

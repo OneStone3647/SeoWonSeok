@@ -22,6 +22,9 @@ private:
 
 	STATE					m_State;
 
+	Bitmap					m_LifeBitmap;
+	int						m_Life;
+
 	float					m_X;
 	float					m_Y;
 	float					m_CameraX;
@@ -63,6 +66,8 @@ public:
 	void Win(float x, float y);
 	void Die();
 
+	void DrawLife(float x, float y);
+
 public:
 	inline RECT GetCollision()
 	{
@@ -73,6 +78,10 @@ public:
 	{
 		return m_CameraX;
 	}
+	inline void SetCameraX(float x)
+	{
+		m_CameraX = x;
+	}
 
 	inline bool GetJumpFlag()
 	{
@@ -81,6 +90,14 @@ public:
 	inline STATE GetState()
 	{
 		return m_State;
+	}
+	inline int GetLife()
+	{
+		return m_Life;
+	}
+	inline void SetLife(int life)
+	{
+		m_Life = life;
 	}
 };
 
