@@ -33,9 +33,9 @@ public:
 	void Init(HDC MemDC);
 
 public:
-	inline void DrawBlock(int BlockIndex, float x, float y)
+	inline void DrawBlock(int BlockIndex, int x, int y, int SizeX, int SizeY)
 	{
-		m_Block[BlockIndex].Draw(m_MemDC, x, y);
+		m_Block[BlockIndex].Draw(m_MemDC, x, y, SizeX, SizeY);
 	}
 };
 

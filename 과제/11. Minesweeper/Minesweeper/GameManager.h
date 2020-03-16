@@ -1,7 +1,8 @@
 #pragma once
 #include "Block.h"
+#include "Singleton.h"
 
-class GameManager
+class GameManager : public Singleton<GameManager>
 {
 private:
 	HWND		m_hWnd;
@@ -10,8 +11,9 @@ private:
 	HBITMAP		m_OldBitmap;
 
 	Bitmap		m_Back;
+	SIZE			m_MapSize;
 
-	Block*			m_Block;
+	Block			m_Block;
 
 public:
 	GameManager();
@@ -20,6 +22,7 @@ public:
 public:
 	void Init(HWND hWnd);
 	void Release();
-	void Update();
+	void Update(LPARAM lParam);
+	void InitBlock();
 };
 

@@ -1,4 +1,4 @@
-#include "Mecro.h"
+#include "GameManager.h"
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 // DialogBox 프록시저
@@ -9,8 +9,6 @@ LPCTSTR lpszClass = TEXT("Minesweeper");
 
 bool g_bGameStart;
 int g_CurSelect;
-
-//GameManager g_GameManager;
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdParam, int nCmdShow)
 {
@@ -33,14 +31,12 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 	WndClass.style = CS_HREDRAW | CS_VREDRAW;
 	RegisterClass(&WndClass);
 
-	// 윈도우 창의 크기는 테두리와 캡션의 크기까지 합한 크기이다.
-	// 작업영역의 크기를 1000x1000로 만들려면 1016x1038으로 생성해야 한다.
 	hWnd = CreateWindow(lpszClass, lpszClass, WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, CW_USEDEFAULT, CW_USEDEFAULT,
 		WindowWidth, WindowHeight, NULL, (HMENU)NULL, hInstance, NULL);
 	ShowWindow(hWnd, nCmdShow);
 
 	// 윈도우를 만들고 나면 초기화 해준다.
-	//g_GameManager.Init(hWnd);
+	GameManager::GetInstance()->Init(hWnd);
 
 	g_bGameStart = false;
 	g_CurSelect = IDC_RADIO1;
@@ -54,7 +50,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 	height = rtWindow.bottom - rtWindow.top;
 	x = (rtDesk.right - width) / 2;
 	y = (rtDesk.bottom - height) / 2;
-	MoveWindow(hWnd, x, y, width, height, TRUE);
+	MoveWindow(hWnd, x, y, WindowWidth30, WindowHeight30, TRUE);
 
 	while (true)
 	{
@@ -72,12 +68,14 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 		else
 		{
 			// 메시지가 없을 때 업데이트를 진행한다.
-			//g_GameManager.Update();
+			GameManager::GetInstance()->Update(Message.lParam);
 		}
 	}
 
 	// 종료 직전에 릴리즈 해준다.
-	//g_GameManager.Release();
+	GameManager::GetInstance()->Release();
+	// GameManager 인스턴스를 삭제한다.
+	GameManager::GetInstance()->DestroyInstace();
 
 	return (int)Message.wParam;
 }

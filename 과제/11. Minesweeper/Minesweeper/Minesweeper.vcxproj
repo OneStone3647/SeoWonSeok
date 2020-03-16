@@ -151,6 +151,7 @@
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Mecro.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Singleton.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Minesweeper.rc" />

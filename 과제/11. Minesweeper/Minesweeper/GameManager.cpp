@@ -28,21 +28,43 @@ void GameManager::Init(HWND hWnd)
 
 	// 배경 비트맵 초기화
 	m_Back.Init(m_MemDC, "Bitmap\\back.bmp");
-	
-	// Block 클래스 동적 할당
-	if (m_Block != NULL)
-	{
-		delete m_Block;
-	}
-	m_Block->Init(m_MemDC);
+
+	// 블록 클래스 초기화
+	m_Block.Init(m_MemDC);
 }
 
 void GameManager::Release()
 {
-	delete m_Block;
+	// m_MemDC에 이전 비트맵을 연결한다.
+	SelectObject(m_MemDC, m_OldBitmap);
+	DeleteObject(m_NewBitmap);
+	// CreateCompatibleDC로 만들어 진 DC는 DeleteDC로 지워야한다.
+	DeleteDC(m_MemDC);
 }
 
-void GameManager::Update()
+void GameManager::Update(LPARAM lParam)
 {
+	int startX = BlockStartX16;
+	int startY = BlockStartY16;
 
+	m_Back.Draw(m_MemDC, 0, 0, ScreenWidth30, ScreenHeight30);
+
+	for (int y = 0; y < 16; y++)
+	{
+		for (int x = 0; x < 30; x++)
+		{
+			m_Block.DrawBlock(BLOCKINDEX_BLANK, x * BlockSize + startX, y * BlockSize + startY, BlockSize, BlockSize);
+		}
+	}
+
+
+	// GetDC를 통해 DC를 받는다.
+	HDC hdc = GetDC(m_hWnd);
+	// 숨겨 그린 것을 원래 보여야할 hdc에 그린다.
+	BitBlt(hdc, 0, 0, ScreenWidth, ScreenHeight, m_MemDC, 0, 0, SRCCOPY);
+	ReleaseDC(m_hWnd, hdc);
+}
+
+void GameManager::InitBlock()
+{
 }
