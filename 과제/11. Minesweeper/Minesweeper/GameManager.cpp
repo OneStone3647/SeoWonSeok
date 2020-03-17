@@ -26,11 +26,13 @@ void GameManager::Init(HWND hWnd)
 	// 사용한 DC를 해제 한다.
 	ReleaseDC(hWnd, hdc);
 
+	m_Difficulty = DIFFICULTY_EASY;
+	SetDifficulty(m_Difficulty);
+
+	m_BlockManager.Init(m_MemDC, m_MapSize.cx, m_MapSize.cy, m_StartBlockXPos, m_StartBlockYPos);
+
 	// 배경 비트맵 초기화
 	m_Back.Init(m_MemDC, "Bitmap\\back.bmp");
-
-	// 블록 클래스 초기화
-	m_Block.Init(m_MemDC);
 }
 
 void GameManager::Release()
@@ -44,19 +46,8 @@ void GameManager::Release()
 
 void GameManager::Update(LPARAM lParam)
 {
-	int startX = BlockStartX16;
-	int startY = BlockStartY16;
-
-	m_Back.Draw(m_MemDC, 0, 0, ScreenWidth30, ScreenHeight30);
-
-	for (int y = 0; y < 16; y++)
-	{
-		for (int x = 0; x < 30; x++)
-		{
-			m_Block.DrawBlock(BLOCKINDEX_BLANK, x * BlockSize + startX, y * BlockSize + startY, BlockSize, BlockSize);
-		}
-	}
-
+	m_Back.Draw(m_MemDC, 0, 0, m_ScreenSize.cx, m_ScreenSize.cy);
+	m_BlockManager.DrawAllBlock();
 
 	// GetDC를 통해 DC를 받는다.
 	HDC hdc = GetDC(m_hWnd);
@@ -67,4 +58,56 @@ void GameManager::Update(LPARAM lParam)
 
 void GameManager::InitBlock()
 {
+}
+
+void GameManager::SetDifficulty(DIFFICULTY Difficulty)
+{
+	switch (Difficulty)
+	{
+	case DIFFICULTY_EASY:
+		m_Difficulty = DIFFICULTY_EASY;
+		m_MapSize.cx = 9;
+		m_MapSize.cy = 9;
+		m_ScreenSize.cx = ScreenWidthEasy;
+		m_ScreenSize.cy = ScreenHeightEasy;
+		m_WindowSize.cx = WindowWidthEasy;
+		m_WindowSize.cy = WindowHeightEasy;
+		m_StartBlockXPos = BlockStartXEasy;
+		m_StartBlockYPos = BlockStartYEasy;
+		break;
+	case DIFFICULTY_NORMAL:
+		m_Difficulty = DIFFICULTY_NORMAL;
+		m_MapSize.cx = 16;
+		m_MapSize.cy = 16;
+		m_ScreenSize.cx = ScreenWidthNormal;
+		m_ScreenSize.cy = ScreenHeightNormal;
+		m_WindowSize.cx = WindowWidthNormal;
+		m_WindowSize.cy = WindowHeightNormal;
+		m_StartBlockXPos = BlockStartXNormal;
+		m_StartBlockYPos = BlockStartYNormal;
+		break;
+	case DIFFICULTY_HARD:
+		m_Difficulty = DIFFICULTY_HARD;
+		m_MapSize.cx = 30;
+		m_MapSize.cy = 16;
+		m_ScreenSize.cx = ScreenWidthHard;
+		m_ScreenSize.cy = ScreenHeightHard;
+		m_WindowSize.cx = WindowWidthHard;
+		m_WindowSize.cy = WindowHeightHard;
+		m_StartBlockXPos = BlockStartXHard;
+		m_StartBlockYPos = BlockStartYHard;
+		break;
+	}
+
+	// 윈도우 창을 화면 중앙에 생성한다.
+	//int x, y, width, height;
+	//RECT rtDesk, rtWindow;
+	//GetWindowRect(GetDesktopWindow(), &rtDesk);
+	//GetWindowRect(m_hWnd, &rtWindow);
+	//width = rtWindow.right - rtWindow.left;
+	//height = rtWindow.bottom - rtWindow.top;
+	//x = (rtDesk.right - width) / 2;
+	//y = (rtDesk.bottom - height) / 2;
+	m_BlockManager.Init(m_MemDC, m_MapSize.cx, m_MapSize.cy, m_StartBlockXPos, m_StartBlockYPos);
+	MoveWindow(m_hWnd, 400, 200, m_WindowSize.cx, m_WindowSize.cy, TRUE);
 }

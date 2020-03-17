@@ -9,6 +9,7 @@ LPCTSTR lpszClass = TEXT("Minesweeper");
 
 bool g_bGameStart;
 int g_CurSelect;
+DIFFICULTY g_Difficulty;
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdParam, int nCmdShow)
 {
@@ -40,17 +41,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 
 	g_bGameStart = false;
 	g_CurSelect = IDC_RADIO1;
-
-	// 윈도우 창을 화면 중앙에 생성한다.
-	int x, y, width, height;
-	RECT rtDesk, rtWindow;
-	GetWindowRect(GetDesktopWindow(), &rtDesk);
-	GetWindowRect(hWnd, &rtWindow);
-	width = rtWindow.right - rtWindow.left;
-	height = rtWindow.bottom - rtWindow.top;
-	x = (rtDesk.right - width) / 2;
-	y = (rtDesk.bottom - height) / 2;
-	MoveWindow(hWnd, x, y, WindowWidth30, WindowHeight30, TRUE);
+	g_Difficulty = GameManager::GetInstance()->GetDifficulty();
 
 	while (true)
 	{
@@ -123,6 +114,8 @@ BOOL CALLBACK AboutDlgProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lPara
 		if (!g_bGameStart)
 		{
 			g_CurSelect = IDC_RADIO1;
+			g_Difficulty = DIFFICULTY_EASY;
+			GameManager::GetInstance()->SetDifficulty(g_Difficulty);
 		}
 		// GetDlgItem : 해당 ID의 리소스를 받아온다.
 		hRadio = GetDlgItem(hDlg, g_CurSelect);
@@ -140,19 +133,25 @@ BOOL CALLBACK AboutDlgProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lPara
 			{
 				g_bGameStart = true;
 				g_CurSelect = IDC_RADIO1;
-				MessageBox(hDlg, "Beginner", "초급자", MB_OK);
+				//MessageBox(hDlg, "Easy", "초급", MB_OK);
+				g_Difficulty = DIFFICULTY_EASY;
+				GameManager::GetInstance()->SetDifficulty(g_Difficulty);
 			}
 			else if (IsDlgButtonChecked(hDlg, IDC_RADIO2) == BST_CHECKED)
 			{
 				g_bGameStart = true;
 				g_CurSelect = IDC_RADIO2;
-				MessageBox(hDlg, "Intermediate", "중급자", MB_OK);
+				//MessageBox(hDlg, "Normal", "중급", MB_OK);
+				g_Difficulty = DIFFICULTY_NORMAL;
+				GameManager::GetInstance()->SetDifficulty(g_Difficulty);
 			}
 			else if (IsDlgButtonChecked(hDlg, IDC_RADIO3) == BST_CHECKED)
 			{
 				g_bGameStart = true;
 				g_CurSelect = IDC_RADIO3;
-				MessageBox(hDlg, "Advanced ", "고급자", MB_OK);
+				//MessageBox(hDlg, "Hard", "고급", MB_OK);
+				g_Difficulty = DIFFICULTY_HARD;
+				GameManager::GetInstance()->SetDifficulty(g_Difficulty);
 			}
 
 			// GetDlgItem : 해당 ID의 리소스를 받아온다.

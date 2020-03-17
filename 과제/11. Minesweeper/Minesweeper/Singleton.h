@@ -1,4 +1,5 @@
 #pragma once
+#include "Mecro.h"
 
 template <typename T>
 class Singleton
