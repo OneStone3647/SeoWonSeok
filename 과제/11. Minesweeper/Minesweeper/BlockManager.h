@@ -21,5 +21,6 @@ public:
 	void Init(HDC MemDC, int MapSizeX, int MapSizeY, int BlockStartX, int BlockStartY);
 	void Release();
 	void DrawAllBlock();
+	void CheckBlock(MOUSECLICK PlayerClick, POINT MousePoint);
 };
 

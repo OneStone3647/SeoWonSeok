@@ -34,9 +34,27 @@ public:
 	{
 		m_Block.Draw(m_MemDC, m_StartPoint.x + BlockSize * m_Point.x, m_StartPoint.y + BlockSize * m_Point.y, BlockSize, BlockSize);
 	}
-	inline void DrawFlag(int SizeX = BlockSize, int SizeY = BlockSize)
+	inline void DrawFlag()
 	{
 		m_Flag.Draw(m_MemDC, m_StartPoint.x + BlockSize * m_Point.x, m_StartPoint.y + BlockSize * m_Point.y, BlockSize, BlockSize);
+	}
+
+	inline RECT GetCollision()
+	{
+		return m_Collision;
+	}
+	inline POINT GetPoint()
+	{
+		return m_Point;
+	}
+
+	inline bool GetIsFlag()
+	{
+		return m_bIsFlag;
+	}
+	inline void SetIsFlag(bool bFlag)
+	{
+		m_bIsFlag = bFlag;
 	}
 };
 

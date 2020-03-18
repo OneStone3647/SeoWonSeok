@@ -1,13 +1,6 @@
 #pragma once
 #include "Mecro.h"
 
-enum MOUSECLICK
-{
-	MOUSECLICK_IDLE,
-	MOUSECLICK_LEFT,
-	MOUSECLICK_RIGHT
-};
-
 class Player
 {
 private:

@@ -21,8 +21,8 @@ private:
 	SIZE					m_MapSize;
 	SIZE					m_ScreenSize;
 	SIZE					m_WindowSize;
-	int						m_StartBlockXPos;		// 행, 가로
-	int						m_StartBlockYPos;		// 열, 세로	
+	int						m_StartBlockXPos;
+	int						m_StartBlockYPos;
 
 	Bitmap				m_Back;
 	BlockManager*		m_BlockManager;

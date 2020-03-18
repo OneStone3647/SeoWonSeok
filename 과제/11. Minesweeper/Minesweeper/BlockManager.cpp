@@ -84,7 +84,32 @@ void BlockManager::DrawAllBlock()
 	{
 		for (iterX = iterY->begin(); iterX != iterY->end(); iterX++)
 		{
-			(*iterX)->DrawBlock();
+			if ((*iterX)->GetIsFlag())
+			{
+				(*iterX)->DrawFlag();
+			}
+			else
+			{
+				(*iterX)->DrawBlock();
+			}
+		}
+	}
+}
+
+void BlockManager::CheckBlock(MOUSECLICK PlayerClick, POINT MousePoint)
+{
+	for (int y = 0; y < m_MapY; y++)
+	{
+		for (int x = 0; x < m_MapX; x++)
+		{
+			if (PlayerClick == MOUSECLICK_LEFT && PtInRect(&m_Block[y][x]->GetCollision(), MousePoint))
+			{
+				m_Block[y][x]->SetIsFlag(false);
+			}
+			else if(PlayerClick == MOUSECLICK_RIGHT && PtInRect(&m_Block[y][x]->GetCollision(), MousePoint))
+			{
+				m_Block[y][x]->SetIsFlag(true);
+			}
 		}
 	}
 }

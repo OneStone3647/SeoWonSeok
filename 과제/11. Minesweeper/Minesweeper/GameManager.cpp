@@ -66,6 +66,10 @@ void GameManager::Update(LPARAM lParam)
 	m_Back.Draw(m_MemDC, 0, 0, m_ScreenSize.cx, m_ScreenSize.cy);
 	m_BlockManager->DrawAllBlock();
 
+	m_Player->Input(lParam);
+	m_BlockManager->CheckBlock(m_Player->GetMouseClick(), m_Player->GetMousePoint());
+
+
 	// GetDC를 통해 DC를 받는다.
 	HDC hdc = GetDC(m_hWnd);
 	// 숨겨 그린 것을 원래 보여야할 hdc에 그린다.

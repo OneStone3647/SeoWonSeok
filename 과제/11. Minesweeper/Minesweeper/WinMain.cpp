@@ -7,7 +7,6 @@ HINSTANCE g_hInst;
 HWND hWnd;
 LPCTSTR lpszClass = TEXT("Minesweeper");
 
-bool					g_bGameStart;
 int						g_CurSelect;
 DIFFICULTY			g_Difficulty;
 GameManager		g_GameManager;
@@ -40,7 +39,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 	// 윈도우를 만들고 나면 초기화 해준다.
 	g_GameManager.Init(hWnd);
 
-	g_bGameStart = false;
 	g_CurSelect = IDC_RADIO1;
 	g_Difficulty = g_GameManager.GetDifficulty();
 
@@ -87,6 +85,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 			DialogBox(g_hInst, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, AboutDlgProc);
 
 			break;
+			
+		case ID_EXIT:
+			PostQuitMessage(0);
+			break;
 		}
 
 		return 0;
@@ -106,16 +108,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 BOOL CALLBACK AboutDlgProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
 	HWND hRadio;
+	int tmpSelect = NULL;
+
 	switch (iMessage)
 	{
 		// DialogBox 초기화 설정
 	case WM_INITDIALOG:
-		if (!g_bGameStart)
-		{
-			g_CurSelect = IDC_RADIO1;
-			g_Difficulty = DIFFICULTY_EASY;
-			g_GameManager.SetDifficulty(g_Difficulty);
-		}
+		tmpSelect = g_CurSelect;
 		// GetDlgItem : 해당 ID의 리소스를 받아온다.
 		hRadio = GetDlgItem(hDlg, g_CurSelect);
 		// IDC_RADIO1을 체크된 상태로 설정한다.
@@ -130,26 +129,27 @@ BOOL CALLBACK AboutDlgProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lPara
 		case IDOK:
 			if (IsDlgButtonChecked(hDlg, IDC_RADIO1) == BST_CHECKED)
 			{
-				g_bGameStart = true;
-				g_CurSelect = IDC_RADIO1;
+				tmpSelect = IDC_RADIO1;
 				//MessageBox(hDlg, "Easy", "초급", MB_OK);
 				g_Difficulty = DIFFICULTY_EASY;
 			}
 			else if (IsDlgButtonChecked(hDlg, IDC_RADIO2) == BST_CHECKED)
 			{
-				g_bGameStart = true;
-				g_CurSelect = IDC_RADIO2;
+				tmpSelect = IDC_RADIO2;
 				//MessageBox(hDlg, "Normal", "중급", MB_OK);
 				g_Difficulty = DIFFICULTY_NORMAL;
 			}
 			else if (IsDlgButtonChecked(hDlg, IDC_RADIO3) == BST_CHECKED)
 			{
-				g_bGameStart = true;
-				g_CurSelect = IDC_RADIO3;
+				tmpSelect = IDC_RADIO3;
 				//MessageBox(hDlg, "Hard", "고급", MB_OK);
 				g_Difficulty = DIFFICULTY_HARD;
 			}
-			g_GameManager.SetDifficulty(g_Difficulty);
+			if (g_CurSelect != tmpSelect)
+			{
+				g_CurSelect = tmpSelect;
+				g_GameManager.SetDifficulty(g_Difficulty);
+			}
 
 			// GetDlgItem : 해당 ID의 리소스를 받아온다.
 			hRadio = GetDlgItem(hDlg, g_CurSelect);
