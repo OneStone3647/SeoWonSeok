@@ -9,7 +9,7 @@ enum BLOCK
 
 class Block
 {
-private:
+protected:
 	HDC			m_MemDC;
 	Bitmap		m_Block;
 	Bitmap		m_Flag;
@@ -20,14 +20,16 @@ private:
 	POINT			m_StartPoint;
 	RECT			m_Collision;
 
+	bool			m_bIsOpen;
 	bool			m_bIsFlag;
 
 public:
 	Block();
-	~Block();
+	virtual ~Block();
 
 public:
 	void Init(HDC MemDC, int x, int y, int BlockStartX, int BlockStartY);
+	virtual void Draw() = 0;
 
 public:
 	inline void DrawBlock()
@@ -43,9 +45,10 @@ public:
 	{
 		return m_Collision;
 	}
-	inline POINT GetPoint()
+
+	inline void IsOpen()
 	{
-		return m_Point;
+		m_bIsOpen = true;
 	}
 
 	inline bool GetIsFlag()
@@ -60,11 +63,23 @@ public:
 
 class Mine : public Block
 {
+private:
+	Bitmap		m_Mine;
 
+public:
+	void Init(HDC MemDC, int x, int y, int BlockStartX, int BlockStartY);
+	void Draw();
 };
 
 class Safe : public Block
 {
+private:
+	Bitmap		m_NumberBlock;
+	int				m_MineCount;
 
+public:
+	void Init(HDC MemDC, int x, int y, int BlockStartX, int BlockStartY);
+	void NumberInit();
+	void Draw();
 };
 

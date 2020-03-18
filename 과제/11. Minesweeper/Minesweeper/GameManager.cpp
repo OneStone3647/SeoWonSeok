@@ -68,6 +68,7 @@ void GameManager::Update(LPARAM lParam)
 
 	m_Player->Input(lParam);
 	m_BlockManager->CheckBlock(m_Player->GetMouseClick(), m_Player->GetMousePoint());
+	m_Player->Init();
 
 
 	// GetDC를 통해 DC를 받는다.
