@@ -1,6 +1,5 @@
-﻿  Bitmap.cpp
-  Block.cpp
-  GameManager.cpp
+﻿  GameManager.cpp
+  Player.cpp
   WinMain.cpp
   코드를 생성하고 있습니다...
   Minesweeper.vcxproj -> D:\Study\Programing\SeoWonSeok\과제\11. Minesweeper\Debug\Minesweeper.exe

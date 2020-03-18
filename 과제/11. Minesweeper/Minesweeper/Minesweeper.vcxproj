@@ -142,16 +142,19 @@
   <ItemGroup>
     <ClCompile Include="Bitmap.cpp" />
     <ClCompile Include="Block.cpp" />
+    <ClCompile Include="BlockManager.cpp" />
     <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bitmap.h" />
     <ClInclude Include="Block.h" />
+    <ClInclude Include="BlockManager.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Mecro.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="Singleton.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Minesweeper.rc" />
