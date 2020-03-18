@@ -1,31 +1,19 @@
 #pragma once
+#include "Block.h"
 #include "Singleton.h"
-#include "BlockManager.h"
-
-enum DIFFICULTY
-{
-	DIFFICULTY_EASY,
-	DIFFICULTY_NORMAL,
-	DIFFICULTY_HARD
-};
 
 class GameManager : public Singleton<GameManager>
 {
 private:
-	HWND			m_hWnd;
-	HDC				m_MemDC;
-	HBITMAP			m_NewBitmap;
-	HBITMAP			m_OldBitmap;
+	HWND		m_hWnd;
+	HDC			m_MemDC;
+	HBITMAP		m_NewBitmap;
+	HBITMAP		m_OldBitmap;
 
-	DIFFICULTY		m_Difficulty;
-	SIZE				m_MapSize;
-	SIZE				m_ScreenSize;
-	SIZE				m_WindowSize;
-	int					m_StartBlockXPos;		// 행, 가로
-	int					m_StartBlockYPos;		// 열, 세로	
+	Bitmap		m_Back;
+	SIZE			m_MapSize;
 
-	BlockManager	m_BlockManager;
-	Bitmap			m_Back;
+	Block			m_Block;
 
 public:
 	GameManager();
@@ -36,10 +24,5 @@ public:
 	void Release();
 	void Update(LPARAM lParam);
 	void InitBlock();
-	DIFFICULTY GetDifficulty()
-	{
-		return m_Difficulty;
-	}
-	void SetDifficulty(DIFFICULTY Difficulty);
 };
 

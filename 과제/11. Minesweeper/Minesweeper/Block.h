@@ -1,52 +1,41 @@
 #pragma once
 #include "Bitmap.h"
 
-enum BLOCK
+enum BLOCKINDEX
 {
-	BLOCK_SAFE,
-	BLOCK_MINE
+	BLOCKINDEX_BLANK,
+	BLOCKINDEX_0,
+	BLOCKINDEX_1,
+	BLOCKINDEX_2,
+	BLOCKINDEX_3,
+	BLOCKINDEX_4,
+	BLOCKINDEX_5,
+	BLOCKINDEX_6,
+	BLOCKINDEX_7,
+	BLOCKINDEX_8,
+	BLOCKINDEX_FLAG,
+	BLOCKINDEX_MINE
 };
 
 class Block
 {
 private:
 	HDC			m_MemDC;
-	Bitmap		m_Block;
-	Bitmap		m_Flag;
 
-	BLOCK		m_eBlock;
-
-	POINT			m_Point;
-	POINT			m_StartPoint;
-	RECT			m_Collision;
-
-	bool			m_bIsFlag;
+	Bitmap		m_Block[12];
+	int				m_BlockIndex;
 
 public:
 	Block();
 	~Block();
 
 public:
-	void Init(HDC MemDC, int x, int y, int BlockStartX, int BlockStartY);
+	void Init(HDC MemDC);
 
 public:
-	inline void DrawBlock()
+	inline void DrawBlock(int BlockIndex, int x, int y, int SizeX, int SizeY)
 	{
-		m_Block.Draw(m_MemDC, m_StartPoint.x + BlockSize * m_Point.x, m_StartPoint.y + BlockSize * m_Point.y, BlockSize, BlockSize);
+		m_Block[BlockIndex].Draw(m_MemDC, x, y, SizeX, SizeY);
 	}
-	inline void DrawFlag(int SizeX = BlockSize, int SizeY = BlockSize)
-	{
-		m_Flag.Draw(m_MemDC, m_StartPoint.x + BlockSize * m_Point.x, m_StartPoint.y + BlockSize * m_Point.y, BlockSize, BlockSize);
-	}
-};
-
-class Mine : public Block
-{
-
-};
-
-class Safe : public Block
-{
-
 };
 
