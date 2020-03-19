@@ -23,8 +23,17 @@ void Block::Init(HDC MemDC, int x, int y, int BlockStartX, int BlockStartY)
 	m_Collision = { BlockStartX + BlockSize * x, BlockStartY + BlockSize * y,
 		BlockStartX + BlockSize * (x + 1), BlockStartY + BlockSize * (y + 1) };
 
+	m_eBlock = BLOCK_NONE;
+
 	m_bIsOpen = false;
-	m_bIsFlag = false;
+	m_bFlag = false;
+}
+
+MineBlock::~MineBlock()
+{
+	m_Block.Release();
+	m_Flag.Release();
+	m_MineBlock.Release();
 }
 
 void MineBlock::Init(HDC MemDC, int x, int y, int BlockStartX, int BlockStartY)
@@ -45,7 +54,7 @@ void MineBlock::Draw()
 	else
 	{
 		// 标惯老 版快
-		if (m_bIsFlag)
+		if (m_bFlag)
 		{
 			m_Flag.Draw(m_MemDC, m_StartPoint.x + BlockSize * m_Point.x, m_StartPoint.y + BlockSize * m_Point.y, BlockSize, BlockSize);
 		}
@@ -57,15 +66,21 @@ void MineBlock::Draw()
 	}
 }
 
+SafeBlock::~SafeBlock()
+{
+	m_Block.Release();
+	m_Flag.Release();
+	m_NumberBlock.Release();
+}
+
 void SafeBlock::Init(HDC MemDC, int x, int y, int BlockStartX, int BlockStartY)
 {
 	Block::Init(MemDC, x, y, BlockStartX, BlockStartY);
 	m_eBlock = BLOCK_SAFE;
 	m_MineCount = 0;
-	NumberInit();
 }
 
-void SafeBlock::NumberInit()
+void SafeBlock::SetNumberBlock()
 {
 	char buf[256];
 	sprintf(buf, "Bitmap\\block_%d.bmp", m_MineCount);
@@ -83,7 +98,7 @@ void SafeBlock::Draw()
 	else
 	{
 		// 标惯老 版快
-		if (m_bIsFlag)
+		if (m_bFlag)
 		{
 			m_Flag.Draw(m_MemDC, m_StartPoint.x + BlockSize * m_Point.x, m_StartPoint.y + BlockSize * m_Point.y, BlockSize, BlockSize);
 		}

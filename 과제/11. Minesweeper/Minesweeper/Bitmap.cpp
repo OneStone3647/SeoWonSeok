@@ -9,11 +9,7 @@ Bitmap::Bitmap()
 
 Bitmap::~Bitmap()
 {
-	// m_MemDC에 이전 비트맵을 연결한다.
-	SelectObject(m_MemDC, m_OldBitmap);
-	DeleteObject(m_NewBitmap);
-	// CreateCompatibleDC로 만들어 진 DC는 DeleteDC로 지워야한다.
-	DeleteDC(m_MemDC);
+	Release();
 }
 
 void Bitmap::Init(HDC hdc, LPCSTR FileName)
@@ -32,4 +28,13 @@ void Bitmap::Init(HDC hdc, LPCSTR FileName)
 	GetObject(m_NewBitmap, sizeof(Bitmap_Info), &Bitmap_Info);
 	m_Size.cx = Bitmap_Info.bmWidth;
 	m_Size.cy = Bitmap_Info.bmHeight;
+}
+
+void Bitmap::Release()
+{
+	// m_MemDC에 이전 비트맵을 연결한다.
+	SelectObject(m_MemDC, m_OldBitmap);
+	DeleteObject(m_NewBitmap);
+	// CreateCompatibleDC로 만들어 진 DC는 DeleteDC로 지워야한다.
+	DeleteDC(m_MemDC);
 }

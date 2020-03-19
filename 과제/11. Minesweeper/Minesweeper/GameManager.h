@@ -30,6 +30,9 @@ private:
 
 	int						m_MineCount;
 
+	bool					m_bIsGameStart;
+	bool					m_bIsGameOver;
+
 public:
 	GameManager();
 	~GameManager();

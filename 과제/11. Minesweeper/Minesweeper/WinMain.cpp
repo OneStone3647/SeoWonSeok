@@ -76,7 +76,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		switch (LOWORD(wParam))
 		{
 		case ID_NEW_GAME:
-			MessageBox(hWnd, "New Game Click", "New Game", MB_OK);
+			g_GameManager.ResetGame();
 
 			break;
 
@@ -149,6 +149,7 @@ BOOL CALLBACK AboutDlgProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lPara
 			{
 				g_CurSelect = tmpSelect;
 				g_GameManager.SetDifficulty(g_Difficulty);
+				g_GameManager.ResetGame();
 			}
 
 			// GetDlgItem : 해당 ID의 리소스를 받아온다.

@@ -15,6 +15,7 @@ public:
 
 public:
 	void Init(HDC hdc, LPCSTR FileName);
+	void Release();
 
 public:
 	// ±×¸®±â

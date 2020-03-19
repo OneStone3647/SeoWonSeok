@@ -29,6 +29,8 @@ void GameManager::Init(HWND hWnd)
 	m_Difficulty = DIFFICULTY_EASY;
 	SetDifficulty(m_Difficulty);
 
+	MoveWindow(m_hWnd, 400, 200, m_WindowSize.cx, m_WindowSize.cy, TRUE);
+
 	// 배경 비트맵 초기화
 	m_Back.Init(m_MemDC, "Bitmap\\back.bmp");
 
@@ -47,6 +49,9 @@ void GameManager::Init(HWND hWnd)
 	}
 	m_Player = new Player;
 	m_Player->Init();
+
+	m_bIsGameStart = false;
+	m_bIsGameOver = false;
 }
 
 void GameManager::Release()
@@ -66,8 +71,11 @@ void GameManager::Update(LPARAM lParam)
 	m_Back.Draw(m_MemDC, 0, 0, m_ScreenSize.cx, m_ScreenSize.cy);
 	m_BlockManager->DrawAllBlock();
 
-	m_Player->Input(lParam);
-	m_BlockManager->CheckBlock(m_Player->GetMouseClick(), m_Player->GetMousePoint());
+	if (!m_bIsGameOver)
+	{
+		m_Player->Input(lParam);
+	}
+	m_BlockManager->OpenBlock(m_Player->GetMouseClick(), m_Player->GetMousePoint(), &m_bIsGameOver);
 	m_Player->Init();
 
 
@@ -133,17 +141,15 @@ void GameManager::SetDifficulty(DIFFICULTY Difficulty)
 	//height = rtWindow.bottom - rtWindow.top;
 	//x = (rtDesk.right - width) / 2;
 	//y = (rtDesk.bottom - height) / 2;
-	ResetGame();
-	MoveWindow(m_hWnd, 400, 200, m_WindowSize.cx, m_WindowSize.cy, TRUE);
 }
 
 void GameManager::ResetGame()
 {
 	// BlockManager 클래스 동적 할당
-	if (m_BlockManager != NULL)
-	{
-		delete m_BlockManager;
-	}
-	m_BlockManager = new BlockManager;
 	m_BlockManager->Init(m_MemDC, m_MapSize.cx, m_MapSize.cy, m_StartBlockXPos, m_StartBlockYPos, m_MineCount);
+	m_Player->Init();
+
+	m_bIsGameOver = false;
+
+	MoveWindow(m_hWnd, 400, 200, m_WindowSize.cx, m_WindowSize.cy, TRUE);
 }
