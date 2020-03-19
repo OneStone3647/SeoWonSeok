@@ -38,7 +38,7 @@ void GameManager::Init(HWND hWnd)
 		delete m_BlockManager;
 	}
 	m_BlockManager = new BlockManager;
-	m_BlockManager->Init(m_MemDC, m_MapSize.cx, m_MapSize.cy, m_StartBlockXPos, m_StartBlockYPos);
+	m_BlockManager->Init(m_MemDC, m_MapSize.cx, m_MapSize.cy, m_StartBlockXPos, m_StartBlockYPos, m_MineCount);
 
 	// Player 클래스 동적 할당
 	if (m_Player != NULL)
@@ -96,6 +96,7 @@ void GameManager::SetDifficulty(DIFFICULTY Difficulty)
 		m_WindowSize.cy = WindowHeightEasy;
 		m_StartBlockXPos = BlockStartXEasy;
 		m_StartBlockYPos = BlockStartYEasy;
+		m_MineCount = 10;
 		break;
 	case DIFFICULTY_NORMAL:
 		m_Difficulty = DIFFICULTY_NORMAL;
@@ -107,6 +108,7 @@ void GameManager::SetDifficulty(DIFFICULTY Difficulty)
 		m_WindowSize.cy = WindowHeightNormal;
 		m_StartBlockXPos = BlockStartXNormal;
 		m_StartBlockYPos = BlockStartYNormal;
+		m_MineCount = 40;
 		break;
 	case DIFFICULTY_HARD:
 		m_Difficulty = DIFFICULTY_HARD;
@@ -118,6 +120,7 @@ void GameManager::SetDifficulty(DIFFICULTY Difficulty)
 		m_WindowSize.cy = WindowHeightHard;
 		m_StartBlockXPos = BlockStartXHard;
 		m_StartBlockYPos = BlockStartYHard;
+		m_MineCount = 99;
 		break;
 	}
 
@@ -142,5 +145,5 @@ void GameManager::ResetGame()
 		delete m_BlockManager;
 	}
 	m_BlockManager = new BlockManager;
-	m_BlockManager->Init(m_MemDC, m_MapSize.cx, m_MapSize.cy, m_StartBlockXPos, m_StartBlockYPos);
+	m_BlockManager->Init(m_MemDC, m_MapSize.cx, m_MapSize.cy, m_StartBlockXPos, m_StartBlockYPos, m_MineCount);
 }

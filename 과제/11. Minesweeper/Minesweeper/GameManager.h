@@ -28,6 +28,8 @@ private:
 	BlockManager*		m_BlockManager;
 	Player*				m_Player;
 
+	int						m_MineCount;
+
 public:
 	GameManager();
 	~GameManager();

@@ -11,7 +11,7 @@ BlockManager::~BlockManager()
 {
 }
 
-void BlockManager::Init(HDC MemDC, int MapSizeX, int MapSizeY, int BlockStartX, int BlockStartY)
+void BlockManager::Init(HDC MemDC, int MapSizeX, int MapSizeY, int BlockStartX, int BlockStartY, int MineCount)
 {
 	m_MemDC = MemDC;
 
@@ -19,6 +19,8 @@ void BlockManager::Init(HDC MemDC, int MapSizeX, int MapSizeY, int BlockStartX, 
 	m_MapY = MapSizeY;
 	m_BlockStartX = BlockStartX;
 	m_BlockStartY = BlockStartY;
+
+	m_MineCount = MineCount;
 
 	// Block 클래스 이차원 벡터가 이미 존재할 경우 할당 해제한다.
 	if (!m_Block.empty())
@@ -47,12 +49,14 @@ void BlockManager::Init(HDC MemDC, int MapSizeX, int MapSizeY, int BlockStartX, 
 		tmpBlock.reserve(m_MapX);
 		for (int x = 0; x < m_MapX; x++)
 		{
-			Safe* tmpSafe = new Safe;
-			tmpSafe->Init(m_MemDC, x, y, m_BlockStartX, m_BlockStartY);
-			tmpBlock.push_back(tmpSafe);
+			SafeBlock* tmpSafeBlock = new SafeBlock;
+			tmpSafeBlock->Init(m_MemDC, x, y, m_BlockStartX, m_BlockStartY);
+			tmpBlock.push_back(tmpSafeBlock);
 		}
 		m_Block.push_back(tmpBlock);
 	}
+
+	SetMine();
 }
 
 void BlockManager::Release()
@@ -76,6 +80,31 @@ void BlockManager::Release()
 	}
 }
 
+// 지뢰 생성
+void BlockManager::SetMine()
+{
+	int tmpMineCount = 0;
+	while (true)
+	{
+		int tmpX = rand() % m_MapX;
+		int tmpY = rand() % m_MapY;
+		if (m_Block[tmpY][tmpX]->GetBlockKind() != BLOCK_MINE)
+		{
+			delete m_Block[tmpY][tmpX];
+			MineBlock* tmpMine = new MineBlock;
+			tmpMine->Init(m_MemDC, tmpX, tmpY, m_BlockStartX, m_BlockStartY);
+			m_Block[tmpY][tmpX] = tmpMine;
+			tmpMineCount++;
+		}
+
+		if (m_MineCount == tmpMineCount)
+		{
+			return;
+		}
+	}
+}
+
+// 모든 블록을 그린다.
 void BlockManager::DrawAllBlock()
 {
 	vector<vector<Block*>>::iterator iterY;

@@ -32,15 +32,6 @@ public:
 	virtual void Draw() = 0;
 
 public:
-	inline void DrawBlock()
-	{
-		m_Block.Draw(m_MemDC, m_StartPoint.x + BlockSize * m_Point.x, m_StartPoint.y + BlockSize * m_Point.y, BlockSize, BlockSize);
-	}
-	inline void DrawFlag()
-	{
-		m_Flag.Draw(m_MemDC, m_StartPoint.x + BlockSize * m_Point.x, m_StartPoint.y + BlockSize * m_Point.y, BlockSize, BlockSize);
-	}
-
 	inline RECT GetCollision()
 	{
 		return m_Collision;
@@ -59,19 +50,24 @@ public:
 	{
 		m_bIsFlag = bFlag;
 	}
+
+	inline BLOCK GetBlockKind()
+	{
+		return m_eBlock;
+	}
 };
 
-class Mine : public Block
+class MineBlock : public Block
 {
 private:
-	Bitmap		m_Mine;
+	Bitmap		m_MineBlock;
 
 public:
 	void Init(HDC MemDC, int x, int y, int BlockStartX, int BlockStartY);
 	void Draw();
 };
 
-class Safe : public Block
+class SafeBlock : public Block
 {
 private:
 	Bitmap		m_NumberBlock;

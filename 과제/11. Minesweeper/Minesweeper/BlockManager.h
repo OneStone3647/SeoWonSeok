@@ -13,13 +13,16 @@ private:
 
 	vector<vector<Block*>>		m_Block;
 
+	int									m_MineCount;
+
 public:
 	BlockManager();
 	~BlockManager();
 
 public:
-	void Init(HDC MemDC, int MapSizeX, int MapSizeY, int BlockStartX, int BlockStartY);
+	void Init(HDC MemDC, int MapSizeX, int MapSizeY, int BlockStartX, int BlockStartY, int MineCount);
 	void Release();
+	void SetMine();
 	void DrawAllBlock();
 	void CheckBlock(MOUSECLICK PlayerClick, POINT MousePoint);
 };
