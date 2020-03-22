@@ -42,6 +42,7 @@ public:
 	inline void IsOpen()
 	{
 		m_bIsOpen = true;
+		m_bFlag = false;
 	}
 	inline bool GetOpen()
 	{

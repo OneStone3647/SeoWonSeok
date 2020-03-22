@@ -23,12 +23,20 @@ private:
 	SIZE					m_WindowSize;
 	int						m_StartBlockXPos;
 	int						m_StartBlockYPos;
+	int						m_TimerPosX;
+	int						m_TimerPosY;
+	int						m_MineCountPosX;
+	int						m_MineCountPosY;
 
 	Bitmap				m_Back;
 	BlockManager*		m_BlockManager;
 	Player*				m_Player;
 
 	int						m_MineCount;
+
+	int						m_Timer;
+	float					m_StartTimer;
+	float					m_CurTimer;
 
 	bool					m_bIsGameStart;
 	bool					m_bIsGameOver;
@@ -48,5 +56,7 @@ public:
 	}
 	void SetDifficulty(DIFFICULTY Difficulty);
 	void ResetGame();
+	void DrawTimer();
+	void DrawMineCount();
 };
 

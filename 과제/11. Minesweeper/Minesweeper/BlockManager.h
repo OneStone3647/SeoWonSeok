@@ -14,6 +14,7 @@ private:
 	vector<vector<Block*>>		m_Block;
 
 	int									m_MineCount;
+	int									m_FlagCount;
 
 public:
 	BlockManager();
@@ -26,13 +27,17 @@ public:
 	void SetMine();
 	void SetNumberBlock();
 	void DrawAllBlock();
-	void OpenBlock(MOUSECLICK PlayerClick, POINT MousePoint, bool* bGameOver);
+	void Update(MOUSECLICK PlayerClick, POINT MousePoint, bool* bGameStart, bool* bGameOver);
 	void OpenBlock(int x, int y);
 
 public:
 	inline vector<vector<Block*>> GetBlock()
 	{
 		return m_Block;
+	}
+	inline int GetFlagCount()
+	{
+		return m_FlagCount;
 	}
 };
 

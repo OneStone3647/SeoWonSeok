@@ -58,6 +58,8 @@ void BlockManager::Init(HDC MemDC, int MapSizeX, int MapSizeY, int BlockStartX, 
 
 	SetMine();
 	SetNumberBlock();
+
+	m_FlagCount = 0;
 }
 
 void BlockManager::Release()
@@ -204,15 +206,18 @@ void BlockManager::DrawAllBlock()
 	}
 }
 
-// 플레이어의 입력에 맞는 블록을 연다.
-void BlockManager::OpenBlock(MOUSECLICK PlayerClick, POINT MousePoint, bool * bGameOver)
+void BlockManager::Update(MOUSECLICK PlayerClick, POINT MousePoint, bool * bGameStart, bool * bGameOver)
 {
+	int tmpFlagCount = 0;
+
 	for (int y = 0; y < m_MapY; y++)
 	{
 		for (int x = 0; x < m_MapX; x++)
 		{
 			if ((PlayerClick == MOUSECLICK_LEFT && PtInRect(&m_Block[y][x]->GetCollision(), MousePoint)) && m_Block[y][x]->GetFlag() != true)
 			{
+				*bGameStart = true;
+
 				m_Block[y][x]->IsOpen();
 				if (m_Block[y][x]->GetBlockType() == BLOCK_SAFE)
 				{
@@ -223,8 +228,10 @@ void BlockManager::OpenBlock(MOUSECLICK PlayerClick, POINT MousePoint, bool * bG
 					*bGameOver = true;
 				}
 			}
-			else if(PlayerClick == MOUSECLICK_RIGHT && PtInRect(&m_Block[y][x]->GetCollision(), MousePoint))
+			else if (PlayerClick == MOUSECLICK_RIGHT && PtInRect(&m_Block[y][x]->GetCollision(), MousePoint) && m_Block[y][x]->GetOpen() != true)
 			{
+				*bGameStart = true;
+
 				if (m_Block[y][x]->GetFlag())
 				{
 					m_Block[y][x]->SetFlag(false);
@@ -237,13 +244,20 @@ void BlockManager::OpenBlock(MOUSECLICK PlayerClick, POINT MousePoint, bool * bG
 
 			if (*bGameOver)
 			{
-				if (m_Block[y][x]->GetBlockType() == BLOCK_MINE)
+				if (m_Block[y][x]->GetBlockType() == BLOCK_MINE && m_Block[y][x]->GetFlag() != true)
 				{
 					m_Block[y][x]->IsOpen();
 				}
 			}
+
+			if (m_Block[y][x]->GetFlag())
+			{
+				tmpFlagCount++;
+			}
 		}
 	}
+
+	m_FlagCount = tmpFlagCount;
 }
 
 // 주변에 열 수 있는 블록들을 연다.
@@ -257,7 +271,7 @@ void BlockManager::OpenBlock(int x, int y)
 	// 왼쪽 위 대각선 블록
 	if (y - 1 >= 0 && x - 1 >= 0)
 	{
-		if (m_Block[y - 1][x - 1]->GetOpen() != true && m_Block[y - 1][x - 1]->GetFlag() != true && m_Block[y - 1][x - 1]->GetBlockType() == BLOCK_SAFE)
+		if (m_Block[y - 1][x - 1]->GetOpen() != true && m_Block[y - 1][x - 1]->GetBlockType() == BLOCK_SAFE)
 		{
 			m_Block[y - 1][x - 1]->IsOpen();
 
@@ -270,7 +284,7 @@ void BlockManager::OpenBlock(int x, int y)
 	// 왼쪽 블록
 	if (x - 1 >= 0)
 	{
-		if (m_Block[y][x - 1]->GetOpen() != true && m_Block[y][x - 1]->GetFlag() != true && m_Block[y][x - 1]->GetBlockType() == BLOCK_SAFE)
+		if (m_Block[y][x - 1]->GetOpen() != true && m_Block[y][x - 1]->GetBlockType() == BLOCK_SAFE)
 		{
 			m_Block[y][x - 1]->IsOpen();
 
@@ -283,7 +297,7 @@ void BlockManager::OpenBlock(int x, int y)
 	// 왼쪽 아래 대각선 블록
 	if (y + 1 < m_MapY && x - 1 >= 0)
 	{
-		if (m_Block[y + 1][x - 1]->GetOpen() != true && m_Block[y + 1][x - 1]->GetFlag() != true && m_Block[y + 1][x - 1]->GetBlockType() == BLOCK_SAFE)
+		if (m_Block[y + 1][x - 1]->GetOpen() != true && m_Block[y + 1][x - 1]->GetBlockType() == BLOCK_SAFE)
 		{
 			m_Block[y + 1][x - 1]->IsOpen();
 
@@ -296,7 +310,7 @@ void BlockManager::OpenBlock(int x, int y)
 	// 위 블록
 	if (y - 1 >= 0)
 	{
-		if (m_Block[y - 1][x]->GetOpen() != true && m_Block[y - 1][x]->GetFlag() != true && m_Block[y - 1][x]->GetBlockType() == BLOCK_SAFE)
+		if (m_Block[y - 1][x]->GetOpen() != true && m_Block[y - 1][x]->GetBlockType() == BLOCK_SAFE)
 		{
 			m_Block[y - 1][x]->IsOpen();
 
@@ -309,7 +323,7 @@ void BlockManager::OpenBlock(int x, int y)
 	// 아래 블록
 	if (y + 1 < m_MapY)
 	{
-		if (m_Block[y + 1][x]->GetOpen() != true && m_Block[y + 1][x]->GetFlag() != true && m_Block[y + 1][x]->GetBlockType() == BLOCK_SAFE)
+		if (m_Block[y + 1][x]->GetOpen() != true && m_Block[y + 1][x]->GetBlockType() == BLOCK_SAFE)
 		{
 			m_Block[y + 1][x]->IsOpen();
 
@@ -322,7 +336,7 @@ void BlockManager::OpenBlock(int x, int y)
 	// 오른쪽 위 대각선 블록
 	if (y - 1 >= 0 && x + 1 < m_MapX)
 	{
-		if (m_Block[y - 1][x + 1]->GetOpen() != true && m_Block[y - 1][x + 1]->GetFlag() != true && m_Block[y - 1][x + 1]->GetBlockType() == BLOCK_SAFE)
+		if (m_Block[y - 1][x + 1]->GetOpen() != true && m_Block[y - 1][x + 1]->GetBlockType() == BLOCK_SAFE)
 		{
 			m_Block[y - 1][x + 1]->IsOpen();
 
@@ -335,7 +349,7 @@ void BlockManager::OpenBlock(int x, int y)
 	// 오른쪽 블록
 	if (x + 1 < m_MapX)
 	{
-		if (m_Block[y][x + 1]->GetOpen() != true && m_Block[y][x + 1]->GetFlag() != true && m_Block[y][x + 1]->GetBlockType() == BLOCK_SAFE)
+		if (m_Block[y][x + 1]->GetOpen() != true && m_Block[y][x + 1]->GetBlockType() == BLOCK_SAFE)
 		{
 			m_Block[y][x + 1]->IsOpen();
 
@@ -348,7 +362,7 @@ void BlockManager::OpenBlock(int x, int y)
 	// 오른쪽 아래 대각선 블록
 	if (x + 1 < m_MapX && y + 1 < m_MapY)
 	{
-		if (m_Block[y + 1][x + 1]->GetOpen() != true && m_Block[y + 1][x + 1]->GetFlag() != true && m_Block[y + 1][x + 1]->GetBlockType() == BLOCK_SAFE)
+		if (m_Block[y + 1][x + 1]->GetOpen() != true && m_Block[y + 1][x + 1]->GetBlockType() == BLOCK_SAFE)
 		{
 			m_Block[y + 1][x + 1]->IsOpen();
 

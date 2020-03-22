@@ -34,6 +34,9 @@ void GameManager::Init(HWND hWnd)
 	// 배경 비트맵 초기화
 	m_Back.Init(m_MemDC, "Bitmap\\back.bmp");
 
+	m_bIsGameStart = false;
+	m_bIsGameOver = false;
+
 	// BlockManager 클래스 동적 할당
 	if (m_BlockManager != NULL)
 	{
@@ -50,8 +53,9 @@ void GameManager::Init(HWND hWnd)
 	m_Player = new Player;
 	m_Player->Init();
 
-	m_bIsGameStart = false;
-	m_bIsGameOver = false;
+	m_Timer = 0.0f;
+	m_StartTimer = GetTickCount();
+	m_CurTimer = 0.0f;
 }
 
 void GameManager::Release()
@@ -74,10 +78,22 @@ void GameManager::Update(LPARAM lParam)
 	if (!m_bIsGameOver)
 	{
 		m_Player->Input(lParam);
+		if (m_bIsGameStart)
+		{
+			m_CurTimer = GetTickCount();
+		}
 	}
-	m_BlockManager->OpenBlock(m_Player->GetMouseClick(), m_Player->GetMousePoint(), &m_bIsGameOver);
+	m_BlockManager->Update(m_Player->GetMouseClick(), m_Player->GetMousePoint(), &m_bIsGameStart, &m_bIsGameOver);
 	m_Player->Init();
 
+	if (!m_bIsGameOver && m_CurTimer - m_StartTimer >= 1000.0f)
+	{
+		m_Timer++;
+		m_StartTimer = m_CurTimer;
+	}
+
+	DrawTimer();
+	DrawMineCount();
 
 	// GetDC를 통해 DC를 받는다.
 	HDC hdc = GetDC(m_hWnd);
@@ -105,6 +121,10 @@ void GameManager::SetDifficulty(DIFFICULTY Difficulty)
 		m_StartBlockXPos = BlockStartXEasy;
 		m_StartBlockYPos = BlockStartYEasy;
 		m_MineCount = 10;
+		m_TimerPosX = TimerPosXEasy;
+		m_TimerPosY = TimerPosYEasy;
+		m_MineCountPosX = MineCountPosXEasy;
+		m_MineCountPosY = MineCountPosYEasy;
 		break;
 	case DIFFICULTY_NORMAL:
 		m_Difficulty = DIFFICULTY_NORMAL;
@@ -117,6 +137,10 @@ void GameManager::SetDifficulty(DIFFICULTY Difficulty)
 		m_StartBlockXPos = BlockStartXNormal;
 		m_StartBlockYPos = BlockStartYNormal;
 		m_MineCount = 40;
+		m_TimerPosX = TimerPosXNormal;
+		m_TimerPosY = TimerPosYNormal;
+		m_MineCountPosX = MineCountPosXNormal;
+		m_MineCountPosY = MineCountPosYNormal;
 		break;
 	case DIFFICULTY_HARD:
 		m_Difficulty = DIFFICULTY_HARD;
@@ -129,6 +153,10 @@ void GameManager::SetDifficulty(DIFFICULTY Difficulty)
 		m_StartBlockXPos = BlockStartXHard;
 		m_StartBlockYPos = BlockStartYHard;
 		m_MineCount = 99;
+		m_TimerPosX = TimerPosXHard;
+		m_TimerPosY = TimerPosYHard;
+		m_MineCountPosX = MineCountPosXHard;
+		m_MineCountPosY = MineCountPosYHard;
 		break;
 	}
 
@@ -149,7 +177,29 @@ void GameManager::ResetGame()
 	m_BlockManager->Init(m_MemDC, m_MapSize.cx, m_MapSize.cy, m_StartBlockXPos, m_StartBlockYPos, m_MineCount);
 	m_Player->Init();
 
+	m_bIsGameStart = false;
 	m_bIsGameOver = false;
 
+	m_Timer = 0.0f;
+	m_StartTimer = GetTickCount();
+	m_CurTimer = 0.0f;
+
 	MoveWindow(m_hWnd, 400, 200, m_WindowSize.cx, m_WindowSize.cy, TRUE);
+}
+
+void GameManager::DrawTimer()
+{
+	TCHAR time[128];
+	wsprintf(time, TEXT("%d"), m_Timer);
+	TextOut(m_MemDC, m_TimerPosX, m_TimerPosY, time, strlen(time));
+}
+
+void GameManager::DrawMineCount()
+{
+	int tmpMineCount = m_MineCount;
+	tmpMineCount -= m_BlockManager->GetFlagCount();
+
+	TCHAR mine[128];
+	wsprintf(mine, TEXT("%d"), tmpMineCount);
+	TextOut(m_MemDC, m_MineCountPosX, m_MineCountPosY, mine, strlen(mine));
 }

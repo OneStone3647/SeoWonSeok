@@ -37,15 +37,27 @@ enum MOUSECLICK
 #define WindowHeightEasy			498
 #define ScreenWidthEasy				398
 #define ScreenHeightEasy				438
+#define TimerPosXEasy					80
+#define TimerPosYEasy					410
+#define MineCountPosXEasy			300
+#define MineCountPosYEasy			410
 
 // 16x16보드 크기
 #define WindowWidthNormal			726
 #define WindowHeightNormal		830
 #define ScreenWidthNormal			710
-#define ScreenHeightNormal			772		
+#define ScreenHeightNormal			772	
+#define TimerPosXNormal				150
+#define TimerPosYNormal				730
+#define MineCountPosXNormal		550
+#define MineCountPosYNormal		730	
 
 // 16x30보드 크기
 #define WindowWidthHard			1316
 #define WindowHeightHard			830
 #define ScreenWidthHard				1300
 #define ScreenHeightHard				772
+#define TimerPosXHard				300
+#define TimerPosYHard				730
+#define MineCountPosXHard			1000
+#define MineCountPosYHard			730
