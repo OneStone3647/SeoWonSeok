@@ -82,7 +82,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 
 		case ID_OPTION:
 			// DialogBox 생성(인스턴, 리소스(템플리트), Dialog가 뿌려질 윈도우, DialogBox 프록시저)
-			DialogBox(g_hInst, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, AboutDlgProc);
+			DialogBox(g_hInst, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, (DLGPROC)&AboutDlgProc);
 
 			break;
 			
