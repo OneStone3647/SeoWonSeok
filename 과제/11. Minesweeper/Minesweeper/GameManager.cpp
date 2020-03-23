@@ -36,6 +36,9 @@ void GameManager::Init(HWND hWnd)
 
 	m_bIsGameStart = false;
 	m_bIsGameOver = false;
+	m_bIsWin = false;
+
+	m_CheckMessage = false;
 
 	// BlockManager 클래스 동적 할당
 	if (m_BlockManager != NULL)
@@ -72,10 +75,11 @@ void GameManager::Release()
 
 void GameManager::Update(LPARAM lParam)
 {
+	m_BlockManager->SetDrawAll();
 	m_Back.Draw(m_MemDC, 0, 0, m_ScreenSize.cx, m_ScreenSize.cy);
 	m_BlockManager->DrawAllBlock();
 
-	if (!m_bIsGameOver)
+	if (!m_bIsGameOver && !m_bIsWin)
 	{
 		m_Player->Input(lParam);
 		if (m_bIsGameStart)
@@ -86,7 +90,7 @@ void GameManager::Update(LPARAM lParam)
 	m_BlockManager->Update(m_Player->GetMouseClick(), m_Player->GetMousePoint(), &m_bIsGameStart, &m_bIsGameOver);
 	m_Player->Init();
 
-	if (!m_bIsGameOver && m_CurTimer - m_StartTimer >= 1000.0f)
+	if (!m_bIsGameOver && !m_bIsWin && m_CurTimer - m_StartTimer >= 1000.0f)
 	{
 		m_Timer++;
 		m_StartTimer = m_CurTimer;
@@ -94,6 +98,30 @@ void GameManager::Update(LPARAM lParam)
 
 	DrawTimer();
 	DrawMineCount();
+
+	int MaxBlockCount = m_MapSize.cx * m_MapSize.cy;
+	int OpenBlockCount = m_BlockManager->GetOpenCount();
+	if (MaxBlockCount - OpenBlockCount == m_MineCount)
+	{
+		m_bIsWin = true;
+	}
+
+	if (!m_CheckMessage && m_BlockManager->GetDrawAll())
+	{
+		if (m_bIsWin)
+		{
+			TCHAR win[256];
+			wsprintf(win, TEXT("Win!! Time : %d"), m_Timer);
+			MessageBox(m_hWnd, win, "Win!!", MB_OK);
+			m_CheckMessage = true;
+		}
+
+		if (m_bIsGameOver)
+		{
+			MessageBox(m_hWnd, "Lose", "Lose!!", MB_OK);
+			m_CheckMessage = true;
+		}
+	}
 
 	// GetDC를 통해 DC를 받는다.
 	HDC hdc = GetDC(m_hWnd);
@@ -179,6 +207,9 @@ void GameManager::ResetGame()
 
 	m_bIsGameStart = false;
 	m_bIsGameOver = false;
+	m_bIsWin = false;
+
+	m_CheckMessage = false;
 
 	m_Timer = 0.0f;
 	m_StartTimer = GetTickCount();

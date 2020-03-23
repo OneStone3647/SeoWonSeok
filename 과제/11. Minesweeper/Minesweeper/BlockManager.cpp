@@ -60,6 +60,8 @@ void BlockManager::Init(HDC MemDC, int MapSizeX, int MapSizeY, int BlockStartX, 
 	SetNumberBlock();
 
 	m_FlagCount = 0;
+
+	m_DrawAll = false;
 }
 
 void BlockManager::Release()
@@ -204,11 +206,14 @@ void BlockManager::DrawAllBlock()
 			(*iterX)->Draw();
 		}
 	}
+
+	m_DrawAll = true;
 }
 
 void BlockManager::Update(MOUSECLICK PlayerClick, POINT MousePoint, bool * bGameStart, bool * bGameOver)
 {
 	int tmpFlagCount = 0;
+	int tmpOpenCount = 0;
 
 	for (int y = 0; y < m_MapY; y++)
 	{
@@ -254,10 +259,16 @@ void BlockManager::Update(MOUSECLICK PlayerClick, POINT MousePoint, bool * bGame
 			{
 				tmpFlagCount++;
 			}
+
+			if (m_Block[y][x]->GetBlockType() == BLOCK_SAFE && m_Block[y][x]->GetOpen())
+			{
+				tmpOpenCount++;
+			}
 		}
 	}
 
 	m_FlagCount = tmpFlagCount;
+	m_OpenCount = tmpOpenCount;
 }
 
 // 주변에 열 수 있는 블록들을 연다.

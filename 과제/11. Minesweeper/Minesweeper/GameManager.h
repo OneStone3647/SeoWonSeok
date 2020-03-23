@@ -40,6 +40,9 @@ private:
 
 	bool					m_bIsGameStart;
 	bool					m_bIsGameOver;
+	bool					m_bIsWin;
+
+	bool					m_CheckMessage;
 
 public:
 	GameManager();
@@ -58,5 +61,20 @@ public:
 	void ResetGame();
 	void DrawTimer();
 	void DrawMineCount();
+
+public:
+	inline bool GetGameOver()
+	{
+		return m_bIsGameOver;
+	}
+	inline bool GetWin()
+	{
+		return m_bIsWin;
+	}
+
+	inline int GetTimer()
+	{
+		return m_Timer;
+	}
 };
 
