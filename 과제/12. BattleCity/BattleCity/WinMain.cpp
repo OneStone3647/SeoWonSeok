@@ -40,28 +40,16 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 	RegisterClass(&WndClass);
 
 	hWnd = CreateWindow(lpszClass, lpszClass, WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, CW_USEDEFAULT, CW_USEDEFAULT,
-		600, 600, NULL, (HMENU)NULL, hInstance, NULL);
+		WindowWidth, WindowHeight, NULL, (HMENU)NULL, hInstance, NULL);
 	ShowWindow(hWnd, nCmdShow);
 
 	// 윈도우를 만들고 나면 초기화 해준다.
-	g_GameManager.Init(hWnd);
 	g_Maptool.Init(hWnd);
+	g_GameManager.Init(hWnd);
 	g_CurMode = MODE_GAME;
 
 	//g_CurSelect = IDC_RADIO1;
 	//g_Difficulty = g_GameManager.GetDifficulty();
-
-
-	// 윈도우 창을 화면 중앙에 생성한다.
-	int x, y, width, height;
-	RECT rtDesk, rtWindow;
-	GetWindowRect(GetDesktopWindow(), &rtDesk);
-	GetWindowRect(hWnd, &rtWindow);
-	width = rtWindow.right - rtWindow.left;
-	height = rtWindow.bottom - rtWindow.top;
-	x = (rtDesk.right - width) / 2;
-	y = (rtDesk.bottom - height) / 2;
-	MoveWindow(hWnd, x, y, width, height, TRUE);
 
 	while (true)
 	{
@@ -79,12 +67,24 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 		else
 		{
 			// 메시지가 없을 때 업데이트를 진행한다.
-			//g_GameManager.Update(Message.lParam);
+			switch (g_CurMode)
+			{
+			case MODE_GAME:
+				g_GameManager.Update();
+
+				break;
+
+			case MODE_MAPTOOL:
+				g_Maptool.Update(Message.lParam);
+
+				break;
+			}
 		}
 	}
 
 	// 종료 직전에 릴리즈 해준다.
-	//g_GameManager.Release();
+	g_GameManager.Release();
+	g_Maptool.Release();
 
 	return (int)Message.wParam;
 }
@@ -97,10 +97,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		switch (LOWORD(wParam))
 		{
 		case ID_MAIN:
+			g_CurMode = MODE_GAME;
+			g_GameManager.Init(hWnd);
 
 			break;
 
 		case ID_MAPTOOL:
+			g_CurMode = MODE_MAPTOOL;
+			g_Maptool.Init(hWnd);
 
 			break;
 

@@ -9,6 +9,8 @@ private:
 	HBITMAP		m_NewBitmap;
 	HBITMAP		m_OldBitmap;
 
+	SIZE			m_ScreenSize;
+
 public:
 	GameManager();
 	~GameManager();

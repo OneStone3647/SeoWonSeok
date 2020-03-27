@@ -9,6 +9,8 @@ private:
 	HBITMAP		m_NewBitmap;
 	HBITMAP		m_OldBitmap;
 
+	SIZE			m_ScreenSize;
+
 public:
 	Maptool();
 	~Maptool();
@@ -16,6 +18,6 @@ public:
 public:
 	void Init(HWND hWnd);
 	void Release();
-	void Update();
+	void Update(LPARAM lParam);
 };
 
