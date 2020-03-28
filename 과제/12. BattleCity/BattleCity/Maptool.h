@@ -1,5 +1,5 @@
 #pragma once
-#include "Mecro.h"
+#include "Block.h"
 
 class Maptool
 {
@@ -10,6 +10,8 @@ private:
 	HBITMAP		m_OldBitmap;
 
 	SIZE			m_ScreenSize;
+
+	vector<vector<Block*>>	m_Block;
 
 public:
 	Maptool();
