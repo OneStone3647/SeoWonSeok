@@ -60,6 +60,7 @@ void Maptool::Init(HWND hWnd)
 		{
 			Block* newBlock = new Block;
 			newBlock->Init(m_MemDC, x, y);
+			//newBlock->SetBlockType(BLOKCTYPE_BLOCK09);
 			tmpBlock.push_back(newBlock);
 		}
 		m_Block.push_back(tmpBlock);
@@ -119,7 +120,7 @@ void Maptool::Update(LPARAM lParam)
 
 	for (vector<vector<Block*>>::size_type y = 0; y < m_Block.size(); ++y)
 	{
-		for (vector<Block*>::size_type x = 0; x < m_Block[x].size(); ++x)
+		for (vector<Block*>::size_type x = 0; x < m_Block[y].size(); ++x)
 		{
 			if (m_Block[y][x]->GetBlockType() != BLOCKTYPE_EMPTY)
 			{

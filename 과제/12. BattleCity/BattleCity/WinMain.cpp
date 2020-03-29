@@ -9,7 +9,7 @@ enum MODE
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 HINSTANCE g_hInst;
-HWND hWnd;
+HWND g_hWnd;
 LPCTSTR lpszClass = TEXT("BattleCity");
 
 GameManager		g_GameManager;
@@ -24,7 +24,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 
 	WndClass.cbClsExtra = 0;
 	WndClass.cbWndExtra = 0;
-	WndClass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
+	WndClass.hbrBackground = (HBRUSH)GetStockObject(GRAY_BRUSH);
 	WndClass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	WndClass.hIcon = LoadIcon(NULL, IDI_APPLICATION);
 	WndClass.hInstance = hInstance;
@@ -39,13 +39,13 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 	WndClass.style = CS_HREDRAW | CS_VREDRAW;
 	RegisterClass(&WndClass);
 
-	hWnd = CreateWindow(lpszClass, lpszClass, WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, CW_USEDEFAULT, CW_USEDEFAULT,
+	g_hWnd = CreateWindow(lpszClass, lpszClass, WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, CW_USEDEFAULT, CW_USEDEFAULT,
 		WindowWidth, WindowHeight, NULL, (HMENU)NULL, hInstance, NULL);
-	ShowWindow(hWnd, nCmdShow);
+	ShowWindow(g_hWnd, nCmdShow);
 
 	// 윈도우를 만들고 나면 초기화 해준다.
-	g_Maptool.Init(hWnd);
-	g_GameManager.Init(hWnd);
+	g_Maptool.Init(g_hWnd);
+	g_GameManager.Init(g_hWnd);
 	g_CurMode = MODE_GAME;
 
 	//g_CurSelect = IDC_RADIO1;
@@ -98,13 +98,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		{
 		case ID_MAIN:
 			g_CurMode = MODE_GAME;
-			g_GameManager.Init(hWnd);
+			g_GameManager.Release();
+			g_GameManager.Init(g_hWnd);
 
 			break;
 
 		case ID_MAPTOOL:
 			g_CurMode = MODE_MAPTOOL;
-			g_Maptool.Init(hWnd);
+			g_Maptool.Release();
+			g_Maptool.Init(g_hWnd);
 
 			break;
 

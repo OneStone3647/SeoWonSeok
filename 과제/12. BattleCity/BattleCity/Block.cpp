@@ -22,14 +22,15 @@ void Block::Init(HDC MemDC, int x, int y)
 
 void Block::SetBlockType(BLOCKTYPE BlockType)
 {
+	m_BlockType = BlockType;
 	char buf[256];
-	if(BlockType <= BLOKCTYPE_BLOCK09)
+	if(m_BlockType <= BLOKCTYPE_BLOCK09)
 	{
-		sprintf(buf, "Bitmap\\block_0%d.bmp", BlockType);
+		sprintf(buf, "Bitmap\\block_0%d.bmp", m_BlockType);
 	}
 	else
 	{
-		sprintf(buf, "Bitmap\\block_%d.bmp", BlockType);
+		sprintf(buf, "Bitmap\\block_%d.bmp", m_BlockType);
 	}
 	m_Bitmap.Init(m_MemDC, buf);
 }
