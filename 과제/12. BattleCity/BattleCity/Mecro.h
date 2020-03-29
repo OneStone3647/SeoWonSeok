@@ -15,14 +15,14 @@ using namespace std;
 #define WindowWidth		1616
 #define WindowHeight		958
 
-#define GameWidth			924
-#define GameHeight		700
+#define GameWidth			600
+#define GameHeight		560
 
 #define MaptoolWidth		1600
 #define MaptoolHeight		900
 
-#define BlockSizeX			66
-#define BlockSizeY			50
+#define BlockSizeX			33
+#define BlockSizeY			25
 
 #define MapSizeX			14
 #define MapSizeY			14

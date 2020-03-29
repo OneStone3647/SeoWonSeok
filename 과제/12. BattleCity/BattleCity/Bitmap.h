@@ -24,4 +24,9 @@ public:
 		// m_MemDC에 그린 것을 hdc에 복사한다.
 		TransparentBlt(hdc, x, y, SizeX, SizeY, m_MemDC, 0, 0, m_Size.cx, m_Size.cy, RGB(255, 0, 255));
 	}
+
+	inline SIZE GetSize()
+	{
+		return m_Size;
+	}
 };
