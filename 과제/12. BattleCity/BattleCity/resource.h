@@ -5,7 +5,7 @@
 #define IDR_MENU1                       101
 #define ID_MAIN                        40001
 #define ID_MAPTOOL                   40002
-#define ID_EXIT                          40003
+#define ID_EXIT							 40003
 
 // Next default values for new objects
 // 

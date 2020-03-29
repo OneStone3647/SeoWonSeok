@@ -95,4 +95,54 @@ void Maptool::Release()
 
 void Maptool::Update(LPARAM lParam)
 {
+	//vector<vector<Block*>>::iterator iterY;
+	//vector<Block*>::iterator iterX;
+	//for (iterX = iterY->begin(); iterX != iterY->end(); iterX++)
+	//{
+	//	if ((*iterX)->GetBlockType() != BLOCKTYPE_EMPTY)
+	//	{
+	//		(*iterX)->Draw();
+	//	}
+	//	else
+	//	{
+	//		HBRUSH newBrush = (HBRUSH)GetStockObject(BLACK_BRUSH);
+	//		HBRUSH oldBrush = (HBRUSH)SelectObject(m_MemDC, newBrush);
+	//		HPEN newPen = (HPEN)GetStockObject(WHITE_BRUSH);
+	//		HPEN oldPen = (HPEN)SelectObject(m_MemDC, newPen);
+
+	//		Rectangle(m_MemDC, (*iterX)->GetBlockPoint().x, (*iterX)->GetBlockPoint().y, (*iterX)->GetBlockPoint().x + BlockSizeX, (*iterX)->GetBlockPoint().y + BlockSizeY);
+
+	//		SelectObject(m_MemDC, oldBrush);
+	//		SelectObject(m_MemDC, oldPen);
+	//	}
+	//}
+
+	for (vector<vector<Block*>>::size_type y = 0; y < m_Block.size(); ++y)
+	{
+		for (vector<Block*>::size_type x = 0; x < m_Block[x].size(); ++x)
+		{
+			if (m_Block[y][x]->GetBlockType() != BLOCKTYPE_EMPTY)
+			{
+				m_Block[y][x]->Draw();
+			}
+			else
+			{
+				HBRUSH newBrush = (HBRUSH)GetStockObject(BLACK_BRUSH);
+				HBRUSH oldBrush = (HBRUSH)SelectObject(m_MemDC, newBrush);
+				HPEN newPen = (HPEN)GetStockObject(WHITE_BRUSH);
+				HPEN oldPen = (HPEN)SelectObject(m_MemDC, newPen);
+
+				Rectangle(m_MemDC, m_Block[y][x]->GetBlockPoint().x * BlockSizeX, m_Block[y][x]->GetBlockPoint().y * BlockSizeY, (m_Block[y][x]->GetBlockPoint().x + 1) * BlockSizeX, (m_Block[y][x]->GetBlockPoint().y + 1) * BlockSizeY);
+
+				SelectObject(m_MemDC, oldBrush);
+				SelectObject(m_MemDC, oldPen);
+			}
+		}
+	}
+
+	// GetDC를 통해 DC를 받는다.
+	HDC hdc = GetDC(m_hWnd);
+	// 숨겨 그린 것을 원래 보여야할 hdc에 그린다.
+	BitBlt(hdc, 0, 0, MaptoolWidth, MaptoolHeight, m_MemDC, 0, 0, SRCCOPY);
+	ReleaseDC(m_hWnd, hdc);
 }

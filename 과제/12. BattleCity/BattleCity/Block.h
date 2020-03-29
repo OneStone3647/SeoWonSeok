@@ -4,7 +4,6 @@
 
 enum BLOCKTYPE
 {
-	BLOCKTYPE_EMPTY,
 	BLOKCTYPE_BLOCK00,
 	BLOKCTYPE_BLOCK01,
 	BLOKCTYPE_BLOCK02,
@@ -20,6 +19,7 @@ enum BLOCKTYPE
 	BLOKCTYPE_BLOCK12,
 	BLOKCTYPE_BLOCK13,
 	BLOKCTYPE_BLOCK14,
+	BLOCKTYPE_EMPTY
 };
 
 class Block
@@ -39,5 +39,17 @@ public:
 public:
 	void Init(HDC MemDC, int x, int y);
 	void SetBlockType(BLOCKTYPE BlockType);
+	void Draw();
+
+public:
+	inline BLOCKTYPE GetBlockType()
+	{
+		return m_BlockType;
+	}
+
+	inline POINT GetBlockPoint()
+	{
+		return m_Point;
+	}
 };
 
