@@ -51,5 +51,10 @@ public:
 	{
 		return m_Point;
 	}
+
+	inline Collision GetCollision()
+	{
+		return m_Collision;
+	}
 };
 

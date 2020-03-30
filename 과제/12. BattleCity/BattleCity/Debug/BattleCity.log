@@ -1,7 +1,3 @@
-﻿  GameManager.cpp
-d:\study\programing\seowonseok\과제\battlecity\battlecity\gamemanager.cpp(3): warning C4356: 'Singleton<GameManager>::m_pThis': 정적 데이터 멤버는 파생 클래스를 통해 초기화할 수 없습니다.
-  Maptool.cpp
-d:\study\programing\seowonseok\과제\battlecity\battlecity\maptool.cpp(3): warning C4356: 'Singleton<Maptool>::m_pThis': 정적 데이터 멤버는 파생 클래스를 통해 초기화할 수 없습니다.
-  WinMain.cpp
-  코드를 생성하고 있습니다...
-  BattleCity.vcxproj -> D:\Study\Programing\SeoWonSeok\과제\BattleCity\Debug\BattleCity.exe
+﻿  Maptool.cpp
+d:\study\programing\seowonseok\과제\12. battlecity\battlecity\maptool.cpp(3): warning C4356: 'Singleton<Maptool>::m_pThis': 정적 데이터 멤버는 파생 클래스를 통해 초기화할 수 없습니다.
+  BattleCity.vcxproj -> D:\Study\Programing\SeoWonSeok\과제\12. BattleCity\Debug\BattleCity.exe

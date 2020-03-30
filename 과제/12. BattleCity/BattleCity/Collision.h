@@ -12,6 +12,7 @@ public:
 
 public:
 	bool CheckOverlap(RECT TargetCollision);
+	bool CheckMouseHit(POINT MousePoint);
 
 public:
 	inline RECT GetCollision()

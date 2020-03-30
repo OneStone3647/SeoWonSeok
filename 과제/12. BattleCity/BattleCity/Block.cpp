@@ -39,7 +39,7 @@ void Block::Draw()
 {
 	if (m_BlockType != BLOCKTYPE_EMPTY)
 	{
-		m_Bitmap.Draw(m_MemDC, m_Point.x, m_Point.y, BlockSizeX, BlockSizeY);
+		m_Bitmap.Draw(m_MemDC, m_Point.x * BlockSizeX, m_Point.y * BlockSizeY, BlockSizeX, BlockSizeY);
 	}
 	else
 	{

@@ -22,5 +22,6 @@ public:
 	void Init(HWND hWnd);
 	void Release();
 	void Update(LPARAM lParam);
+	void DrawBackGround();
 };
 

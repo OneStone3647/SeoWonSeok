@@ -1,12 +1,6 @@
 #include "GameManager.h"
 #include "Maptool.h"
 
-enum MODE
-{
-	MODE_GAME,
-	MODE_MAPTOOL
-};
-
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 HINSTANCE g_hInst;
 HWND g_hWnd;

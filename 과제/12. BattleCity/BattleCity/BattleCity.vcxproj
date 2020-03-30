@@ -146,6 +146,7 @@
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Maptool.h" />
     <ClInclude Include="Mecro.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Singleton.h" />
   </ItemGroup>
@@ -158,6 +159,7 @@
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Maptool.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

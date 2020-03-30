@@ -65,8 +65,7 @@ void Maptool::Init(HWND hWnd)
 		for (int x = 0; x < MapSizeX; x++)
 		{
 			Block* newBlock = new Block;
-			newBlock->Init(m_MemDC, x * BlockSizeX, y * BlockSizeY);
-			newBlock->SetBlockType(BLOKCTYPE_BLOCK02);
+			newBlock->Init(m_MemDC, x, y);
 			tmpBlock.push_back(newBlock);
 		}
 		m_Block.push_back(tmpBlock);
@@ -102,10 +101,24 @@ void Maptool::Release()
 
 void Maptool::Update(LPARAM lParam)
 {
+	POINT m_MousePoint = { 2000, 2000 };
+	DrawBackGround();
+
+	if (GetAsyncKeyState(VK_LBUTTON) & 0x8001)
+	{
+		m_MousePoint.x = LOWORD(lParam);
+		m_MousePoint.y = HIWORD(lParam);
+	}
+
 	for (vector<vector<Block*>>::size_type y = 0; y < m_Block.size(); ++y)
 	{
 		for (vector<Block*>::size_type x = 0; x < m_Block[y].size(); ++x)
 		{
+			if (m_Block[y][x]->GetCollision().CheckMouseHit(m_MousePoint))
+			{
+				m_Block[y][x]->SetBlockType(BLOKCTYPE_BLOCK01);
+			}
+
 			if (m_Block[y][x]->GetBlockType() != BLOCKTYPE_EMPTY)
 			{
 				m_Block[y][x]->Draw();
@@ -113,13 +126,16 @@ void Maptool::Update(LPARAM lParam)
 			else
 			{
 				HBRUSH newBrush = (HBRUSH)GetStockObject(BLACK_BRUSH);
+				// m_MemDC에 newBrush를 연결하고 이전 브러시를 oldBrush에 저장한다.
 				HBRUSH oldBrush = (HBRUSH)SelectObject(m_MemDC, newBrush);
 				HPEN newPen = (HPEN)GetStockObject(WHITE_BRUSH);
 				HPEN oldPen = (HPEN)SelectObject(m_MemDC, newPen);
 
 				Rectangle(m_MemDC, m_Block[y][x]->GetBlockPoint().x * BlockSizeX, m_Block[y][x]->GetBlockPoint().y * BlockSizeY, (m_Block[y][x]->GetBlockPoint().x + 1) * BlockSizeX, (m_Block[y][x]->GetBlockPoint().y + 1) * BlockSizeY);
 
+				// m_MemDC에 oldBrush를 연결한다.
 				SelectObject(m_MemDC, oldBrush);
+				// m_MemDC에 oldPen를 연결한다.
 				SelectObject(m_MemDC, oldPen);
 			}
 		}
@@ -130,4 +146,17 @@ void Maptool::Update(LPARAM lParam)
 	// 숨겨 그린 것을 원래 보여야할 hdc에 그린다.
 	BitBlt(hdc, 0, 0, MaptoolWidth, MaptoolHeight, m_MemDC, 0, 0, SRCCOPY);
 	ReleaseDC(m_hWnd, hdc);
+}
+
+void Maptool::DrawBackGround()
+{
+	HBRUSH newBrush = (HBRUSH)GetStockObject(WHITE_BRUSH);
+	// m_MemDC에 newBrush를 연결하고 이전 브러시를 oldBrush에 저장한다.
+	HBRUSH oldBrush = (HBRUSH)SelectObject(m_MemDC, newBrush);
+
+	Rectangle(m_MemDC, 0, 0, MaptoolWidth, MaptoolHeight);
+	Rectangle(m_MemDC, 0, 0, GameWidth, GameHeight);
+
+	// m_MemDC에 m_OldBrush를 연결한다.
+	SelectObject(m_MemDC, oldBrush);
 }

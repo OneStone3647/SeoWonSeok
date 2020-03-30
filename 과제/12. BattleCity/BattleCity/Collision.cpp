@@ -24,3 +24,13 @@ bool Collision::CheckOverlap(RECT TargetCollision)
 
 	return false;
 }
+
+bool Collision::CheckMouseHit(POINT MousePoint)
+{
+	if (PtInRect(&m_Collision, MousePoint))
+	{
+		return true;
+	}
+
+	return false;
+}
