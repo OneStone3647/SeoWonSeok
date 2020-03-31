@@ -10,6 +10,12 @@ GameManager		g_GameManager;
 Maptool				g_Maptool;
 int						g_CurMode;
 
+enum MODE
+{
+	MODE_GAME,
+	MODE_MAPTOOL
+};
+
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdParam, int nCmdShow)
 {
 	MSG Message;
@@ -92,13 +98,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		{
 		case ID_PLAYGAME:
 			g_CurMode = MODE_GAME;
-			g_GameManager.GetInstance()->Init();
+			g_GameManager.GetInstance()->Init(g_hWnd);
+			g_Maptool.GetInstance()->Release();
 
 			break;
 
 		case ID_MAPTOOL:
 			g_CurMode = MODE_MAPTOOL;
-			g_Maptool.GetInstance()->Init();
+			g_Maptool.GetInstance()->Init(g_hWnd);
+			g_GameManager.GetInstance()->Release();
 
 			break;
 

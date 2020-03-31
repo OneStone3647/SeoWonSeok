@@ -12,11 +12,6 @@ Maptool::~Maptool()
 	Release();
 }
 
-void Maptool::Init()
-{
-	MoveWindow(m_hWnd, WindowPosX, WindowPosY, m_ScreenSize.cx, m_ScreenSize.cy, TRUE);
-}
-
 void Maptool::Init(HWND hWnd)
 {
 	m_ScreenSize.cx = MaptoolWidth;
@@ -65,11 +60,43 @@ void Maptool::Init(HWND hWnd)
 		for (int x = 0; x < MapSizeX; x++)
 		{
 			Block* newBlock = new Block;
-			newBlock->Init(m_MemDC, x, y);
+			newBlock->Init(m_MemDC, x * BlockSizeX, y * BlockSizeY);
 			tmpBlock.push_back(newBlock);
 		}
 		m_Block.push_back(tmpBlock);
 	}
+
+	m_BlockBitmapCount = 15;
+	// Bitmap 클래스 벡터가 이미 존재할 경우 할당 해제한다.
+	if (!m_BlockBitmap.empty())
+	{
+		vector<Block*>::iterator iter;
+		for (iter = m_BlockBitmap.begin(); iter != m_BlockBitmap.end(); iter++)
+		{
+			delete (*iter);
+		}
+		m_BlockBitmap.clear();
+		vector<Block*>().swap(m_BlockBitmap);
+	}
+	// Bitmap 클래스 백터 동적할당
+	// 백터 메모리 크기 설정
+	m_BlockBitmap.reserve(m_BlockBitmapCount);
+	for (int i = 0; i < m_BlockBitmapCount; i++)
+	{
+		Block* tmpBitmap = new Block;
+		tmpBitmap->Init(m_MemDC, 1400, i * (BlockSizeY + 5) + 10);
+		if (i == m_BlockBitmapCount - 1)
+		{
+			tmpBitmap->SetBlockType(BLOCKTYPE_EMPTY);
+		}
+		else
+		{
+			tmpBitmap->SetBlockType((BLOCKTYPE)i);
+		}
+		m_BlockBitmap.push_back(tmpBitmap);
+	}
+
+	m_CurSelectBlock = BLOCKTYPE_EMPTY;
 }
 
 void Maptool::Release()
@@ -97,26 +124,38 @@ void Maptool::Release()
 		m_Block.clear();
 		vector<vector<Block*>>().swap(m_Block);
 	}
+
+	// Bitmap 클래스 벡터 동적 할당 해제
+	if (!m_BlockBitmap.empty())
+	{
+		vector<Block*>::iterator iter;
+		for (iter = m_BlockBitmap.begin(); iter != m_BlockBitmap.end(); iter++)
+		{
+			delete (*iter);
+		}
+		m_BlockBitmap.clear();
+		vector<Block*>().swap(m_BlockBitmap);
+	}
 }
 
 void Maptool::Update(LPARAM lParam)
 {
-	POINT m_MousePoint = { 2000, 2000 };
 	DrawBackGround();
-
-	if (GetAsyncKeyState(VK_LBUTTON) & 0x8001)
-	{
-		m_MousePoint.x = LOWORD(lParam);
-		m_MousePoint.y = HIWORD(lParam);
-	}
+	UpdateBlockBitmap(lParam);
+	
+	HBRUSH newBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
+	// m_MemDC에 newBrush를 연결하고 이전 브러시를 oldBrush에 저장한다.
+	HBRUSH oldBrush = (HBRUSH)SelectObject(m_MemDC, newBrush);
+	HPEN newPen = (HPEN)CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
+	HPEN oldPen = (HPEN)SelectObject(m_MemDC, newPen);
 
 	for (vector<vector<Block*>>::size_type y = 0; y < m_Block.size(); ++y)
 	{
 		for (vector<Block*>::size_type x = 0; x < m_Block[y].size(); ++x)
 		{
-			if (m_Block[y][x]->GetCollision().CheckMouseHit(m_MousePoint))
+			if (Input(lParam) && m_Block[y][x]->GetCollision().CheckMouseHit(m_MousePoint))
 			{
-				m_Block[y][x]->SetBlockType(BLOKCTYPE_BLOCK01);
+				m_Block[y][x]->SetBlockType(m_CurSelectBlock);
 			}
 
 			if (m_Block[y][x]->GetBlockType() != BLOCKTYPE_EMPTY)
@@ -125,22 +164,15 @@ void Maptool::Update(LPARAM lParam)
 			}
 			else
 			{
-				HBRUSH newBrush = (HBRUSH)GetStockObject(BLACK_BRUSH);
-				// m_MemDC에 newBrush를 연결하고 이전 브러시를 oldBrush에 저장한다.
-				HBRUSH oldBrush = (HBRUSH)SelectObject(m_MemDC, newBrush);
-				HPEN newPen = (HPEN)GetStockObject(WHITE_BRUSH);
-				HPEN oldPen = (HPEN)SelectObject(m_MemDC, newPen);
-
-				Rectangle(m_MemDC, m_Block[y][x]->GetBlockPoint().x * BlockSizeX, m_Block[y][x]->GetBlockPoint().y * BlockSizeY, (m_Block[y][x]->GetBlockPoint().x + 1) * BlockSizeX, (m_Block[y][x]->GetBlockPoint().y + 1) * BlockSizeY);
-
-				// m_MemDC에 oldBrush를 연결한다.
-				SelectObject(m_MemDC, oldBrush);
-				// m_MemDC에 oldPen를 연결한다.
-				SelectObject(m_MemDC, oldPen);
+				Rectangle(m_MemDC, m_Block[y][x]->GetBlockPoint().x, m_Block[y][x]->GetBlockPoint().y, m_Block[y][x]->GetBlockPoint().x + BlockSizeX, m_Block[y][x]->GetBlockPoint().y + BlockSizeY);
 			}
 		}
 	}
 
+	// m_MemDC에 oldBrush를 연결한다.
+	SelectObject(m_MemDC, oldBrush);
+	// m_MemDC에 oldPen를 연결한다.
+	SelectObject(m_MemDC, oldPen);
 	// GetDC를 통해 DC를 받는다.
 	HDC hdc = GetDC(m_hWnd);
 	// 숨겨 그린 것을 원래 보여야할 hdc에 그린다.
@@ -159,4 +191,55 @@ void Maptool::DrawBackGround()
 
 	// m_MemDC에 m_OldBrush를 연결한다.
 	SelectObject(m_MemDC, oldBrush);
+}
+
+void Maptool::UpdateBlockBitmap(LPARAM lParam)
+{
+	HBRUSH newBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
+	// m_MemDC에 newBrush를 연결하고 이전 브러시를 oldBrush에 저장한다.
+	HBRUSH oldBrush ;
+	HPEN selectPen = (HPEN)CreatePen(PS_SOLID, 3, RGB(0, 0, 255));
+	HPEN tmpPen = (HPEN)CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
+	HPEN oldPen;
+
+	for (vector<Bitmap*>::size_type i = 0; i < m_BlockBitmap.size(); ++i)
+	{
+		if (Input(lParam) && m_BlockBitmap[i]->GetCollision().CheckMouseHit(m_MousePoint))
+		{
+			m_CurSelectBlock = (BLOCKTYPE)i;
+		}
+
+		if (m_CurSelectBlock == m_BlockBitmap[i]->GetBlockType())
+		{
+			oldPen = (HPEN)SelectObject(m_MemDC, selectPen);
+		}
+		else
+		{
+			oldPen = (HPEN)SelectObject(m_MemDC, tmpPen);
+		}
+		oldBrush = (HBRUSH)SelectObject(m_MemDC, newBrush);
+		if (i != m_BlockBitmap.size() - 1)
+		{
+			m_BlockBitmap[i]->Draw();
+		}
+
+		Rectangle(m_MemDC, m_BlockBitmap[i]->GetBlockPoint().x, m_BlockBitmap[i]->GetBlockPoint().y, m_BlockBitmap[i]->GetBlockPoint().x + BlockSizeX, m_BlockBitmap[i]->GetBlockPoint().y + BlockSizeY);
+
+		// m_MemDC에 oldBrush를 연결한다.
+		SelectObject(m_MemDC, oldBrush);
+		// m_MemDC에 oldPen를 연결한다.
+		SelectObject(m_MemDC, oldPen);
+	}
+}
+
+bool Maptool::Input(LPARAM lParam)
+{
+	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
+	{
+		m_MousePoint.x = LOWORD(lParam);
+		m_MousePoint.y = HIWORD(lParam);
+		return true;
+	}
+
+	return false;
 }

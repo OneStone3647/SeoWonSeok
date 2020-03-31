@@ -21,7 +21,7 @@ public:
 	}
 	inline void SetCollision(int x, int y)
 	{
-		m_Collision = { BlockSizeX * x, BlockSizeY * y,	BlockSizeX * (x + 1), BlockSizeY * (y + 1) };
+		m_Collision = { x, y,	 BlockSizeX + x, BlockSizeY + y };
 	}
 };
 

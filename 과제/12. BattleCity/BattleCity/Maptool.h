@@ -13,15 +13,23 @@ private:
 
 	vector<vector<Block*>>	m_Block;
 
+	vector<Block*>				m_BlockBitmap;
+	int								m_BlockBitmapCount;
+
+	POINT			m_MousePoint;
+
+	BLOCKTYPE	m_CurSelectBlock;
+
 public:
 	Maptool();
 	~Maptool();
 
 public:
-	void Init();
 	void Init(HWND hWnd);
 	void Release();
 	void Update(LPARAM lParam);
 	void DrawBackGround();
+	void UpdateBlockBitmap(LPARAM lParam);
+	bool Input(LPARAM lParam);
 };
 
