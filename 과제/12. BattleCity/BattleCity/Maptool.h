@@ -32,6 +32,11 @@ private:
 
 	FILEMODE	m_CurMode;
 
+	HBRUSH		m_NullBrush;
+	HBRUSH		m_WhiteBrush;
+	HPEN			m_SelectPen;
+	HPEN			m_LinePen;
+
 public:
 	Maptool();
 	~Maptool();

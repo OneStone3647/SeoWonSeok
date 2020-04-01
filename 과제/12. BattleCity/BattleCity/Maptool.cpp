@@ -98,10 +98,15 @@ void Maptool::Init(HWND hWnd)
 
 	m_CurSelectBlock = BLOCKTYPE_EMPTY;
 
-	m_SaveButton = { 100, 720, 300, 770 };
-	m_LoadButton = { 400, 720, 600, 770 };
+	m_SaveButton = { 100, 760, 300, 810 };
+	m_LoadButton = { 400, 760, 600, 810 };
 
 	m_CurMode = FILEMODE_IDLE;
+
+	m_NullBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
+	m_WhiteBrush = (HBRUSH)GetStockObject(WHITE_BRUSH);
+	m_SelectPen = (HPEN)CreatePen(PS_SOLID, 3, RGB(0, 0, 255));
+	m_LinePen = (HPEN)CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
 }
 
 void Maptool::Release()
@@ -141,6 +146,11 @@ void Maptool::Release()
 		m_BlockBitmap.clear();
 		vector<Block*>().swap(m_BlockBitmap);
 	}
+
+	DeleteObject(m_NullBrush);
+	DeleteObject(m_WhiteBrush);
+	DeleteObject(m_SelectPen);
+	DeleteObject(m_LinePen);
 }
 
 void Maptool::Update(LPARAM lParam)
@@ -163,11 +173,9 @@ void Maptool::Update(LPARAM lParam)
 		SaveLoad();
 	}
 	
-	HBRUSH newBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
-	// m_MemDC에 newBrush를 연결하고 이전 브러시를 oldBrush에 저장한다.
-	HBRUSH oldBrush = (HBRUSH)SelectObject(m_MemDC, newBrush);
-	HPEN newPen = (HPEN)CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
-	HPEN oldPen = (HPEN)SelectObject(m_MemDC, newPen);
+	// m_MemDC에 m_NullBrush를 연결하고 이전 브러시를 oldBrush에 저장한다.
+	HBRUSH oldBrush = (HBRUSH)SelectObject(m_MemDC, m_NullBrush);
+	HPEN oldPen = (HPEN)SelectObject(m_MemDC, m_LinePen);
 
 	for (vector<vector<Block*>>::size_type y = 0; y < m_Block.size(); ++y)
 	{
@@ -202,9 +210,8 @@ void Maptool::Update(LPARAM lParam)
 
 void Maptool::DrawBackGround()
 {
-	HBRUSH newBrush = (HBRUSH)GetStockObject(WHITE_BRUSH);
-	// m_MemDC에 newBrush를 연결하고 이전 브러시를 oldBrush에 저장한다.
-	HBRUSH oldBrush = (HBRUSH)SelectObject(m_MemDC, newBrush);
+	// m_MemDC에 m_WhiteBrush를 연결하고 이전 브러시를 oldBrush에 저장한다.
+	HBRUSH oldBrush = (HBRUSH)SelectObject(m_MemDC, m_WhiteBrush);
 
 	Rectangle(m_MemDC, 0, 0, MaptoolWidth, MaptoolHeight);
 	Rectangle(m_MemDC, 0, 0, GameWidth, GameHeight);
@@ -215,11 +222,8 @@ void Maptool::DrawBackGround()
 
 void Maptool::DrawSelectBlock(LPARAM lParam)
 {
-	HBRUSH newBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
-	// m_MemDC에 newBrush를 연결하고 이전 브러시를 oldBrush에 저장한다.
-	HBRUSH oldBrush ;
-	HPEN selectPen = (HPEN)CreatePen(PS_SOLID, 3, RGB(0, 0, 255));
-	HPEN tmpPen = (HPEN)CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
+	// m_MemDC에 m_NullBrush를 연결하고 이전 브러시를 oldBrush에 저장한다.
+	HBRUSH oldBrush;
 	HPEN oldPen;
 
 	for (vector<Bitmap*>::size_type i = 0; i < m_BlockBitmap.size(); ++i)
@@ -231,13 +235,13 @@ void Maptool::DrawSelectBlock(LPARAM lParam)
 
 		if (m_CurSelectBlock == m_BlockBitmap[i]->GetBlockType())
 		{
-			oldPen = (HPEN)SelectObject(m_MemDC, selectPen);
+			oldPen = (HPEN)SelectObject(m_MemDC, m_SelectPen);
 		}
 		else
 		{
-			oldPen = (HPEN)SelectObject(m_MemDC, tmpPen);
+			oldPen = (HPEN)SelectObject(m_MemDC, m_LinePen);
 		}
-		oldBrush = (HBRUSH)SelectObject(m_MemDC, newBrush);
+		oldBrush = (HBRUSH)SelectObject(m_MemDC, m_NullBrush);
 		if (i != m_BlockBitmap.size() - 1)
 		{
 			m_BlockBitmap[i]->Draw();
@@ -266,18 +270,19 @@ bool Maptool::Input(LPARAM lParam)
 
 void Maptool::DrawButton(LPARAM lParam)
 {
-	HBRUSH newBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
-	// m_MemDC에 newBrush를 연결하고 이전 브러시를 oldBrush에 저장한다.
-	HBRUSH oldBrush = (HBRUSH)SelectObject(m_MemDC, newBrush);
-	HPEN newPen = (HPEN)CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
-	HPEN oldPen = (HPEN)SelectObject(m_MemDC, newPen);
+	// m_MemDC에 m_NullBrush를 연결하고 이전 브러시를 oldBrush에 저장한다.
+	HBRUSH oldBrush = (HBRUSH)SelectObject(m_MemDC, m_NullBrush);
+	HPEN oldPen = (HPEN)SelectObject(m_MemDC, m_LinePen);
 
 	Rectangle(m_MemDC, m_SaveButton.left, m_SaveButton.top, m_SaveButton.right, m_SaveButton.bottom);
 	char save[256] = "Save";
-	TextOut(m_MemDC, 180, 735, save, strlen(save));
+	TextOut(m_MemDC, m_SaveButton.left + 80, m_SaveButton.top + 15, save, strlen(save));
 	Rectangle(m_MemDC, m_LoadButton.left, m_LoadButton.top, m_LoadButton.right, m_LoadButton.bottom);
 	char load[256] = "Load";
-	TextOut(m_MemDC, 480, 735, load, strlen(load));
+	TextOut(m_MemDC, m_LoadButton.left + 80, m_LoadButton.top + 15, load, strlen(load));
+
+	SelectObject(m_MemDC, oldBrush);
+	SelectObject(m_MemDC, oldPen);
 }
 
 void Maptool::SaveLoad()

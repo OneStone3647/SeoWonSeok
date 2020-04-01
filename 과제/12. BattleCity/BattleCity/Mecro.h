@@ -27,5 +27,5 @@ using namespace std;
 #define BlockSizeX			66
 #define BlockSizeY			50
 
-#define MapSizeX			14
-#define MapSizeY			14
+#define MapSizeX			15
+#define MapSizeY			15
