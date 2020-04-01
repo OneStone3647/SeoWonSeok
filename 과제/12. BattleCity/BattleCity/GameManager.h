@@ -1,5 +1,5 @@
 #pragma once
-#include "Mecro.h"
+#include "Player.h"
 
 class GameManager : public Singleton<GameManager>
 {
@@ -11,14 +11,21 @@ private:
 
 	SIZE			m_ScreenSize;
 
+	bool			m_GameStart;
+
+	Player*		m_Player;
+
+	HBRUSH		m_BlackBrush;
+	HBRUSH		m_GrayBrush;
+
 public:
 	GameManager();
 	~GameManager();
 
 public:
-	void Init();
 	void Init(HWND hWnd);
 	void Release();
 	void Update();
+	void DrawMenu();
 };
 

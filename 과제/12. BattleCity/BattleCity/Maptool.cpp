@@ -155,8 +155,11 @@ void Maptool::Release()
 
 void Maptool::Update(LPARAM lParam)
 {
+	// 배경 그리기
 	DrawBackGround();
+	// 선택하는 블럭 그리기
 	DrawSelectBlock(lParam);
+	// 버튼 그리기
 	DrawButton(lParam);
 
 	if (Input(lParam) && PtInRect(&m_SaveButton, m_MousePoint))
@@ -173,7 +176,7 @@ void Maptool::Update(LPARAM lParam)
 		SaveLoad();
 	}
 	
-	// m_MemDC에 m_NullBrush를 연결하고 이전 브러시를 oldBrush에 저장한다.
+	// 브러시 선택 및 이전 브러시 백업
 	HBRUSH oldBrush = (HBRUSH)SelectObject(m_MemDC, m_NullBrush);
 	HPEN oldPen = (HPEN)SelectObject(m_MemDC, m_LinePen);
 
@@ -210,7 +213,7 @@ void Maptool::Update(LPARAM lParam)
 
 void Maptool::DrawBackGround()
 {
-	// m_MemDC에 m_WhiteBrush를 연결하고 이전 브러시를 oldBrush에 저장한다.
+	// 브러시 선택 및 이전 브러시 백업
 	HBRUSH oldBrush = (HBRUSH)SelectObject(m_MemDC, m_WhiteBrush);
 
 	Rectangle(m_MemDC, 0, 0, MaptoolWidth, MaptoolHeight);
@@ -222,7 +225,6 @@ void Maptool::DrawBackGround()
 
 void Maptool::DrawSelectBlock(LPARAM lParam)
 {
-	// m_MemDC에 m_NullBrush를 연결하고 이전 브러시를 oldBrush에 저장한다.
 	HBRUSH oldBrush;
 	HPEN oldPen;
 
@@ -270,7 +272,7 @@ bool Maptool::Input(LPARAM lParam)
 
 void Maptool::DrawButton(LPARAM lParam)
 {
-	// m_MemDC에 m_NullBrush를 연결하고 이전 브러시를 oldBrush에 저장한다.
+	// 브러시 선택 및 이전 브러시 백업
 	HBRUSH oldBrush = (HBRUSH)SelectObject(m_MemDC, m_NullBrush);
 	HPEN oldPen = (HPEN)SelectObject(m_MemDC, m_LinePen);
 
