@@ -1,6 +1,13 @@
 #pragma once
 #include "Block.h"
 
+enum FILEMODE
+{
+	FILEMODE_IDLE,
+	FILEMODE_SAVE,
+	FILEMODE_LOAD
+};
+
 class Maptool : public Singleton<Maptool>
 {
 private:
@@ -20,6 +27,11 @@ private:
 
 	BLOCKTYPE	m_CurSelectBlock;
 
+	RECT			m_SaveButton;
+	RECT			m_LoadButton;
+
+	FILEMODE	m_CurMode;
+
 public:
 	Maptool();
 	~Maptool();
@@ -29,7 +41,9 @@ public:
 	void Release();
 	void Update(LPARAM lParam);
 	void DrawBackGround();
-	void UpdateBlockBitmap(LPARAM lParam);
+	void DrawSelectBlock(LPARAM lParam);
 	bool Input(LPARAM lParam);
+	void DrawButton(LPARAM lParam);
+	void SaveLoad();
 };
 

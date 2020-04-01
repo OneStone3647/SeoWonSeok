@@ -97,6 +97,11 @@ void Maptool::Init(HWND hWnd)
 	}
 
 	m_CurSelectBlock = BLOCKTYPE_EMPTY;
+
+	m_SaveButton = { 100, 720, 300, 770 };
+	m_LoadButton = { 400, 720, 600, 770 };
+
+	m_CurMode = FILEMODE_IDLE;
 }
 
 void Maptool::Release()
@@ -141,7 +146,22 @@ void Maptool::Release()
 void Maptool::Update(LPARAM lParam)
 {
 	DrawBackGround();
-	UpdateBlockBitmap(lParam);
+	DrawSelectBlock(lParam);
+	DrawButton(lParam);
+
+	if (Input(lParam) && PtInRect(&m_SaveButton, m_MousePoint))
+	{
+		m_CurMode = FILEMODE_SAVE;
+	}
+	else if (Input(lParam) && PtInRect(&m_LoadButton, m_MousePoint))
+	{
+		m_CurMode = FILEMODE_LOAD;
+	}
+
+	if (m_CurMode != FILEMODE_IDLE)
+	{
+		SaveLoad();
+	}
 	
 	HBRUSH newBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
 	// m_MemDC에 newBrush를 연결하고 이전 브러시를 oldBrush에 저장한다.
@@ -193,7 +213,7 @@ void Maptool::DrawBackGround()
 	SelectObject(m_MemDC, oldBrush);
 }
 
-void Maptool::UpdateBlockBitmap(LPARAM lParam)
+void Maptool::DrawSelectBlock(LPARAM lParam)
 {
 	HBRUSH newBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
 	// m_MemDC에 newBrush를 연결하고 이전 브러시를 oldBrush에 저장한다.
@@ -242,4 +262,83 @@ bool Maptool::Input(LPARAM lParam)
 	}
 
 	return false;
+}
+
+void Maptool::DrawButton(LPARAM lParam)
+{
+	HBRUSH newBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
+	// m_MemDC에 newBrush를 연결하고 이전 브러시를 oldBrush에 저장한다.
+	HBRUSH oldBrush = (HBRUSH)SelectObject(m_MemDC, newBrush);
+	HPEN newPen = (HPEN)CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
+	HPEN oldPen = (HPEN)SelectObject(m_MemDC, newPen);
+
+	Rectangle(m_MemDC, m_SaveButton.left, m_SaveButton.top, m_SaveButton.right, m_SaveButton.bottom);
+	char save[256] = "Save";
+	TextOut(m_MemDC, 180, 735, save, strlen(save));
+	Rectangle(m_MemDC, m_LoadButton.left, m_LoadButton.top, m_LoadButton.right, m_LoadButton.bottom);
+	char load[256] = "Load";
+	TextOut(m_MemDC, 480, 735, load, strlen(load));
+}
+
+void Maptool::SaveLoad()
+{
+	OPENFILENAME OFN;
+	char str[300];
+	char lpstrFile[MAX_PATH] = "";
+	char lpstrPath[MAX_PATH] = "";
+
+	memset(&OFN, 0, sizeof(OPENFILENAME));
+	OFN.lStructSize = sizeof(OPENFILENAME);
+	OFN.hwndOwner = m_hWnd;
+	OFN.lpstrFilter = "Every File(*.*)\0*.*\0Text File\0*.txt;*.doc\0";
+	OFN.lpstrFile = lpstrFile;
+	OFN.nMaxFile = 256;
+	GetCurrentDirectory(MAX_PATH, lpstrPath);
+	OFN.lpstrInitialDir = lpstrPath;
+	if (GetSaveFileName(&OFN) == 0)
+	{
+		DWORD err = CommDlgExtendedError();
+		return;
+	}
+
+	switch (m_CurMode)
+	{
+	case FILEMODE_IDLE:
+		return;
+
+	case FILEMODE_SAVE: 
+		{
+			HANDLE hFile = CreateFile(OFN.lpstrFile, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
+			for (vector<vector<Block*>>::size_type y = 0; y < m_Block.size(); ++y)
+			{
+				for (vector<Block*>::size_type x = 0; x < m_Block[y].size(); ++x)
+				{
+					DWORD writeB;
+					int tmpInt = m_Block[y][x]->GetBlockType();
+					WriteFile(hFile, &tmpInt, sizeof(int), &writeB, NULL);
+				}
+			}
+			CloseHandle(hFile);
+			m_CurMode = FILEMODE_IDLE;
+		}
+		break;
+
+	case FILEMODE_LOAD:
+		{
+			HANDLE hFile = CreateFile(OFN.lpstrFile, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+			for (vector<vector<Block*>>::size_type y = 0; y < m_Block.size(); ++y)
+			{
+				for (vector<Block*>::size_type x = 0; x < m_Block[y].size(); ++x)
+				{
+					DWORD readB;
+					int tmpInt = 0;
+					ReadFile(hFile, &tmpInt, sizeof(int), &readB, NULL);
+					m_Block[y][x]->SetBlockType((BLOCKTYPE)tmpInt);
+				}
+			}
+			CloseHandle(hFile);
+			m_CurMode = FILEMODE_IDLE;
+		}
+		break;
+	}
 }
