@@ -1,8 +1,4 @@
-﻿  Menu.cpp
+﻿  GameManager.cpp
 d:\study\programing\seowonseok\과제\12. battlecity\battlecity\bitmap.h(25): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\study\programing\seowonseok\과제\12. battlecity\battlecity\menu.cpp(44): warning C4244: '=': 'DWORD'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\study\programing\seowonseok\과제\12. battlecity\battlecity\menu.cpp(50): warning C4244: '=': 'DWORD'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\study\programing\seowonseok\과제\12. battlecity\battlecity\menu.cpp(116): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\study\programing\seowonseok\과제\12. battlecity\battlecity\menu.cpp(117): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\study\programing\seowonseok\과제\12. battlecity\battlecity\menu.cpp(118): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\study\programing\seowonseok\과제\12. battlecity\battlecity\gamemanager.cpp(3): warning C4356: 'Singleton<GameManager>::m_pThis': 정적 데이터 멤버는 파생 클래스를 통해 초기화할 수 없습니다.
   BattleCity.vcxproj -> D:\Study\Programing\SeoWonSeok\과제\12. BattleCity\x64\Debug\BattleCity.exe

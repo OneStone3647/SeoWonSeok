@@ -8,28 +8,12 @@ Menu::Menu()
 
 
 Menu::~Menu()
-{	
-	// m_MemDC에 이전 비트맵을 연결한다.
-	SelectObject(m_MemDC, m_OldBitmap);
-	DeleteObject(m_NewBitmap);
-	// CreateCompatibleDC로 만들어진 DC는 DeleteDC로 지워야한다.
-	DeleteDC(m_MemDC);
+{
 }
 
-void Menu::Init(HWND hWnd, bool * GameStartFlag)
+void Menu::Init(HDC MemDC, bool * GameStartFlag)
 {
-	m_hWnd = hWnd;
-	// GetDC를 통해 DC를 받는다.
-	HDC hdc = GetDC(hWnd);
-	// hdc와 호환되는 DC를 만든다.
-	m_MemDC = CreateCompatibleDC(hdc);
-	// hdc와 호환되는 비트맵을 폭 GameWidth, 높이 GameHeight의 크기로 만든다.
-	m_NewBitmap = CreateCompatibleBitmap(hdc, GameWidth, GameHeight);
-	// m_MemDC에 m_NewBitmap을 연결한다.
-	m_OldBitmap = (HBITMAP)SelectObject(m_MemDC, m_NewBitmap);
-
-	// 사용한 DC를 해제 한다.
-	ReleaseDC(hWnd, hdc);
+	m_MemDC = MemDC;
 
 	m_Icon[0].Init(m_MemDC, "Bitmap\\tank_right_00.bmp");
 	m_Icon[1].Init(m_MemDC, "Bitmap\\tank_right_01.bmp");
@@ -127,11 +111,4 @@ void Menu::DrawMenu()
 		m_Icon[m_IconIndex].Draw(m_MemDC, GameWidth / 2 - 100, GameHeight / 3 + 195);
 		break;
 	}
-
-	// GetDC를 통해 DC를 받는다.
-	HDC hdc = GetDC(m_hWnd);
-	// 숨겨 그린 것을 원래 보여야할 hdc에 그린다.
-	BitBlt(hdc, 0, 0, GameWidth, GameHeight, m_MemDC, 0, 0, SRCCOPY);
-	// GetDC를 통해 얻은 DC를 반환한다.
-	ReleaseDC(m_hWnd, hdc);
 }

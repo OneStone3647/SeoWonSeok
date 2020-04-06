@@ -10,10 +10,7 @@ enum SELECTMENU
 class Menu
 {
 private:
-	HWND			m_hWnd;
 	HDC				m_MemDC;
-	HBITMAP			m_NewBitmap;
-	HBITMAP			m_OldBitmap;
 
 	Bitmap			m_Icon[2];
 	int					m_IconIndex;
@@ -30,7 +27,7 @@ public:
 	~Menu();
 
 public:
-	void Init(HWND hWnd, bool* GameStartFlag);
+	void Init(HDC MemDC, bool* GameStartFlag);
 	void Update();
 	void Input();
 	void DrawBackGround();

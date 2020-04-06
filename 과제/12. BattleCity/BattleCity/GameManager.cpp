@@ -36,10 +36,10 @@ void GameManager::Init(HWND hWnd)
 
 	m_Player.Init();
 
-	m_Menu.Init(m_hWnd, &m_GameStart);
+	m_Menu.Init(m_MemDC, &m_GameStart);
 
-	m_BlackBrush = (HBRUSH)GetStockObject(BLACK_BRUSH);
-	m_GrayBrush = (HBRUSH)GetStockObject(GRAY_BRUSH);
+	m_Field.Init(m_MemDC);
+	m_Field.FileLoad(1);
 }
 
 void GameManager::Release()
@@ -49,9 +49,6 @@ void GameManager::Release()
 	DeleteObject(m_NewBitmap);
 	// CreateCompatibleDC로 만들어 진 DC는 DeleteDC로 지워야한다.
 	DeleteDC(m_MemDC);
-
-	DeleteObject(m_BlackBrush);
-	DeleteObject(m_GrayBrush);
 }
 
 void GameManager::Update()
@@ -62,12 +59,16 @@ void GameManager::Update()
 	}
 	else
 	{
-
-
-		// GetDC를 통해 DC를 받는다.
-		HDC hdc = GetDC(m_hWnd);
-		// 숨겨 그린 것을 원래 보여야할 hdc에 그린다.
-		BitBlt(hdc, 0, 0, MaptoolWidth, MaptoolHeight, m_MemDC, 0, 0, SRCCOPY);
-		ReleaseDC(m_hWnd, hdc);
+		m_Field.Update();
 	}
+
+	// GetDC를 통해 DC를 받는다.
+	HDC hdc = GetDC(m_hWnd);
+	// 숨겨 그린 것을 원래 보여야할 hdc에 그린다.
+	BitBlt(hdc, 0, 0, GameWidth, GameHeight, m_MemDC, 0, 0, SRCCOPY);
+	ReleaseDC(m_hWnd, hdc);
+}
+
+void GameManager::DrawStage()
+{
 }

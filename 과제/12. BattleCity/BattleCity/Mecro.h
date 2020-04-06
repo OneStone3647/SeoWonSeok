@@ -18,8 +18,8 @@ using namespace std;
 #define WindowPosX		200
 #define WindowPosY		100
 
-#define GameWidth			924
-#define GameHeight		700
+#define GameWidth			1200
+#define GameHeight		900
 
 #define MaptoolWidth		1600
 #define MaptoolHeight		900

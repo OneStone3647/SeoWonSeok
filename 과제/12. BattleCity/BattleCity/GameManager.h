@@ -1,6 +1,7 @@
 #pragma once
 #include "Player.h"
 #include "Menu.h"
+#include "Field.h"
 
 class GameManager : public Singleton<GameManager>
 {
@@ -16,9 +17,7 @@ private:
 
 	Player			m_Player;
 	Menu			m_Menu;
-
-	HBRUSH		m_BlackBrush;
-	HBRUSH		m_GrayBrush;
+	Field			m_Field;
 
 public:
 	GameManager();
@@ -28,5 +27,9 @@ public:
 	void Init(HWND hWnd);
 	void Release();
 	void Update();
+	void DrawStage();
+	void FieldLoad(int FieldIndex);
+	void DrawField();
+	void DrawBackground();
 };
 

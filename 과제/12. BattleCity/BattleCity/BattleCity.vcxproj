@@ -144,6 +144,7 @@
     <ClInclude Include="Bitmap.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="Collision.h" />
+    <ClInclude Include="Field.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Maptool.h" />
     <ClInclude Include="Mecro.h" />
@@ -159,6 +160,7 @@
     <ClCompile Include="Bitmap.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="Field.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Maptool.cpp" />
     <ClCompile Include="Menu.cpp" />

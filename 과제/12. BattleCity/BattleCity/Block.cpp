@@ -42,17 +42,6 @@ void Block::SetBlockType(BLOCKTYPE BlockType)
 
 void Block::Draw()
 {
-	if (m_BlockType != BLOCKTYPE_EMPTY)
-	{
-		m_Bitmap.Draw(m_MemDC, m_Point.x, m_Point.y, 2.0f);
-	}
-	else
-	{
-		HBRUSH newBrush = (HBRUSH)GetStockObject(BLACK_BRUSH);
-		HBRUSH oldBrush = (HBRUSH)SelectObject(m_MemDC, newBrush);
+	m_Bitmap.Draw(m_MemDC, m_Point.x, m_Point.y, 2.0f);
 
-		Rectangle(m_MemDC, m_Point.x, m_Point.y, m_Point.x + BlockSizeX, m_Point.y + BlockSizeY);
-
-		SelectObject(m_MemDC, oldBrush);
-	}
 }
