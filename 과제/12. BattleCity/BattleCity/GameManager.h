@@ -1,5 +1,6 @@
 #pragma once
 #include "Player.h"
+#include "Menu.h"
 
 class GameManager : public Singleton<GameManager>
 {
@@ -13,7 +14,8 @@ private:
 
 	bool			m_GameStart;
 
-	Player*		m_Player;
+	Player			m_Player;
+	Menu			m_Menu;
 
 	HBRUSH		m_BlackBrush;
 	HBRUSH		m_GrayBrush;
@@ -26,6 +28,5 @@ public:
 	void Init(HWND hWnd);
 	void Release();
 	void Update();
-	void DrawMenu();
 };
 

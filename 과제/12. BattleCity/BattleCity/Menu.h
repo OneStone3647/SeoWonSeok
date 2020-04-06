@@ -1,0 +1,39 @@
+#pragma once
+#include "Bitmap.h"
+
+enum SELECTMENU
+{
+	SELECTMENU_GAMESTART,
+	SELECTMENU_EXIT
+};
+
+class Menu
+{
+private:
+	HWND			m_hWnd;
+	HDC				m_MemDC;
+	HBITMAP			m_NewBitmap;
+	HBITMAP			m_OldBitmap;
+
+	Bitmap			m_Icon[2];
+	int					m_IconIndex;
+
+	SELECTMENU	m_Select;
+	bool*				m_bGameStartFlag;
+
+	float				m_AnimTime;
+	float				m_StartAnimTimer;
+	float				m_CurAnimTimer;
+
+public:
+	Menu();
+	~Menu();
+
+public:
+	void Init(HWND hWnd, bool* GameStartFlag);
+	void Update();
+	void Input();
+	void DrawBackGround();
+	void DrawMenu();
+};
+

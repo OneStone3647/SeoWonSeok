@@ -19,7 +19,7 @@ public:
 
 public:
 	// 설정한 RGB를 제외한 후 그리기
-	inline void Draw(HDC hdc, int x, int y, float Size)
+	inline void Draw(HDC hdc, int x, int y, float Size = 1.0f)
 	{
 		// m_MemDC에 그린 것을 hdc에 복사한다.
 		TransparentBlt(hdc, x, y, m_Size.cx * Size, m_Size.cy * Size, m_MemDC, 0, 0, m_Size.cx, m_Size.cy, RGB(255, 0, 255));
