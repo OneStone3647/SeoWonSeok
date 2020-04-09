@@ -8,7 +8,7 @@ enum FILEMODE
 	FILEMODE_LOAD
 };
 
-class Maptool : public Singleton<Maptool>
+class Maptool
 {
 private:
 	HWND		m_hWnd;
@@ -43,6 +43,7 @@ public:
 
 public:
 	void Init(HWND hWnd);
+	void Init();
 	void Release();
 	void Update(LPARAM lParam);
 	void DrawBackGround();

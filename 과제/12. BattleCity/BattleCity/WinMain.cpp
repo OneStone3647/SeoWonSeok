@@ -44,8 +44,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 	ShowWindow(g_hWnd, nCmdShow);
 
 	// 윈도우를 만들고 나면 초기화 해준다.
-	g_Maptool.GetInstance()->Init(g_hWnd);
-	g_GameManager.GetInstance()->Init(g_hWnd);
+	g_Maptool.Init(g_hWnd);
+	g_GameManager.Init(g_hWnd);
 	g_CurMode = MODE_GAME;
 
 	//g_CurSelect = IDC_RADIO1;
@@ -70,12 +70,12 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 			switch (g_CurMode)
 			{
 			case MODE_GAME:
-				g_GameManager.GetInstance()->Update();
+				g_GameManager.Update();
 
 				break;
 
 			case MODE_MAPTOOL:
-				g_Maptool.GetInstance()->Update(Message.lParam);
+				g_Maptool.Update(Message.lParam);
 
 				break;
 			}
@@ -83,8 +83,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 	}
 
 	// 종료 직전에 릴리즈 해준다.
-	g_GameManager.DestroyInstance();
-	g_Maptool.DestroyInstance();
+	g_GameManager.Release();
+	g_Maptool.Release();
 
 	return (int)Message.wParam;
 }
@@ -98,15 +98,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		{
 		case ID_PLAYGAME:
 			g_CurMode = MODE_GAME;
-			g_GameManager.GetInstance()->Init(g_hWnd);
-			g_Maptool.GetInstance()->Release();
+			g_GameManager.Init();
 
 			break;
 
 		case ID_MAPTOOL:
 			g_CurMode = MODE_MAPTOOL;
-			g_Maptool.GetInstance()->Init(g_hWnd);
-			g_GameManager.GetInstance()->Release();
+			g_Maptool.Init();
 
 			break;
 

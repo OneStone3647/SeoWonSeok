@@ -3,7 +3,7 @@
 #include "Menu.h"
 #include "Field.h"
 
-class GameManager : public Singleton<GameManager>
+class GameManager
 {
 private:
 	HWND		m_hWnd;
@@ -15,9 +15,9 @@ private:
 
 	bool			m_GameStart;
 
-	Player			m_Player;
-	Menu			m_Menu;
-	Field			m_Field;
+	Player*		m_Player;
+	Menu*		m_Menu;
+	Field*			m_Field;
 
 public:
 	GameManager();
@@ -25,6 +25,7 @@ public:
 
 public:
 	void Init(HWND hWnd);
+	void Init();
 	void Release();
 	void Update();
 	void DrawStage();

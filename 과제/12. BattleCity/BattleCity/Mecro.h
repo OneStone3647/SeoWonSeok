@@ -3,7 +3,6 @@
 #include <iostream>
 #include <vector>
 #include "resource.h"
-#include "Singleton.h"
 
 using namespace std;
 

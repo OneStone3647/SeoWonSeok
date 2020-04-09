@@ -1,6 +1,5 @@
 #include "GameManager.h"
 
-GameManager* GameManager::m_pThis = NULL;
 
 GameManager::GameManager()
 {
@@ -9,7 +8,6 @@ GameManager::GameManager()
 
 GameManager::~GameManager()
 {
-	Release();
 }
 
 void GameManager::Init(HWND hWnd)
@@ -34,32 +32,82 @@ void GameManager::Init(HWND hWnd)
 
 	m_GameStart = false;
 
-	m_Player.Init();
+	if (m_Player != NULL)
+	{
+		delete m_Player;
+	}
+	m_Player = new Player;
+	m_Player->Init();
 
-	m_Menu.Init(m_MemDC, &m_GameStart);
+	if (m_Menu != NULL)
+	{
+		delete m_Menu;
+	}
+	m_Menu = new Menu;
+	m_Menu->Init(m_MemDC, &m_GameStart);
 
-	m_Field.Init(m_MemDC);
-	m_Field.FileLoad(1);
+	if (m_Field != NULL)
+	{
+		delete m_Field;
+	}
+	m_Field = new Field;
+	m_Field->Init(m_MemDC);
+	m_Field->FileLoad(1);
+}
+
+void GameManager::Init()
+{
+	MoveWindow(m_hWnd, WindowPosX, WindowPosY, m_ScreenSize.cx, m_ScreenSize.cy, TRUE);
+
+	m_GameStart = false;
+
+	if (m_Player != NULL)
+	{
+		delete m_Player;
+	}
+	m_Player = new Player;
+	m_Player->Init();
+
+	if (m_Menu != NULL)
+	{
+		delete m_Menu;
+	}
+	m_Menu = new Menu;
+	m_Menu->Init(m_MemDC, &m_GameStart);
+	m_Menu->DrawBackGround();
+
+	if (m_Field != NULL)
+	{
+		delete m_Field;
+	}
+	m_Field = new Field;
+	m_Field->Init(m_MemDC);
+	m_Field->FileLoad(1);
 }
 
 void GameManager::Release()
 {
+	delete m_Player;
+	delete m_Menu;
+	delete m_Field;
+
 	// m_MemDC에 이전 비트맵을 연결한다.
 	SelectObject(m_MemDC, m_OldBitmap);
 	DeleteObject(m_NewBitmap);
 	// CreateCompatibleDC로 만들어 진 DC는 DeleteDC로 지워야한다.
 	DeleteDC(m_MemDC);
+
 }
 
 void GameManager::Update()
 {
 	if (!m_GameStart)
 	{
-		m_Menu.Update();
+		m_Menu->Update();
 	}
 	else
 	{
-		m_Field.Update();
+		m_Field->Update();
 	}
 
 	// GetDC를 통해 DC를 받는다.

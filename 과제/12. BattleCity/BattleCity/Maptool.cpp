@@ -1,6 +1,5 @@
 #include "Maptool.h"
 
-Maptool* Maptool::m_pThis = NULL;
 
 Maptool::Maptool()
 {
@@ -9,7 +8,6 @@ Maptool::Maptool()
 
 Maptool::~Maptool()
 {
-	Release();
 }
 
 void Maptool::Init(HWND hWnd)
@@ -107,6 +105,79 @@ void Maptool::Init(HWND hWnd)
 	m_WhiteBrush = (HBRUSH)GetStockObject(WHITE_BRUSH);
 	m_SelectPen = (HPEN)CreatePen(PS_SOLID, 3, RGB(0, 0, 255));
 	m_LinePen = (HPEN)CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
+}
+
+void Maptool::Init()
+{
+	MoveWindow(m_hWnd, WindowPosX, WindowPosY, m_ScreenSize.cx, m_ScreenSize.cy, TRUE);
+
+	// Block 클래스 이차원 벡터가 이미 존재할 경우 할당 해제한다.
+	if (!m_Block.empty())
+	{
+		vector<vector<Block*>>::iterator iterY;
+		vector<Block*>::iterator iterX;
+		for (iterY = m_Block.begin(); iterY != m_Block.end(); iterY++)
+		{
+			for (iterX = iterY->begin(); iterX != iterY->end(); iterX++)
+			{
+				delete (*iterX);
+			}
+			iterY->clear();
+			vector<Block*>().swap(*iterY);
+		}
+		m_Block.clear();
+		vector<vector<Block*>>().swap(m_Block);
+	}
+	// Block 클래스 이차원 백터 동적 할당
+	// 이차원 백터 열의 메모리 크기 설정
+	m_Block.reserve(MapSizeY);
+	for (int y = 0; y < MapSizeY; y++)
+	{
+		vector<Block*> tmpBlock;
+		// 이차원 백터 행의 메모리 크기 설정
+		tmpBlock.reserve(MapSizeX);
+		for (int x = 0; x < MapSizeX; x++)
+		{
+			Block* newBlock = new Block;
+			newBlock->Init(m_MemDC, x * BlockSizeX, y * BlockSizeY);
+			tmpBlock.push_back(newBlock);
+		}
+		m_Block.push_back(tmpBlock);
+	}
+
+	m_BlockBitmapCount = 15;
+	// Bitmap 클래스 벡터가 이미 존재할 경우 할당 해제한다.
+	if (!m_BlockBitmap.empty())
+	{
+		vector<Block*>::iterator iter;
+		for (iter = m_BlockBitmap.begin(); iter != m_BlockBitmap.end(); iter++)
+		{
+			delete (*iter);
+		}
+		m_BlockBitmap.clear();
+		vector<Block*>().swap(m_BlockBitmap);
+	}
+	// Bitmap 클래스 백터 동적할당
+	// 백터 메모리 크기 설정
+	m_BlockBitmap.reserve(m_BlockBitmapCount);
+	for (int i = 0; i < m_BlockBitmapCount; i++)
+	{
+		Block* tmpBitmap = new Block;
+		tmpBitmap->Init(m_MemDC, 1400, i * (BlockSizeY + 5) + 10);
+		if (i == m_BlockBitmapCount - 1)
+		{
+			tmpBitmap->SetBlockType(BLOCKTYPE_EMPTY);
+		}
+		else
+		{
+			tmpBitmap->SetBlockType((BLOCKTYPE)i);
+		}
+		m_BlockBitmap.push_back(tmpBitmap);
+	}
+
+	m_CurSelectBlock = BLOCKTYPE_EMPTY;
+
+	m_CurMode = FILEMODE_IDLE;
 }
 
 void Maptool::Release()
