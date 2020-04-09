@@ -1,29 +1,66 @@
 #pragma once
-#include "Mecro.h"
+#include "Bitmap.h"
 
-enum PLAYERMODE
+enum PLAYERINDEX
 {
-	PLAYERMODE_IDLE,
-	PLAYERMODE_GAME,
-	PLAYERMODE_MAPTOOL
+	PLAYERINDEX_DOWN00,
+	PLAYERINDEX_DOWN01,
+	PLAYERINDEX_LEFT00,
+	PLAYERINDEX_LEFT01,
+	PLAYERINDEX_RIGHT00,
+	PLAYERINDEX_RIGHT01,
+	PLAYERINDEX_UP00,
+	PLAYERINDEX_UP01
+};
+
+enum PLAYERSTATE
+{
+	PLAYERSTATE_IDLE,
+	PLAYERSTATE_MOVEDOWN,
+	PLAYERSTATE_MOVELEFT,
+	PLAYERSTATE_MOVERIGHT,
+	PLAYERSTATE_MOVEUP
 };
 
 class Player
 {
 private:
-	PLAYERMODE	m_PlayerMode;
+	HDC				m_MemDC;
+
+	Bitmap			m_PlayerBitmap[8];
+	int					m_PlayerBitmapIndex;
+
+	PLAYERSTATE	m_State;
+
+	int					m_Life;
+
+	POINT				m_Point;
+
+	float				m_AnimTime;
+	float				m_StartAnimTimer;
+	float				m_CurAnimTimer;
 
 public:
 	Player();
 	~Player();
 
 public:
-	void Init();
+	void Init(HDC MemDC);
+	void Update();
+	void Input();
+	void Move(float x, float y);
+	void Draw();
+	void PlayAnim();
 
 public:
-	inline PLAYERMODE GetPlayerMode()
+	inline int GetPlayerLife()
 	{
-		return m_PlayerMode;
+		return m_Life;
+	}
+
+	inline void SetPlayerPoint(int x, int y)
+	{
+		m_Point = { x, y };
 	}
 };
 

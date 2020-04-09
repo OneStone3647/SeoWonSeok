@@ -38,6 +38,7 @@ public:
 public:
 	void Init(HDC MemDC, int x, int y);
 	void SetBlockType(BLOCKTYPE BlockType);
+	void SetBlockCollision(BLOCKTYPE BlockType);
 	void Draw();
 
 public:

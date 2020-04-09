@@ -37,7 +37,7 @@ void GameManager::Init(HWND hWnd)
 		delete m_Player;
 	}
 	m_Player = new Player;
-	m_Player->Init();
+	m_Player->Init(m_MemDC);
 
 	if (m_Menu != NULL)
 	{
@@ -66,7 +66,7 @@ void GameManager::Init()
 		delete m_Player;
 	}
 	m_Player = new Player;
-	m_Player->Init();
+	m_Player->Init(m_MemDC);
 
 	if (m_Menu != NULL)
 	{
@@ -108,6 +108,7 @@ void GameManager::Update()
 	else
 	{
 		m_Field->Update();
+		m_Player->Update();
 	}
 
 	// GetDC를 통해 DC를 받는다.
