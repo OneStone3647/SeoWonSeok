@@ -18,5 +18,6 @@ public:
 	void FileLoad(int StageIndex);
 	void Update();
 	void DrawBackground();
+	POINT GetRandomSpawnPoint();
 };
 

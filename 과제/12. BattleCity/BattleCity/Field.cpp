@@ -106,3 +106,24 @@ void Field::DrawBackground()
 	//생성한 오브젝트를 삭제한다.
 	DeleteObject(BlackBrush);
 }
+
+POINT Field::GetRandomSpawnPoint()
+{
+	vector<POINT> newPOINT;
+
+	for (vector<vector<Block*>>::size_type y = 0; y < m_Block.size(); ++y)
+	{
+		for (vector<Block*>::size_type x = 0; x < m_Block[y].size(); ++x)
+		{
+			if (m_Block[y][x]->GetBlockType() == BLOCKTYPE_EMPTY)
+			{
+				POINT tmpPoint = m_Block[y][x]->GetBlockPoint();
+				newPOINT.push_back(tmpPoint);
+			}
+		}
+	}
+
+	int random = rand() % newPOINT.size();
+
+	return newPOINT[random];
+}

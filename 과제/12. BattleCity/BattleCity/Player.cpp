@@ -31,7 +31,7 @@ void Player::Init(HDC MemDC)
 	m_StartAnimTimer = GetTickCount();
 	m_CurAnimTimer = 0.0f;
 
-	SetPlayerPoint(0, 0);
+	m_Speed = 2;
 }
 
 void Player::Update()
@@ -47,39 +47,41 @@ void Player::Input()
 	if (GetKeyState(VK_DOWN) & 0x8000)
 	{
 		m_State = PLAYERSTATE_MOVEDOWN;
-		Move(0, 1);
+		Move(0, m_Speed);
 	}	
-	if (GetKeyState(VK_LEFT) & 0x8000)
+	else if (GetKeyState(VK_LEFT) & 0x8000)
 	{
 		m_State = PLAYERSTATE_MOVELEFT;
-		Move(-1, 0);
+		Move(-m_Speed, 0);
 	}
-	if (GetKeyState(VK_RIGHT) & 0x8000)
+	else if (GetKeyState(VK_RIGHT) & 0x8000)
 	{
 		m_State = PLAYERSTATE_MOVERIGHT;
-		Move(1, 0);
+		Move(m_Speed, 0);
 	}
-	if (GetKeyState(VK_UP) & 0x8000)
+	else if (GetKeyState(VK_UP) & 0x8000)
 	{
 		m_State = PLAYERSTATE_MOVEUP;
-		Move(0, -1);
+		Move(0, -m_Speed);
 	}
+
 	if (!((GetKeyState(VK_DOWN) | GetKeyState(VK_LEFT) | GetKeyState(VK_RIGHT) | GetKeyState(VK_UP)) & 0x8000))
 	{
 		m_State = PLAYERSTATE_IDLE;
 	}
 }
 
-void Player::Move(float x, float y)
+void Player::Move(int x, int y)
 {
 	m_Point.x += x;
 	m_Point.y += y;
+	m_Collision.SetCollision(m_Point.x, m_Point.y);
 	PlayAnim();
 }
 
 void Player::Draw()
 {
-	m_PlayerBitmap[m_PlayerBitmapIndex].Draw(m_MemDC, m_Point.x, m_Point.y);
+	m_PlayerBitmap[m_PlayerBitmapIndex].Draw(m_MemDC, m_Point.x, m_Point.y, 2.0f);
 }
 
 void Player::PlayAnim()
@@ -87,31 +89,45 @@ void Player::PlayAnim()
 	if (m_State != PLAYERSTATE_IDLE)
 	{
 		int tmpIndex;
-		switch (m_State)
-		{
-		case PLAYERSTATE_MOVEDOWN:
-			if (!(m_PlayerBitmapIndex == PLAYERINDEX_DOWN00 || m_PlayerBitmapIndex == PLAYERINDEX_DOWN01))
-			{
-				tmpIndex = PLAYERINDEX_DOWN00;
-				m_PlayerBitmapIndex = tmpIndex;
-			}
-			break;
-		case PLAYERSTATE_MOVELEFT:
-			break;
-		case PLAYERSTATE_MOVERIGHT:
-			break;
-		case PLAYERSTATE_MOVEUP:
-			break;
-		}
-
 		if (m_CurAnimTimer - m_StartAnimTimer >= m_AnimTime)
 		{
 			m_PlayerBitmapIndex++;
-			if (tmpIndex > 2)
+
+			switch (m_State)
 			{
-				m_BitmapIndex = 0;
+			case PLAYERSTATE_MOVEDOWN:
+				if (!(m_PlayerBitmapIndex == PLAYERINDEX_DOWN00 || m_PlayerBitmapIndex == PLAYERINDEX_DOWN01))
+				{
+					m_PlayerBitmapIndex = PLAYERINDEX_DOWN00;
+				}
+				break;
+			case PLAYERSTATE_MOVELEFT:
+				if (!(m_PlayerBitmapIndex == PLAYERINDEX_LEFT00 || m_PlayerBitmapIndex == PLAYERINDEX_LEFT01))
+				{
+					m_PlayerBitmapIndex = PLAYERINDEX_LEFT00;
+				}
+				break;
+			case PLAYERSTATE_MOVERIGHT:
+				if (!(m_PlayerBitmapIndex == PLAYERINDEX_RIGHT00 || m_PlayerBitmapIndex == PLAYERINDEX_RIGHT01))
+				{
+					m_PlayerBitmapIndex = PLAYERINDEX_RIGHT00;
+				}
+				break;
+			case PLAYERSTATE_MOVEUP:
+				if (!(m_PlayerBitmapIndex == PLAYERINDEX_UP00 || m_PlayerBitmapIndex == PLAYERINDEX_UP01))
+				{
+					m_PlayerBitmapIndex = PLAYERINDEX_UP00;
+				}
+				break;
 			}
+
 			m_StartAnimTimer = m_CurAnimTimer;
 		}
 	}
+}
+
+void Player::Spawn(POINT Point)
+{
+	m_Point = { Point.x, Point.y };
+	m_Collision.SetCollision(Point.x, Point.y);
 }

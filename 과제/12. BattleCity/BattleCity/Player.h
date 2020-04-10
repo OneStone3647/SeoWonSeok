@@ -1,5 +1,6 @@
 #pragma once
 #include "Bitmap.h"
+#include "Collision.h"
 
 enum PLAYERINDEX
 {
@@ -40,6 +41,10 @@ private:
 	float				m_StartAnimTimer;
 	float				m_CurAnimTimer;
 
+	int					m_Speed;
+
+	Collision			m_Collision;
+
 public:
 	Player();
 	~Player();
@@ -48,19 +53,15 @@ public:
 	void Init(HDC MemDC);
 	void Update();
 	void Input();
-	void Move(float x, float y);
+	void Move(int x, int y);
 	void Draw();
 	void PlayAnim();
+	void Spawn(POINT point);
 
 public:
 	inline int GetPlayerLife()
 	{
 		return m_Life;
-	}
-
-	inline void SetPlayerPoint(int x, int y)
-	{
-		m_Point = { x, y };
 	}
 };
 

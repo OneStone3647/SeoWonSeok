@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include "resource.h"
+#include <time.h>
 
 using namespace std;
 

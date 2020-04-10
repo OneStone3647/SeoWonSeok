@@ -28,31 +28,7 @@ void GameManager::Init(HWND hWnd)
 	// 사용한 DC를 해제 한다.
 	ReleaseDC(hWnd, hdc);
 
-	MoveWindow(m_hWnd, WindowPosX, WindowPosY, m_ScreenSize.cx, m_ScreenSize.cy, TRUE);
-
-	m_GameStart = false;
-
-	if (m_Player != NULL)
-	{
-		delete m_Player;
-	}
-	m_Player = new Player;
-	m_Player->Init(m_MemDC);
-
-	if (m_Menu != NULL)
-	{
-		delete m_Menu;
-	}
-	m_Menu = new Menu;
-	m_Menu->Init(m_MemDC, &m_GameStart);
-
-	if (m_Field != NULL)
-	{
-		delete m_Field;
-	}
-	m_Field = new Field;
-	m_Field->Init(m_MemDC);
-	m_Field->FileLoad(1);
+	Init();
 }
 
 void GameManager::Init()
@@ -60,13 +36,6 @@ void GameManager::Init()
 	MoveWindow(m_hWnd, WindowPosX, WindowPosY, m_ScreenSize.cx, m_ScreenSize.cy, TRUE);
 
 	m_GameStart = false;
-
-	if (m_Player != NULL)
-	{
-		delete m_Player;
-	}
-	m_Player = new Player;
-	m_Player->Init(m_MemDC);
 
 	if (m_Menu != NULL)
 	{
@@ -83,6 +52,14 @@ void GameManager::Init()
 	m_Field = new Field;
 	m_Field->Init(m_MemDC);
 	m_Field->FileLoad(1);
+
+	if (m_Player != NULL)
+	{
+		delete m_Player;
+	}
+	m_Player = new Player;
+	m_Player->Init(m_MemDC);
+	m_Player->Spawn(m_Field->GetRandomSpawnPoint());
 }
 
 void GameManager::Release()
