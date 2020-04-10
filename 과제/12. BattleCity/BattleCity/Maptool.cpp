@@ -72,6 +72,7 @@ void Maptool::Init()
 		{
 			Block* newBlock = new Block;
 			newBlock->Init(m_MemDC, x * BlockSizeX, y * BlockSizeY);
+			newBlock->SetCollision(newBlock->GetBlockPoint().x, newBlock->GetBlockPoint().y);
 			tmpBlock.push_back(newBlock);
 		}
 		m_Block.push_back(tmpBlock);
@@ -104,6 +105,7 @@ void Maptool::Init()
 		{
 			tmpBitmap->SetBlockType((BLOCKTYPE)i);
 		}
+		tmpBitmap->SetCollision(tmpBitmap->GetBlockPoint().x, tmpBitmap->GetBlockPoint().y);
 		m_BlockBitmap.push_back(tmpBitmap);
 	}
 
@@ -190,6 +192,7 @@ void Maptool::Update(LPARAM lParam)
 			if (Input(lParam) && m_Block[y][x]->GetCollision().CheckMouseHit(m_MousePoint))
 			{
 				m_Block[y][x]->SetBlockType(m_CurSelectBlock);
+				m_Block[y][x]->SetCollision(m_Block[y][x]->GetBlockPoint().x, m_Block[y][x]->GetBlockPoint().y);
 			}
 
 			if (m_Block[y][x]->GetBlockType() != BLOCKTYPE_EMPTY)

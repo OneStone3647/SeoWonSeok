@@ -56,5 +56,9 @@ public:
 	{
 		return m_Collision;
 	}
+	inline void SetCollision(int x, int y)
+	{
+		m_Collision.SetCollision(x, y);
+	}
 };
 
