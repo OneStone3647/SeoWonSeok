@@ -25,18 +25,23 @@ void Player::Init(HDC MemDC)
 	m_PlayerBitmap[PLAYERINDEX_UP01].Init(m_MemDC, "Bitmap\\tank_up_01.bmp");
 	m_PlayerBitmapIndex = PLAYERINDEX_UP00;
 
-	m_State = PLAYERSTATE_MOVEUP;
+	m_State = PLAYERSTATE_IDLE;
+	m_CurPosition = PLAYERSTATE_MOVEUP;
 
 	m_AnimTime = 100.0f;
 	m_StartAnimTimer = GetTickCount();
 	m_CurAnimTimer = 0.0f;
 
 	m_Speed = 2;
+
+	m_Movealbe = true;
 }
 
-void Player::Update()
+void Player::Update(bool Moveable)
 {
 	m_CurAnimTimer = GetTickCount();
+
+	m_Movealbe = Moveable;
 
 	Input();
 	Draw();
@@ -48,6 +53,7 @@ void Player::Input()
 	{
 		m_State = PLAYERSTATE_MOVEDOWN;
 		Move(0, m_Speed);
+		m_CurPosition = PLAYERSTATE_MOVEDOWN;
 	}	
 	else if (GetKeyState(VK_LEFT) & 0x8000)
 	{
@@ -73,14 +79,18 @@ void Player::Input()
 
 void Player::Move(int x, int y)
 {
-	m_Point.x += x;
-	m_Point.y += y;
-	m_Collision.SetCollision(m_Point.x, m_Point.y);
+	if (m_Movealbe)
+	{
+	}
+		m_Point.x += x;
+		m_Point.y += y;
+		m_Collision.SetCollision(m_Point.x, m_Point.y, 1.7f);
 	PlayAnim();
 }
 
 void Player::Draw()
 {
+	m_Collision.DrawCollision(m_MemDC);
 	m_PlayerBitmap[m_PlayerBitmapIndex].Draw(m_MemDC, m_Point.x, m_Point.y, 2.0f);
 }
 
@@ -129,5 +139,5 @@ void Player::PlayAnim()
 void Player::Spawn(POINT Point)
 {
 	m_Point = { Point.x, Point.y };
-	m_Collision.SetCollision(Point.x, Point.y);
+	m_Collision.SetCollision(Point.x, Point.y, 1.7f);
 }

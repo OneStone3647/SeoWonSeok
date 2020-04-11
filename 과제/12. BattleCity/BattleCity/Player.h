@@ -32,6 +32,7 @@ private:
 	int					m_PlayerBitmapIndex;
 
 	PLAYERSTATE	m_State;
+	PLAYERSTATE	m_CurPosition;
 
 	int					m_Life;
 
@@ -45,13 +46,15 @@ private:
 
 	Collision			m_Collision;
 
+	bool				m_Movealbe;
+
 public:
 	Player();
 	~Player();
 
 public:
 	void Init(HDC MemDC);
-	void Update();
+	void Update(bool Moveable);
 	void Input();
 	void Move(int x, int y);
 	void Draw();
@@ -62,6 +65,29 @@ public:
 	inline int GetPlayerLife()
 	{
 		return m_Life;
+	}
+
+	inline POINT GetPlayerPoint()
+	{
+		return m_Point;
+	}
+	inline void SetPlayerPoint(POINT point)
+	{
+		m_Point = point;
+	}
+
+	inline PLAYERSTATE GetPlayerState()
+	{
+		return m_State;
+	}
+	inline PLAYERSTATE GetCurPosition()
+	{
+		return m_CurPosition
+	}
+
+	inline Collision GetCollision()
+	{
+		return m_Collision;
 	}
 };
 

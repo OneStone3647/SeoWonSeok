@@ -21,6 +21,12 @@ enum BLOCKTYPE
 	BLOCKTYPE_EMPTY
 };
 
+enum WALKABLE
+{
+	WALKABLE_ABLE,
+	WALKABLE_UNABLE
+};
+
 class Block
 {
 private:
@@ -30,6 +36,7 @@ private:
 	Bitmap			m_Bitmap;
 	POINT				m_Point;
 	Collision			m_Collision;
+	WALKABLE		m_Walkable;
 
 public:
 	Block();
@@ -59,6 +66,11 @@ public:
 	inline void SetCollision(int x, int y)
 	{
 		m_Collision.SetCollision(x, y);
+	}
+
+	inline WALKABLE GetWalkable()
+	{
+		return m_Walkable;
 	}
 };
 

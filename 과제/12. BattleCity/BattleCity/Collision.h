@@ -28,9 +28,14 @@ public:
 	{
 		return m_Collision;
 	}
-	inline void SetCollision(int x, int y)
+	inline void SetCollision(int x, int y, LONG Size = 1.0f)
 	{
-		m_Collision = { x, y,	 BlockSizeX + x, BlockSizeY + y };
+		m_Collision = { x, y,	 (BlockSizeX + x) * Size, (BlockSizeY + y) * Size };
+	}
+
+	inline void DrawCollision(HDC MemDC)
+	{
+		Rectangle(MemDC, m_Collision.left, m_Collision.top, m_Collision.right, m_Collision.bottom);
 	}
 };
 

@@ -45,21 +45,19 @@ void GameManager::Init()
 	m_Menu->Init(m_MemDC, &m_GameStart);
 	m_Menu->DrawBackGround();
 
-	if (m_Field != NULL)
-	{
-		delete m_Field;
-	}
-	m_Field = new Field;
-	m_Field->Init(m_MemDC);
-	m_Field->FileLoad(1);
-
 	if (m_Player != NULL)
 	{
 		delete m_Player;
 	}
 	m_Player = new Player;
 	m_Player->Init(m_MemDC);
-	m_Player->Spawn(m_Field->GetRandomSpawnPoint());
+
+	if (m_Field != NULL)
+	{
+		delete m_Field;
+	}
+	m_Field = new Field;
+	m_Field->Init(m_MemDC, m_Player);
 }
 
 void GameManager::Release()
@@ -85,7 +83,6 @@ void GameManager::Update()
 	else
 	{
 		m_Field->Update();
-		m_Player->Update();
 	}
 
 	// GetDC를 통해 DC를 받는다.

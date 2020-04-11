@@ -11,7 +11,7 @@ Field::~Field()
 {
 }
 
-void Field::Init(HDC MemDC)
+void Field::Init(HDC MemDC, Player * player)
 {
 	m_MemDC = MemDC;
 
@@ -48,6 +48,10 @@ void Field::Init(HDC MemDC)
 		}
 		m_Block.push_back(tmpBlock);
 	}
+	FileLoad(1);
+
+	m_Player = player;
+	m_Player->Spawn(GetRandomSpawnPoint());
 }
 
 void Field::FileLoad(int StageIndex)
@@ -73,16 +77,9 @@ void Field::Update()
 {
 	DrawBackground();
 
-	for (vector<vector<Block*>>::size_type y = 0; y < m_Block.size(); ++y)
-	{
-		for (vector<Block*>::size_type x = 0; x < m_Block[y].size(); ++x)
-		{
-			if (m_Block[y][x]->GetBlockType() != BLOCKTYPE_EMPTY)
-			{
-				m_Block[y][x]->Draw();
-			}
-		}
-	}
+	m_Player->Update(MoveableBlock());
+
+	DrawField();
 }
 
 void Field::DrawBackground()
@@ -107,6 +104,20 @@ void Field::DrawBackground()
 	DeleteObject(BlackBrush);
 }
 
+void Field::DrawField()
+{
+	for (vector<vector<Block*>>::size_type y = 0; y < m_Block.size(); ++y)
+	{
+		for (vector<Block*>::size_type x = 0; x < m_Block[y].size(); ++x)
+		{
+			if (m_Block[y][x]->GetBlockType() != BLOCKTYPE_EMPTY)
+			{
+				m_Block[y][x]->Draw();
+			}
+		}
+	}
+}
+
 POINT Field::GetRandomSpawnPoint()
 {
 	vector<POINT> newPOINT;
@@ -126,4 +137,66 @@ POINT Field::GetRandomSpawnPoint()
 	int random = rand() % newPOINT.size();
 
 	return newPOINT[random];
+}
+
+Block * Field::SearchBlock(POINT tmpPoint)
+{
+	for (vector<vector<Block*>>::size_type y = 0; y < m_Block.size(); ++y)
+	{
+		for (vector<Block*>::size_type x = 0; x < m_Block[y].size(); ++x)
+		{
+			if ((m_Block[y][x]->GetBlockPoint().x / BlockSizeX == tmpPoint.x) && (m_Block[y][x]->GetBlockPoint().y / BlockSizeY == tmpPoint.y))
+			{
+				return m_Block[y][x];
+			}
+		}
+	}
+
+	return nullptr;
+}
+
+bool Field::MoveableBlock()
+{
+	for (vector<vector<Block*>>::size_type y = 0; y < m_Block.size(); ++y)
+	{
+		for (vector<Block*>::size_type x = 0; x < m_Block[y].size(); ++x)
+		{
+			if (m_Player->GetCollision().CheckOverlap(m_Block[y][x]->GetCollision().GetCollision()))
+			{
+				if (m_Block[y][x]->GetWalkable() == WALKABLE_ABLE)
+				{
+					return true;
+				}
+				else
+				{
+					if (m_Player->GetCollision().GetCollision().left<m_Block[y][x]->GetCollision().GetCollision().right&&
+						m_Player->GetCollision().GetCollision().right > m_Block[y][x]->GetCollision().GetCollision().left&&
+						m_Player->GetCollision().GetCollision().top < m_Block[y][x]->GetCollision().GetCollision().bottom&&
+						m_Player->GetCollision().GetCollision().bottom > m_Block[y][x]->GetCollision().GetCollision().top)
+					{
+						return false;
+					}
+					return true;
+				}
+			}
+		}
+	}
+
+	return true;
+}
+
+Block * Field::OverlapBlock()
+{
+	for (vector<vector<Block*>>::size_type y = 0; y < m_Block.size(); ++y)
+	{
+		for (vector<Block*>::size_type x = 0; x < m_Block[y].size(); ++x)
+		{
+			if (m_Player->GetCollision().CheckOverlap(m_Block[y][x]->GetCollision().GetCollision()))
+			{
+				return m_Block[y][x];
+			}
+		}
+	}
+
+	return nullptr;
 }
