@@ -1,0 +1,8 @@
+﻿  Server.cpp
+e:\강의자료\newwinnetwork\examplecode\windownetwork\tcp\tcpserver\server.cpp(66): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  c:\program files (x86)\windows kits\10\include\10.0.16299.0\um\winsock2.h(1848): note: 'inet_ntoa' 선언을 참조하십시오.
+e:\강의자료\newwinnetwork\examplecode\windownetwork\tcp\tcpserver\server.cpp(87): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  c:\program files (x86)\windows kits\10\include\10.0.16299.0\um\winsock2.h(1848): note: 'inet_ntoa' 선언을 참조하십시오.
+e:\강의자료\newwinnetwork\examplecode\windownetwork\tcp\tcpserver\server.cpp(103): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  c:\program files (x86)\windows kits\10\include\10.0.16299.0\um\winsock2.h(1848): note: 'inet_ntoa' 선언을 참조하십시오.
+  TCPServer.vcxproj -> E:\강의자료\NEWWINNETWORK\ExampleCode\WindowNetwork\TCP\Debug\TCPServer.exe

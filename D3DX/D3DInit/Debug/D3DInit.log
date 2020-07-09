@@ -1,0 +1,4 @@
+﻿  D3DInit.cpp
+c:\seowonseok\d3dx\d3dinit\d3dinit.cpp(119): warning C4002: 함수 같은 매크로 호출 'CreateWindowW'에 대해 인수가 너무 많습니다.
+  LINK : C:\SeoWonSeok\D3DX\D3DInit\Debug\D3DInit.exe을(를) 찾을 수 없거나 마지막 증분 링크에 의해 빌드되지 않았습니다. 전체 링크를 수행하고 있습니다.
+  D3DInit.vcxproj -> C:\SeoWonSeok\D3DX\D3DInit\Debug\D3DInit.exe
