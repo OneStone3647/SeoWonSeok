@@ -34,11 +34,6 @@ CUSTOMVERTEX Vertices[] =
 	{ 250.0f, 50.0f, 0.5f, 1.0f, D3DCOLOR_XRGB(255, 255, 0), },
 	{ 150.0f, 150.0f, 0.5f, 1.0f, D3DCOLOR_XRGB(255, 255, 0), },
 	{ 250.0f, 150.0f, 0.5f, 1.0f, D3DCOLOR_XRGB(255, 255, 0), },
-
-	//{ 50.0f,  50.0f, 0.5f, 1.0f, 0xffff0000, }, // x, y, z, rhw, color
-	//{ 250.0f, 50.0f, 0.5f, 1.0f, 0xff00ff00, },
-	//{ 50.0f, 250.0f, 0.5f, 1.0f, 0xff00ffff, },
-	//{ 250.0f, 450.0f, 0.5f, 1.0f, 0x40531041, },
 };
 
 float Speed_X = 2.0f;		// 이동 속도입니다.
@@ -55,9 +50,9 @@ struct MYINDEX
 	WORD _0, _1, _2;		// 일번적으로 인덱스는 16비트의 크기를 갖습니다.
 };
 
- /*=============================================================================
-  * Direct3D 초기화
-  *=============================================================================*/
+/*=============================================================================
+ * Direct3D 초기화
+ *=============================================================================*/
 HRESULT InitD3D(HWND hWnd)
 {
 	// 디바이스를 생성하기 위한 D3D 객체를 생성합니다.
@@ -66,15 +61,12 @@ HRESULT InitD3D(HWND hWnd)
 		return E_FAIL;
 	}
 
-	D3DPRESENT_PARAMETERS d3dpp;				// 디바이스 생성을 위한 구조체입니다.
-	ZeroMemory(&d3dpp, sizeof(d3dpp));			// 반드시 ZeroMemory() 함수로 미리 구조체를 깨끗이 지워야 합니다.
+	D3DPRESENT_PARAMETERS d3dpp;						// 디바이스 생성을 위한 구조체입니다.
+	ZeroMemory(&d3dpp, sizeof(d3dpp));					// 반드시 ZeroMemory() 함수로 미리 구조체를 깨끗이 지워야 합니다.
 
-	d3dpp.Windowed = TRUE;						// 창 모드로 생성합니다.
-	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;	// 가장 효율적인 SWAP 효과입니다.
-	d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;	// 현재 바탕화면 모드에 맞춰서 후면 버퍼를 생성합니다.
-
-	d3dpp.EnableAutoDepthStencil = TRUE;		// 깊이가 있는 z버퍼가 필요하므로 설정합니다.
-	d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
+	d3dpp.Windowed = TRUE;									// 창 모드로 생성합니다.
+	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;		// 가장 효율적인 SWAP 효과입니다.
+	d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;		// 현재 바탕화면 모드에 맞춰서 후면 버퍼를 생성합니다.
 
 	// 디바이스를 설정해서 생성합니다.
 	// 디폴트 비디오카드를 사용하고, HAL 디바이스를 생성합니다.
@@ -116,18 +108,11 @@ HRESULT InitD3D(HWND hWnd)
  *=============================================================================*/
 HRESULT InitVB()
 {
-	MYINDEX indices[] = 
-	{
-		{0, 1, 2},
-		{0, 2, 3},
-		{0, 3, 5},
-	};
-
-	// 인덱스 버퍼 생성
-	// D3DFMT_INDEX16은 인덱스의 단위가 16비트라는 것을 나타냅니다.
-	// MYINDEX 구조체에서 WORD형으로 선언했으므로 D3DFMT_INDEX16을 사용합니다.
-	// DWORD형일 경우 D3DFMT_INDEX32를 사용합니다.
-	if (FAILED(g_pd3dDevice->CreateIndexBuffer(3 * sizeof(MYINDEX), 0, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &g_pIB, NULL)))
+	// 정점 버퍼를 생성합니다.
+	// 정점 구조체4개를 저장할 메모리를 할당합니다.
+	// FVF를 지정하여 보관할 데이터의 형식을 지정합니다.
+	if (FAILED(g_pd3dDevice->CreateVertexBuffer(4 * sizeof(CUSTOMVERTEX), 0, D3DFVF_CUSTOMVERTEX,
+		D3DPOOL_DEFAULT, &g_pVB, NULL)))
 	{
 		return E_FAIL;
 	}
@@ -150,12 +135,52 @@ HRESULT InitVB()
 }
 
 /*=============================================================================
+ * 인덱스 버퍼 설정
+ *=============================================================================*/
+HRESULT InitIB()
+{
+	MYINDEX indices[] =
+	{
+		{0, 1, 2},
+		{2, 1, 3}
+	};
+
+	// 인덱스 버퍼 생성
+	// D3DFMT_INDEX16은 인덱스의 단위가 16비트라는 것을 나타냅니다.
+	// MYINDEX 구조체에서 WORD형으로 선언했으므로 D3DFMT_INDEX16을 사용합니다.
+	// DWORD형일 경우 D3DFMT_INDEX32를 사용합니다.
+	if (FAILED(g_pd3dDevice->CreateIndexBuffer(2 * sizeof(MYINDEX), 0, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &g_pIB, NULL)))
+	{
+		return E_FAIL;
+	}
+
+	// 인덱스 버퍼를 값으로 채운다.
+	void* pIndices;
+	// 인덱스 버퍼의 Lock() 함수를 호출하여 포인터를 얻어와서 정보를 채웁니다.
+	if (FAILED(g_pIB->Lock(0, sizeof(indices), (void**)&pIndices, 0)))
+	{
+		return E_FAIL;
+	}
+
+	memcpy(pIndices, indices, sizeof(indices));
+
+	g_pIB->Unlock();
+
+	return S_OK;
+}
+
+/*=============================================================================
  * 초기화 객체를 Release
  *=============================================================================*/
 void Release()
 {
 	// 해제 순서가 중요합니다.
 	// 인터페이스 생성의 역순으로 해제합니다.
+	if (g_pIB != NULL)
+	{
+		g_pIB->Release();
+	}
+
 	if (g_pVB != NULL)
 	{
 		g_pVB->Release();
@@ -262,30 +287,34 @@ void Render()
 	// 랜더링 시작
 	if (SUCCEEDED(g_pd3dDevice->BeginScene()))
 	{
-		// 정점 버퍼의 삼각형을 그립니다.
-		g_pd3dDevice->SetStreamSource(0, g_pCustomVB, 0, sizeof(CUSTOMVERTEX));
-		g_pd3dDevice->SetFVF(D3DFVF_CUSTOMVERTEX);
-		/*=============================================================================
-		 * HRESULT DrawPrimitive
-		 * (
-		 *   D3DPRIMITIVETYPE PrimitiveType,
-		 *   UINT StartVertex,
-		 *	 UINT PrimitiveCount
-		 * );
-		 * PrimitiveType: 랜더링하는 기본 도형의 종류를 기술합니다.
-		 * StartVertex: 로드하는 최초의 정점의 인덱스입니다.
-		 * PrimitiveCount: 랜더링 하는 기본 도형의 수입니다.
-		 *=============================================================================*/
-		g_pd3dDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
-
 		// 정점 정보가 담겨 있는 정점 버퍼를 출력 스트림으로 할당합니다.
 		g_pd3dDevice->SetStreamSource(0, g_pVB, 0, sizeof(CUSTOMVERTEX));
 
 		// D3D에게 정점 셰이더 정보를 지정합니다. 대부분의 경우에는 FVF만 지정합니다.
 		g_pd3dDevice->SetFVF(D3DFVF_CUSTOMVERTEX);
 
-		// 기하 정보를 출력하기 위한 DrawPrimitive() 함수를 호출합니다.
-		g_pd3dDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
+		// 인덱스 버퍼를 지정합니다.
+		g_pd3dDevice->SetIndices(g_pIB);
+
+		// 기하 정보를 출력하기 위한 DrawIndexPrimitive() 함수를 호출합니다.
+		/*=============================================================================
+		 * HRESULT DrawIndexPrimitive
+		 * (
+		 *   D3DPRIMITIVETYPE Type,
+		 *   INT BaseVertexIndex,
+		 *	 UINT MinIndex,
+		 *	 UINT NumVertices,
+		 *	 UINT StartIndex,
+		 *	 UINT PrimitiveCount
+		 * );
+		 * Type: 그리고자 하는 기본 타입
+		 * BaseVertexIndex: 여러 오브젝트를 하나로 묶을 때 더해질 넘버
+		 * MinIndex: 참조할 최소 인덱스 값
+		 * NumVertices: 이번 호출에 참조될 버텍스의 수
+		 * StartIndex: 인덱스 버퍼 내에서 읽기를 시작할 인덱스 번호
+		 * PrimitiveCount: 랜더링 하는 기본 도형의 수
+		 *=============================================================================*/
+		g_pd3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 4, 0, 2);
 
 		// 렌더링 종료
 		g_pd3dDevice->EndScene();
@@ -319,41 +348,44 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT)
 	// 윈도우 클래스를 등록합니다.
 	WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, MsgProc, 0L, 0L,
 		GetModuleHandle(NULL), NULL, NULL, NULL, NULL,
-		L"D3D Vertices", NULL };
+		L"D3D IndexBuffer", NULL };
 
 	// winclass 레지스터에 등록합니다.
 	RegisterClassEx(&wc);
 
-	HWND hWnd = CreateWindow(L"D3D Vertices", L"D3D Vertices", WS_OVERLAPPEDWINDOW, 100, 100, WINDOWWIDTH, WINDOWHEIGHT,
+	HWND hWnd = CreateWindow(L"D3D IndexBuffer", L"D3D IndexBuffer", WS_OVERLAPPEDWINDOW, 100, 100, WINDOWWIDTH, WINDOWHEIGHT,
 		GetDesktopWindow(), NULL, NULL, wc.hInstance, NULL);
 
 	if (SUCCEEDED(InitD3D(hWnd)))
 	{
 		if (SUCCEEDED(InitVB()))
 		{
-			ShowWindow(hWnd, SW_SHOWDEFAULT);
-			UpdateWindow(hWnd);
-
-			MSG msg;
-			ZeroMemory(&msg, sizeof(msg));
-
-			while (msg.message != WM_QUIT)
+			if (SUCCEEDED(InitIB()))
 			{
-				if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
+				ShowWindow(hWnd, SW_SHOWDEFAULT);
+				UpdateWindow(hWnd);
+
+				MSG msg;
+				ZeroMemory(&msg, sizeof(msg));
+
+				while (msg.message != WM_QUIT)
 				{
-					TranslateMessage(&msg);
-					DispatchMessage(&msg);
-				}
-				else
-				{
-					Input();
-					Render();
+					if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
+					{
+						TranslateMessage(&msg);
+						DispatchMessage(&msg);
+					}
+					else
+					{
+						Input();
+						Render();
+					}
 				}
 			}
 		}
 	}
 
 	// 등록된 레지시트 winclass를 릴리즈 합니다.
-	UnregisterClass(L"D3D Vertices", wc.hInstance);
+	UnregisterClass(L"D3D IndexBuffer", wc.hInstance);
 	return 0;
 }
