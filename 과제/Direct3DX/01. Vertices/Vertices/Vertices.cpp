@@ -193,7 +193,7 @@ void Input()
 		{
 			Vertices[i].x -= Speed_X;
 
-			// 도형이 오른쪽에 위치할 경우
+			// 도형이 왼쪽에 위치할 경우
 			if (Vertices[i].x <= WINDOWWIDTH / 2)
 			{
 				for (int i = 0; i < 4; i++)
