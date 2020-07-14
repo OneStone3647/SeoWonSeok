@@ -17,8 +17,8 @@ LPDIRECT3DDEVICE9	g_pd3dDevice = NULL;
 GameManager	GM;
 
 float	g_X = 0.0f;
-float	g_Y = 0.0f;
-float	g_Z = 0.0f;
+float	g_Y = 20.0f;
+float	g_Z = -20.0f;
 
 float	g_Speed = 0.5f;
 
@@ -84,7 +84,7 @@ void SetupMatrices()
 	g_pd3dDevice->SetTransform(D3DTS_WORLD, GM.GetmatWorld());	// 생성한 회전 행렬을 월드 행렬로 디바이스에 설정합니다.
 
 	// 뷰 행렬(카메라)을 정의하기 위해서는 3가지 값이 필요합니다.
-	D3DXVECTOR3 vEyePt(g_X, 20.0f, g_Z);			// 눈의 위치
+	D3DXVECTOR3 vEyePt(g_X, g_Y, g_Z);			// 눈의 위치
 	D3DXVECTOR3 vLookatPt(0.0f, 0.0f, 0.0f);	// 눈이 바라보는 위치(0.0f, 0.0f, 0.0f)
 	D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);				// 윗 방향을 나타내는 상방 벡터(0.0f, 1.0f, 0.0f)
 
@@ -145,6 +145,16 @@ void Input()
 	if (GetKeyState(VK_DOWN) & 0x8000)
 	{
 		g_Z -= g_Speed;
+	}
+
+	if (GetKeyState(VK_RBUTTON) & 0x8000)
+	{
+		g_Y += g_Speed;
+	}
+
+	if (GetKeyState(VK_LBUTTON) & 0x8000)
+	{
+		g_Y -= g_Speed;
 	}
 }
 
@@ -241,7 +251,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT)
 
 	if (SUCCEEDED(InitD3D(hWnd)))
 	{
-		if (SUCCEEDED(GM.GetVertex(0)->InitVB(g_pd3dDevice, 0, 0, 0, 1)) && SUCCEEDED(GM.GetVertex(1)->InitVB(g_pd3dDevice, 4, 0, 0, 1)))
+		if (SUCCEEDED(GM.GetVertex(0)->InitVB(g_pd3dDevice, 0, 0, 0, 1)) && SUCCEEDED(GM.GetVertex(1)->InitVB(g_pd3dDevice, 4, -2, 3, 1)))
 		{
 			if (SUCCEEDED(GM.GetCube()->InitIB(g_pd3dDevice)))
 			{
