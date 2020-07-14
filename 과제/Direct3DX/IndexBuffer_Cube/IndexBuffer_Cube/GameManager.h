@@ -1,0 +1,50 @@
+#pragma once
+#include "Vertex.h"
+#include "Cube.h"
+
+class GameManager
+{
+private:
+	HWND m_hWnd;
+	D3DXMATRIXA16 matWorld;	// 월드 스페이스
+	Vertex m_Vertex[2];
+	Cube m_Cube;
+	POINT m_MousePos;
+	float m_Speed = 0.0f;
+
+public:
+	GameManager();
+	~GameManager();
+
+public:
+	void Init(HWND hWnd);
+	void Release();
+	void Update();
+
+public:
+	inline void SpeedAccel()
+	{
+		m_Speed += 0.1f;
+	}
+
+	inline D3DXMATRIXA16* GetmatWorld()
+	{
+		return &matWorld;
+	}
+
+	inline Vertex* GetVertex(int i)
+	{
+		return &m_Vertex[i];
+	}
+
+	inline Cube* GetCube()
+	{
+		return &m_Cube;
+	}
+
+	inline float GetSpeed()
+	{
+		return m_Speed;
+	}
+};
+
