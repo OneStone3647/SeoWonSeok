@@ -1,3 +1,0 @@
-﻿  WinMain.cpp
-c:\seowonseok\과제\direct3dx\indexbuffer_cube\indexbuffer_cube\winmain.cpp(222): warning C4002: 함수 같은 매크로 호출 'CreateWindowW'에 대해 인수가 너무 많습니다.
-  IndexBuffer_Cube.vcxproj -> C:\SeoWonSeok\과제\Direct3DX\IndexBuffer_Cube\Debug\IndexBuffer_Cube.exe
