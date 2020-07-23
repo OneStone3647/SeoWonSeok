@@ -208,7 +208,7 @@ void Render()
 		// 정점 정보가 담겨 있는 정점 버퍼를 출력 스트림으로 할당합니다.
 		g_pd3dDevice->SetStreamSource(0, VT.GetVB(), 0, sizeof(CUSTOMVERTEX));
 		// D3D에게 정점 셰이더 정보를 지정합니다.
-		// 대부분 FCF만 지정합니다.
+		// 대부분 FVF만 지정합니다.
 		g_pd3dDevice->SetFVF(D3DFVF_CUSTOMVERTEX);
 		// 기하 정보를 출력하기 위한 DrawPrimitive() 함수를 호출합니다.
 		g_pd3dDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2 * 50 - 2);

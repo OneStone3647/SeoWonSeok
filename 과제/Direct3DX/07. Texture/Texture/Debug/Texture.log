@@ -1,8 +1,8 @@
 ﻿  Vertex.cpp
-c:\seowonseok\과제\direct3dx\07. texture\texture\vertex.h(25): warning C4005: 'D3DFVF_CUSTOMVERTEX': 매크로 재정의
+c:\seowonseok\과제\direct3dx\07. texture\texture\vertex.h(22): warning C4005: 'D3DFVF_CUSTOMVERTEX': 매크로 재정의
   c:\seowonseok\과제\direct3dx\07. texture\texture\vertex.h(10): note: 'D3DFVF_CUSTOMVERTEX'의 이전 정의를 참조하십시오.
   WinMain.cpp
-c:\seowonseok\과제\direct3dx\07. texture\texture\vertex.h(25): warning C4005: 'D3DFVF_CUSTOMVERTEX': 매크로 재정의
+c:\seowonseok\과제\direct3dx\07. texture\texture\vertex.h(22): warning C4005: 'D3DFVF_CUSTOMVERTEX': 매크로 재정의
   c:\seowonseok\과제\direct3dx\07. texture\texture\vertex.h(10): note: 'D3DFVF_CUSTOMVERTEX'의 이전 정의를 참조하십시오.
 c:\seowonseok\과제\direct3dx\07. texture\texture\winmain.cpp(253): warning C4002: 함수 같은 매크로 호출 'CreateWindowW'에 대해 인수가 너무 많습니다.
   코드를 생성하고 있습니다...
