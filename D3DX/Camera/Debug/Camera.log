@@ -1,9 +1,23 @@
 ﻿  HeightMap.cpp
-d:\aducation\d3dx\d3dx\d3dx\camera\heightmap.cpp(195): warning C4244: '=': 'unsigned long'에서 'WORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\aducation\d3dx\d3dx\d3dx\camera\heightmap.cpp(196): warning C4244: '=': 'unsigned long'에서 'WORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\aducation\d3dx\d3dx\d3dx\camera\heightmap.cpp(197): warning C4244: '=': 'unsigned long'에서 'WORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\aducation\d3dx\d3dx\d3dx\camera\heightmap.cpp(199): warning C4244: '=': 'unsigned long'에서 'WORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\aducation\d3dx\d3dx\d3dx\camera\heightmap.cpp(200): warning C4244: '=': 'unsigned long'에서 'WORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\aducation\d3dx\d3dx\d3dx\camera\heightmap.cpp(201): warning C4244: '=': 'unsigned long'에서 'WORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\aducation\d3dx\d3dx\d3dx\camera\heightmap.cpp(554): warning C4316: 'ZCamera': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
-  Camera.vcxproj -> D:\Aducation\D3DX\D3DX\D3DX\Debug\Camera.exe
+c:\seowonseok\d3dx\camera\heightmap.cpp(193): warning C4244: '=': 'unsigned long'에서 'WORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\seowonseok\d3dx\camera\heightmap.cpp(194): warning C4244: '=': 'unsigned long'에서 'WORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\seowonseok\d3dx\camera\heightmap.cpp(195): warning C4244: '=': 'unsigned long'에서 'WORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\seowonseok\d3dx\camera\heightmap.cpp(197): warning C4244: '=': 'unsigned long'에서 'WORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\seowonseok\d3dx\camera\heightmap.cpp(198): warning C4244: '=': 'unsigned long'에서 'WORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\seowonseok\d3dx\camera\heightmap.cpp(199): warning C4244: '=': 'unsigned long'에서 'WORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\seowonseok\d3dx\camera\heightmap.cpp(517): warning C4316: 'ZCamera': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+  ZCamera.cpp
+  ZFLog.cpp
+c:\seowonseok\d3dx\camera\zflog.cpp(10): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 'strcpy' 선언을 참조하십시오.
+c:\seowonseok\d3dx\camera\zflog.cpp(64): warning C4996: '_strdate': This function or variable may be unsafe. Consider using _strdate_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\time.h(290): note: '_strdate' 선언을 참조하십시오.
+c:\seowonseok\d3dx\camera\zflog.cpp(65): warning C4996: '_strtime': This function or variable may be unsafe. Consider using _strtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\time.h(306): note: '_strtime' 선언을 참조하십시오.
+c:\seowonseok\d3dx\camera\zflog.cpp(66): warning C4996: 'vsprintf': This function or variable may be unsafe. Consider using vsprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1469): note: 'vsprintf' 선언을 참조하십시오.
+c:\seowonseok\d3dx\camera\zflog.cpp(78): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(208): note: 'fopen' 선언을 참조하십시오.
+  코드를 생성하고 있습니다...
+HeightMap.obj : error LNK2019: "public: struct _D3DXMATRIXA16 * __thiscall ZCamera::RotateLocalX(float)" (?RotateLocalX@ZCamera@@QAEPAU_D3DXMATRIXA16@@M@Z) 외부 기호(참조 위치: "void __cdecl ProcessMouse(void)" (?ProcessMouse@@YAXXZ) 함수)에서 확인하지 못했습니다.
+C:\SeoWonSeok\D3DX\Camera\Debug\Camera.exe : fatal error LNK1120: 1개의 확인할 수 없는 외부 참조입니다.

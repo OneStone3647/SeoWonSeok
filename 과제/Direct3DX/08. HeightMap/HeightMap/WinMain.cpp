@@ -24,7 +24,7 @@ LPDIRECT3DVERTEXBUFFER9	g_pVB			= NULL;
 LPDIRECT3DINDEXBUFFER9	g_pIB			= NULL;
 
 LPDIRECT3DTEXTURE9		g_pTexHeight	= NULL;	// Texture 높이맵
-LPDIRECT3DTEXTURE9		g_pTextDiffuse	= NULL;	// Texture 색깔맵
+LPDIRECT3DTEXTURE9		g_pTexDiffuse	= NULL;	// Texture 색깔맵
 D3DXMATRIXA16			g_matAni;
 
 DWORD					g_cxHeight = 0;
@@ -94,7 +94,7 @@ HRESULT InitTexture()
 	}
 
 	// 색깔맵
-	if (FAILED(D3DXCreateTextureFromFile(g_pd3dDevice, L"tile2.tga", &g_pTextDiffuse)))
+	if (FAILED(D3DXCreateTextureFromFile(g_pd3dDevice, L"tile2.tga", &g_pTexDiffuse)))
 	{
 		return E_FAIL;
 	}
@@ -246,4 +246,258 @@ void SetupCamera()
 	D3DXMATRIXA16	matView;
 	D3DXMatrixLookAtLH(&matView, &vEyePt, &vLookatPt, &vUpVec);
 	g_pd3dDevice->SetTransform(D3DTS_VIEW, &matView);
+
+	D3DXMATRIXA16 matProj;
+	D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4, 1.0f, 1.0f, 1000.0f);
+	g_pd3dDevice->SetTransform(D3DTS_PROJECTION, &matProj);
+}
+
+/*=============================================================================*
+ * 광원 설정
+ *=============================================================================*/
+VOID SetupLights()
+{
+	// 재질 설정
+	// 대질은 디바이스에 단 하남나 설정될 수 있습니다.
+	D3DMATERIAL9 mtrl;
+	ZeroMemory(&mtrl, sizeof(_D3DMATERIAL9));
+	// Diffuse(확산광): 표면의 모든 점에 균일하게 비춰지는 빛
+	// Ambient(주변광): 최저 평균 밝기를 말한다. 똑같은 양으로 모든 면에서 나오는 빛
+	mtrl.Diffuse.r = mtrl.Ambient.r = 1.0f;
+	mtrl.Diffuse.g = mtrl.Ambient.g = 1.0f;
+	mtrl.Diffuse.b = mtrl.Ambient.b = 0.0f;
+	mtrl.Diffuse.a = mtrl.Ambient.a = 1.0f;
+	g_pd3dDevice->SetMaterial(&mtrl);
+
+	// 광원 설정
+	D3DXVECTOR3 vecDir;
+	// 방향성 광원(directional light)이 향한 빛의 방향
+	// 광원 구조체
+	D3DLIGHT9 light;
+	ZeroMemory(&light, sizeof(D3DLIGHT9));
+	// 광원의 확산광 색깔의 밝기를 지정합니다.
+	// 광원의 종류를 설정합니다.(포인트 라이트, 다이렉션 라이트, 스포트 라이트)
+	light.Type = D3DLIGHT_DIRECTIONAL;
+	light.Diffuse.r = 1.0f;
+	light.Diffuse.g = 1.0f;
+	light.Diffuse.b = 1.0f;
+	// 광원의 방향 설정
+	vecDir = D3DXVECTOR3(1, 1, 1);
+	vecDir = D3DXVECTOR3(cosf(GetTickCount() / 350.0f),
+		1.0f,
+		sinf(GetTickCount() / 350.0f));
+
+	// 광원의 방향을 단위 벡터로 만듭니다.
+	D3DXVec3Normalize((D3DXVECTOR3*)&light.Direction, &vecDir);
+
+	light.Range = 1000.0f;								// 광원이 다다를 수 있는 최대거리
+	g_pd3dDevice->SetLight(0, &light);					// 디바이스에 광원 0번을 설치
+	g_pd3dDevice->LightEnable(0, TRUE);					// 광원 0번을 활성화 합니다.
+	g_pd3dDevice->SetRenderState(D3DRS_LIGHTING, TRUE);	// 광원 설정을 활성화 합니다.
+
+	// 환경 광원의 값 설정
+	g_pd3dDevice->SetRenderState(D3DRS_AMBIENT, 0x00909090);
+}
+
+/*=============================================================================*
+ * FPS(Frame Per Second) 출력
+ *=============================================================================*/
+void LogFPS(void)
+{
+	static DWORD nTick = 0;
+	static DWORD nFPS = 0;
+
+	if (GetTickCount() - nTick > 1000)
+	{
+		nTick = GetTickCount();
+		g_pLog->Log("FPS: %d", nFPS);
+		nFPS = 0;
+		return;
+	}
+	nFPS++;
+}
+
+/*=============================================================================*
+ * 애니메이션 설정
+ *=============================================================================*/
+VOID Animate()
+{
+	static DWORD t = 0;
+	static bool flag = false;
+	// 0 ~ 2PI까지 (0 ~ 360도) 값을 변화시킵니다. Fixed Point기법을 사용
+	DWORD d = GetTickCount() % ((int)((D3DX_PI * 2) * 1000));
+	// Y축 회전행렬
+	D3DXMatrixRotationY(&g_matAni, d / 1000.0f);
+	// D3DXMatrixIdentity(&g_matAni);
+
+	// 카메라 행렬설정
+	SetupCamera();
+	SetupLights();
+
+	if (d < t)
+	{
+		flag = !flag;
+	}
+	g_pd3dDevice->SetRenderState(D3DRS_FILLMODE, flag ? D3DFILL_WIREFRAME : D3DFILL_SOLID);
+	t = d;
+
+	LogFPS();
+}
+
+/*=============================================================================*
+ * 초기화 객체를 소거
+ *=============================================================================*/
+VOID Cleanup()
+{
+	if (g_pTexHeight != NULL)
+	{
+		g_pTexHeight->Release();
+	}
+
+	if (g_pTexDiffuse != NULL)
+	{
+		g_pTexDiffuse->Release();
+	}
+
+	if (g_pIB != NULL)
+	{
+		g_pIB->Release();
+	}
+
+	if (g_pVB != NULL)
+	{
+		g_pVB->Release();
+	}
+
+	if (g_pd3dDevice != NULL)
+	{
+		g_pd3dDevice->Release();
+	}
+
+	if (g_pD3D != NULL)
+	{
+		g_pD3D->Release();
+	}
+}
+
+/*=============================================================================*
+ * 메시 그리기
+ *=============================================================================*/
+void DrawMesh(D3DXMATRIXA16* pMat)
+{
+	g_pd3dDevice->SetTransform(D3DTS_WORLD, pMat);
+	g_pd3dDevice->SetStreamSource(0, g_pVB, 0, sizeof(CUSTOMVERTEX));
+	g_pd3dDevice->SetFVF(D3DFVF_CUSTOMVERTEX);
+	g_pd3dDevice->SetIndices(g_pIB);
+	g_pd3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, g_cxHeight*g_czHeight, 0, (g_cxHeight - 1)*(g_czHeight - 1) * 2);
+}
+
+/*=============================================================================*
+ * 화면 그리기
+ *=============================================================================*/
+VOID Render()
+{
+	// 후면버퍼와 Z버퍼를 포기화합니다.
+	g_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(255, 255, 255), 1.0f, 0);
+
+	// 애니메이션 행렬설정
+	Animate();
+
+	// 랜더링 시작
+	if (SUCCEEDED(g_pd3dDevice->BeginScene()))
+	{
+		g_pd3dDevice->SetTexture(0, g_pTexDiffuse);								// 0번 텍스처 스테이지에 텍스처 고정(색깔맵)
+		g_pd3dDevice->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);	// 0번 텍스처 스테이지의 확대 필터
+		g_pd3dDevice->SetTextureStageState(0, D3DTSS_TEXCOORDINDEX, 0);			// 0번 텍스처: 0번 텍스처 인덱스 사용
+
+		g_pd3dDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+		g_pd3dDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+		g_pd3dDevice->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
+
+		DrawMesh(&g_matAni);
+		// 랜더링 종료
+		g_pd3dDevice->EndScene();
+	}
+
+	// 후면 버퍼를 보이는 화면으로
+	g_pd3dDevice->Present(NULL, NULL, NULL, NULL);
+}
+
+/*=============================================================================*
+ * 윈도우 프로시져
+ *=============================================================================*/
+LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch (msg)
+	{
+	case WM_DESTROY:
+		Cleanup();
+		PostQuitMessage(0);
+		return 0;
+	case WM_KEYDOWN:
+		switch (wParam)
+		{
+		case VK_ESCAPE:
+			PostMessage(hWnd, WM_DESTROY, 0, 0L);
+			break;
+		}
+		break;
+	}
+
+	return DefWindowProc(hWnd, msg, wParam, lParam);
+}
+
+/*=============================================================================*
+ * 프로그램 시작점
+ *=============================================================================*/
+INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT)
+{
+	//윈도우 클래스 등록
+	WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, MsgProc, 0L, 0L,
+		GetModuleHandle(NULL), NULL, NULL, NULL, NULL,
+		L"HeightMap_TList", NULL };
+
+	//winclass 레지스터에 등록
+	RegisterClassEx(&wc);
+
+	HWND hWnd = CreateWindow(L"HeightMap_TList", WINDOW_TITLE,
+		WS_OVERLAPPEDWINDOW, 100, 100, WINDOW_W, WINDOW_H,
+		GetDesktopWindow(), NULL, wc.hInstance, NULL);
+
+	g_hWnd = hWnd;
+	g_pLog = new ZFLog(ZF_LOG_TARGET_WINDOW);
+	// Direct3D 초기화
+	if (SUCCEEDED(InitD3D(hWnd)))
+	{
+		if (SUCCEEDED(InitGeometry()))
+		{
+			// 윈도우 출력
+			ShowWindow(hWnd, SW_SHOWDEFAULT);
+			UpdateWindow(hWnd);
+
+			// 메시지 루프
+			MSG msg;
+			ZeroMemory(&msg, sizeof(msg));
+
+			while (msg.message != WM_QUIT)
+			{
+				if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
+				{
+					TranslateMessage(&msg);
+					DispatchMessage(&msg);
+				}
+				else
+				{
+					// 처리할 메시지가 없으면 Render()함수 호출
+					Render();
+				}					
+			}
+		}
+	}
+
+	delete g_pLog;
+
+	//등록된 레지스트 winclass 릴리즈.
+	UnregisterClass(L"HeightMap_TList", wc.hInstance);
+	return 0;
 }

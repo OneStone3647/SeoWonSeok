@@ -1,0 +1,8 @@
+﻿  WinMain.cpp
+c:\seowonseok\과제\direct3dx\08. heightmap\heightmap\winmain.cpp(192): warning C4244: '=': 'unsigned long'에서 'WORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\seowonseok\과제\direct3dx\08. heightmap\heightmap\winmain.cpp(193): warning C4244: '=': 'unsigned long'에서 'WORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\seowonseok\과제\direct3dx\08. heightmap\heightmap\winmain.cpp(194): warning C4244: '=': 'unsigned long'에서 'WORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\seowonseok\과제\direct3dx\08. heightmap\heightmap\winmain.cpp(198): warning C4244: '=': 'unsigned long'에서 'WORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\seowonseok\과제\direct3dx\08. heightmap\heightmap\winmain.cpp(199): warning C4244: '=': 'unsigned long'에서 'WORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\seowonseok\과제\direct3dx\08. heightmap\heightmap\winmain.cpp(200): warning C4244: '=': 'unsigned long'에서 'WORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  HeightMap.vcxproj -> C:\SeoWonSeok\과제\Direct3DX\08. HeightMap\Debug\HeightMap.exe

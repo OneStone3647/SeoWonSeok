@@ -17,7 +17,7 @@ ZFLog::ZFLog(UINT32 nTarget, LPSTR szFilename)
 
 	if (nTarget & ZF_LOG_TARGET_WINDOW)
 	{
-		CreateLogWIndow();
+		CreateLogWindow();
 	}
 	else
 	{
@@ -32,7 +32,7 @@ ZFLog::~ZFLog()
 	DestroyWindow(m_hWnd);
 }
 
-void ZFLog::CreateLogWIndow()
+void ZFLog::CreateLogWindow()
 {
 	int			x, y, cx, cy;
 	WNDCLASS	wc;

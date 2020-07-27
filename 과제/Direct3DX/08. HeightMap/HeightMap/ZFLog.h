@@ -26,7 +26,7 @@ public:
 	~ZFLog();
 
 public:
-	void	CreateLogWIndow();
+	void	CreateLogWindow();
 	int		Log(const char* fmt, ...);
 
 private:
