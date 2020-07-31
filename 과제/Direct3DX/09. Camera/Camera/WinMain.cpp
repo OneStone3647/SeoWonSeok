@@ -364,22 +364,22 @@ void ProcessMouse(void)
 	int dx = pt.x - g_dwMouseX;	// 마우스의 변화값
 	int dy = pt.y - g_dwMouseY; // 마우스의 변화값
 
-	//g_pCamera->RotateLocalX(dy * fDelta);	// 마우스의 Y축 회전값은 3D World의 X축 회전값
-	//g_pCamera->RotateLocalY(dx * fDelta);	// 마우스의 X축 회전값은 3D World의 Y축 회전값
+	g_pCamera->RotateLocalX(dy * fDelta);	// 마우스의 Y축 회전값은 3D World의 X축 회전값
+	g_pCamera->RotateLocalY(dx * fDelta);	// 마우스의 X축 회전값은 3D World의 Y축 회전값
 
 	D3DXMATRIXA16* pmatView = g_pCamera->GetViewMatrix();	// 카메라 행렬을 얻습니다.
 	g_pd3dDevice->SetTransform(D3DTS_VIEW, pmatView);		// 카메라 행렬 셋팅
 
 	// 마우스를 윈도우의 중앙으로 초기화
 	//SetCursor(NULL);	// 마우스를 나타나지 않게 합니다.
-	//RECT rc;
-	//GetClientRect(g_hWnd, &rc);
-	//pt.x = (rc.right - rc.left) / 2;
-	//pt.y = (rc.bottom - rc.top) / 2;
-	//ClientToScreen(g_hWnd, &pt);
-	//SetCursorPos(pt.x, pt.y);
-	//g_dwMouseX = pt.x;
-	//g_dwMouseY = pt.y;
+	RECT rc;
+	GetClientRect(g_hWnd, &rc);
+	pt.x = (rc.right - rc.left) / 2;
+	pt.y = (rc.bottom - rc.top) / 2;
+	ClientToScreen(g_hWnd, &pt);
+	SetCursorPos(pt.x, pt.y);
+	g_dwMouseX = pt.x;
+	g_dwMouseY = pt.y;
 }
 
 /*===================================================================================*
