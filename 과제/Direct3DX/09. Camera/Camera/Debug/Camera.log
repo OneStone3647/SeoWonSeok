@@ -1,3 +1,9 @@
-﻿  ZCamera.cpp
-c:\seowonseok\과제\direct3dx\09. camera\camera\zcamera.cpp(121): error C2664: 'D3DXVECTOR3 *D3DXVec3Cross(D3DXVECTOR3 *,const D3DXVECTOR3 *,const D3DXVECTOR3 *)': 인수 3을(를) 'D3DXMATRIXA16 *'에서 'const D3DXVECTOR3 *'(으)로 변환할 수 없습니다.
-  c:\seowonseok\과제\direct3dx\09. camera\camera\zcamera.cpp(121): note: 가리킨 형식이 관련이 없습니다. 변환하려면 reinterpret_cast, C 스타일 캐스트 또는 함수 스타일 캐스트가 필요합니다.
+﻿  WinMain.cpp
+d:\study\programing\seowonseok\과제\direct3dx\09. camera\camera\winmain.cpp(202): warning C4244: '=': 'unsigned long'에서 'WORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\study\programing\seowonseok\과제\direct3dx\09. camera\camera\winmain.cpp(203): warning C4244: '=': 'unsigned long'에서 'WORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\study\programing\seowonseok\과제\direct3dx\09. camera\camera\winmain.cpp(204): warning C4244: '=': 'unsigned long'에서 'WORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\study\programing\seowonseok\과제\direct3dx\09. camera\camera\winmain.cpp(208): warning C4244: '=': 'unsigned long'에서 'WORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\study\programing\seowonseok\과제\direct3dx\09. camera\camera\winmain.cpp(209): warning C4244: '=': 'unsigned long'에서 'WORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\study\programing\seowonseok\과제\direct3dx\09. camera\camera\winmain.cpp(210): warning C4244: '=': 'unsigned long'에서 'WORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\study\programing\seowonseok\과제\direct3dx\09. camera\camera\winmain.cpp(621): warning C4316: 'ZCamera': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+  Camera.vcxproj -> D:\Study\Programing\SeoWonSeok\과제\Direct3DX\09. Camera\Debug\Camera.exe

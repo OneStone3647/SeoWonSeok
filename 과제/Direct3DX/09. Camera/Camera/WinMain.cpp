@@ -16,22 +16,22 @@
 /*===================================================================================*
  * 전역변수
  *===================================================================================*/
-ZCamera*				g_pCamera		= NULL;	// Camera 클래스
-HWND					g_hWnd			= NULL;
+ZCamera*							g_pCamera		= NULL;	// Camera 클래스
+HWND							g_hWnd			= NULL;
 
-LPDIRECT3D9				g_pD3D			= NULL;	// D3D 디아비스를 생성할 D3D객체변수
-LPDIRECT3DDEVICE9		g_pd3dDevice	= NULL; // 렌더링에 사용될 D3D디바이스
-LPDIRECT3DVERTEXBUFFER9	g_pVB			= NULL; // 정점을 보관할 정점버퍼
-LPDIRECT3DINDEXBUFFER9	g_pIB			= NULL; // 인덱스를 보관할 인덱스 버퍼
+LPDIRECT3D9						g_pD3D			= NULL;	// D3D 디아비스를 생성할 D3D객체변수
+LPDIRECT3DDEVICE9			g_pd3dDevice	= NULL; // 렌더링에 사용될 D3D디바이스
+LPDIRECT3DVERTEXBUFFER9	g_pVB				= NULL; // 정점을 보관할 정점버퍼
+LPDIRECT3DINDEXBUFFER9	g_pIB				= NULL; // 인덱스를 보관할 인덱스 버퍼
 
-LPDIRECT3DTEXTURE9		g_pTexHeight	= NULL;	// Texture 높이맵
-LPDIRECT3DTEXTURE9		g_pTexDiffuse	= NULL;	// Texture 색깔맵
-D3DXMATRIXA16			g_matAni;
+LPDIRECT3DTEXTURE9			g_pTexHeight	= NULL;	// Texture 높이맵
+LPDIRECT3DTEXTURE9			g_pTexDiffuse	= NULL;	// Texture 색깔맵
+D3DXMATRIXA16				g_matAni;
 
-DWORD					g_cxHeight		= 0;
-DWORD					g_czHeight		= 0;
-DWORD					g_dwMouseX		= 0;
-DWORD					g_dwMouseY		= 0;
+DWORD							g_cxHeight		= 0;
+DWORD							g_czHeight		= 0;
+DWORD							g_dwMouseX	= 0;
+DWORD							g_dwMouseY	= 0;
 
 // 사용자 정점을 정의할 구조체
 struct CUSTOMVERTEX
@@ -341,6 +341,12 @@ void LogFPS(void)
 		g_pLog->Log("Eye: [%f, %f, %f]", pv->x, pv->y, pv->z);
 		nFPS = 0;
 
+		// 카메라 회전 앵글 출력
+		g_pLog->Log("Angle: %f", g_pCamera->GetAngle());
+
+		// 카메라 회전 타입 출력
+		g_pLog->Log("회전 타입: %d", g_pCamera->GetCurrentRotate());
+
 		return;
 	}
 	nFPS++;
@@ -358,22 +364,22 @@ void ProcessMouse(void)
 	int dx = pt.x - g_dwMouseX;	// 마우스의 변화값
 	int dy = pt.y - g_dwMouseY; // 마우스의 변화값
 
-	g_pCamera->RotateLocalX(dy * fDelta);	// 마우스의 Y축 회전값은 3D World의 X축 회전값
-	g_pCamera->RotateLocalY(dx * fDelta);	// 마우스의 X축 회전값은 3D World의 Y축 회전값
+	//g_pCamera->RotateLocalX(dy * fDelta);	// 마우스의 Y축 회전값은 3D World의 X축 회전값
+	//g_pCamera->RotateLocalY(dx * fDelta);	// 마우스의 X축 회전값은 3D World의 Y축 회전값
 
 	D3DXMATRIXA16* pmatView = g_pCamera->GetViewMatrix();	// 카메라 행렬을 얻습니다.
 	g_pd3dDevice->SetTransform(D3DTS_VIEW, pmatView);		// 카메라 행렬 셋팅
 
 	// 마우스를 윈도우의 중앙으로 초기화
 	//SetCursor(NULL);	// 마우스를 나타나지 않게 합니다.
-	RECT rc;
-	GetClientRect(g_hWnd, &rc);
-	pt.x = (rc.right - rc.left) / 2;
-	pt.y = (rc.bottom - rc.top) / 2;
-	ClientToScreen(g_hWnd, &pt);
-	SetCursorPos(pt.x, pt.y);
-	g_dwMouseX = pt.x;
-	g_dwMouseY = pt.y;
+	//RECT rc;
+	//GetClientRect(g_hWnd, &rc);
+	//pt.x = (rc.right - rc.left) / 2;
+	//pt.y = (rc.bottom - rc.top) / 2;
+	//ClientToScreen(g_hWnd, &pt);
+	//SetCursorPos(pt.x, pt.y);
+	//g_dwMouseX = pt.x;
+	//g_dwMouseY = pt.y;
 }
 
 /*===================================================================================*
@@ -403,15 +409,47 @@ void ProcessKey(void)
 	{
 		g_pCamera->MoveLocalX(-0.5f);
 	}
-	// 카메라 우측 회전
-	if (GetAsyncKeyState('E'))
+
+	if (GetAsyncKeyState('Q') | GetAsyncKeyState('E'))
 	{
-		g_pCamera->RotateLocalZ(0.01f);
+		// 카메라 우측 회전
+		if (GetAsyncKeyState('E'))
+		{
+			g_pCamera->SetCurrentRotate(CURRENTROTATE_RIGHT);
+			if (g_pCamera->GetAngle() > -1.0f)
+			{
+				g_pCamera->RotateLocalZ(-0.05f);
+			}
+		}
+
+		// 카메라 좌측 회전
+		if (GetAsyncKeyState('Q'))
+		{
+			g_pCamera->SetCurrentRotate(CURRENTROTATE_LEFT);
+			if (g_pCamera->GetAngle() < 1.0f)
+			{
+				g_pCamera->RotateLocalZ(0.05f);
+			}
+		}
 	}
-	// 카메라 좌측 회전
-	if (GetAsyncKeyState('Q'))
+	else
 	{
-		g_pCamera->RotateLocalZ(-0.01f);
+		if (g_pCamera->GetCurrentRotate() != CURRENTROTATE_IDLE)
+		{
+			if (g_pCamera->GetCurrentRotate() == CURRENTROTATE_RIGHT)
+			{
+				g_pCamera->RotateLocalZ(0.05f);
+			}
+			else if (g_pCamera->GetCurrentRotate() == CURRENTROTATE_LEFT)
+			{
+				g_pCamera->RotateLocalZ(-0.05f);
+			}
+
+			if (g_pCamera->GetAngle() <= 0.01f && g_pCamera->GetAngle() >= -0.01f)
+			{
+				g_pCamera->SetCurrentRotate(CURRENTROTATE_IDLE);
+			}
+		}
 	}
 
 	// 종료

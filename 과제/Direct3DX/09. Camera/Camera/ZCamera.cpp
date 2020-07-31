@@ -89,7 +89,7 @@ D3DXMATRIXA16 * ZCamera::RotateLocalX(float angle)
 	D3DXVec3TransformCoord(&vNewDst, &m_vView, &matRot);	// view * rot로 새로운 dst vector를 구합니다.
 	//D3DXVec3Cross(&vNewUp, &vNewDst, &m_vCross);			// cross( dst, x축 )으로 up vector를 구합니다.
 	//D3DXVec3Normalize(&vNewUp, &vNewUp);					// up vector를 uint vector로 변환합니다.
-	vNewDst += m_vEye;										// 실제 dst position = eye position + dst vector
+	vNewDst += m_vEye;													// 실제 dst position = eye position + dst vector
 
 	return SetView(&m_vEye, &vNewDst, &m_vUp);
 }
@@ -104,7 +104,8 @@ D3DXMATRIXA16 * ZCamera::RotateLocalY(float angle)
 
 	D3DXVECTOR3 vNewDst;
 	D3DXVec3TransformCoord(&vNewDst, &m_vView, &matRot);	// view * rot로 새로운 dst vector를 구합니다.
-	vNewDst += m_vEye;										// 실제 dst position = eye position + dst vector
+	vNewDst += m_vEye;													// 실제 dst position = eye position + dst vector
+
 
 	return SetView(&m_vEye, &vNewDst, &m_vUp);
 }
@@ -114,14 +115,15 @@ D3DXMATRIXA16 * ZCamera::RotateLocalY(float angle)
  *===================================================================================*/
 D3DXMATRIXA16 * ZCamera::RotateLocalZ(float angle)
 {
+	m_Angle += angle;
+
 	D3DXMATRIXA16 matRot;
 	D3DXMatrixRotationAxis(&matRot, &m_vView, angle);
 
-	D3DXVECTOR3 vNewDst;
-	D3DXVec3TransformCoord(&vNewDst, &m_vView, &matRot);	// view * rot로 새로운 dst vector를 구합니다.
-	vNewDst += m_vEye;										// 실제 dst position = eye position + dst vector
-
-	return SetView(&m_vEye, &vNewDst, &m_vUp);
+	D3DXVECTOR3 vNewUp;
+	D3DXVec3TransformCoord(&vNewUp, &m_vUp, &matRot);	// view * rot로 새로운 dst vector를 구합니다.
+	
+	return SetView(&m_vEye, &m_vLookat, &vNewUp);
 }
 
 /*===================================================================================*
@@ -146,7 +148,7 @@ D3DXMATRIXA16 * ZCamera::MoveLocalX(float dist)
 
 	D3DXVECTOR3 vMove;
 	D3DXVec3Normalize(&vMove, &m_vCross);
-	vMove	*= dist;
+	vMove	 *= dist;
 	vNewEye += vMove;
 	vNewDst += vMove;
 
@@ -163,7 +165,7 @@ D3DXMATRIXA16 * ZCamera::MoveLocalY(float dist)
 
 	D3DXVECTOR3 vMove;
 	D3DXVec3Normalize(&vMove, &m_vUp);
-	vMove	*= dist;
+	vMove	 *= dist;
 	vNewEye += vMove;
 	vNewDst += vMove;
 
@@ -180,7 +182,7 @@ D3DXMATRIXA16 * ZCamera::MoveLocalZ(float dist)
 
 	D3DXVECTOR3 vMove;
 	D3DXVec3Normalize(&vMove, &m_vView);
-	vMove	*= dist;
+	vMove *= dist;
 	vNewEye += vMove;
 	vNewDst += vMove;
 

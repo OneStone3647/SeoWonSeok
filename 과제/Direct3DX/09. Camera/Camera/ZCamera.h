@@ -4,22 +4,32 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 
+enum CURRENTROTATE
+{
+	CURRENTROTATE_IDLE = 0,
+	CURRENTROTATE_LEFT,
+	CURRENTROTATE_RIGHT
+};
+
 /*=============================================================================*
  * 카메라 조작 클래스
  *=============================================================================*/
 class ZCamera
 {
 private:
-	D3DXVECTOR3		m_vEye;			// 카메라의 현재 위치
-	D3DXVECTOR3		m_vLookat;		// 카메라의 시선 위치
-	D3DXVECTOR3		m_vUp;			// 카메라의 상방벡터
+	D3DXVECTOR3		m_vEye;		// 카메라의 현재 위치
+	D3DXVECTOR3		m_vLookat;	// 카메라의 시선 위치
+	D3DXVECTOR3		m_vUp;		// 카메라의 상방벡터
 
 	D3DXVECTOR3		m_vView;		// 카메라가 향하는 단위방향벡터
 	D3DXVECTOR3		m_vCross;		// 카메라의 측면 벡터 cross( view, up )
 
-	D3DXMATRIXA16	m_matView;		// 카메라 행렬
+	D3DXMATRIXA16	m_matView;	// 카메라 행렬
 	D3DXMATRIXA16	m_matBill;		// 빌보드 행렬(카메라의 역행렬)
-			
+
+	float					m_Angle = 0.0f;		// 카메라 회전앵글
+	CURRENTROTATE	m_CurrentRotate = CURRENTROTATE_IDLE;
+
 public:
 	ZCamera();
 	~ZCamera();
@@ -43,7 +53,7 @@ public:
 		return &m_vEye;
 	}
 	// 카메라의 위치값을 설정합니다.
-	void			SetEye(D3DXVECTOR3* pv)
+	void				SetEye(D3DXVECTOR3* pv)
 	{
 		m_vEye = *pv;
 	}
@@ -54,7 +64,7 @@ public:
 		return &m_vLookat;
 	}
 	// 카메라의 시선값을 설정합니다.
-	void			SetLookat(D3DXVECTOR3* pv)
+	void				SetLookat(D3DXVECTOR3* pv)
 	{
 		m_vLookat = *pv;
 	}
@@ -65,15 +75,35 @@ public:
 		return &m_vUp;
 	}
 	// 카메라의 상방벡터값을 설정합니다.
-	void			SetUp(D3DXVECTOR3* pv)
+	void				SetUp(D3DXVECTOR3* pv)
 	{
 		m_vUp = *pv;
 	}
 
 	// 값을 갱신합니다.
-	void			Flush()
+	void				Flush()
 	{
 		SetView(&m_vEye, &m_vLookat, &m_vUp);
+	}
+
+	// 카메라의 회전앵글을 얻습니다.
+	float				GetAngle()
+	{
+		return m_Angle;
+	}
+	// 카메라의 회전 앵글을 설정합니다.
+	void				SetAngle(float* angle)
+	{
+		m_Angle = *angle;
+	}
+
+	CURRENTROTATE GetCurrentRotate()
+	{
+		return m_CurrentRotate;
+	}
+	void SetCurrentRotate(CURRENTROTATE currentRoate)
+	{
+		m_CurrentRotate = currentRoate;
 	}
 
 public:
