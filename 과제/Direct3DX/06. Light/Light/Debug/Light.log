@@ -1,5 +1,0 @@
-﻿  Main.cpp
-c:\seowonseok\과제\direct3dx\06. light\light\main.cpp(249): warning C4002: 함수 같은 매크로 호출 'CreateWindowW'에 대해 인수가 너무 많습니다.
-  Vertex.cpp
-  코드를 생성하고 있습니다...
-  Light.vcxproj -> C:\SeoWonSeok\과제\Direct3DX\06. Light\Debug\Light.exe

@@ -1,7 +1,0 @@
-﻿  WinMain.cpp
-c:\seowonseok\과제\direct3dx\05. animation\animation\winmain.cpp(171): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
-c:\seowonseok\과제\direct3dx\05. animation\animation\winmain.cpp(172): warning C4101: 'z' :참조되지 않은 지역 변수입니다.
-c:\seowonseok\과제\direct3dx\05. animation\animation\winmain.cpp(172): warning C4101: 'y' :참조되지 않은 지역 변수입니다.
-c:\seowonseok\과제\direct3dx\05. animation\animation\winmain.cpp(172): warning C4101: 'x' :참조되지 않은 지역 변수입니다.
-c:\seowonseok\과제\direct3dx\05. animation\animation\winmain.cpp(384): warning C4002: 함수 같은 매크로 호출 'CreateWindowA'에 대해 인수가 너무 많습니다.
-  Animation.vcxproj -> C:\SeoWonSeok\과제\Direct3DX\05. Animation\Debug\Animation.exe
