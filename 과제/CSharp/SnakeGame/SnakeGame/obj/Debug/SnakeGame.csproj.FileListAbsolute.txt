@@ -1,2 +1,0 @@
-C:\sos\SeoWonSeok\과제\CSharp\SnakeGame\SnakeGame\obj\Debug\SnakeGame.csprojAssemblyReference.cache
-C:\sos\SeoWonSeok\과제\CSharp\SnakeGame\SnakeGame\obj\Debug\SnakeGame.csproj.CoreCompileInputs.cache
