@@ -1,9 +1,0 @@
-C:\sos\SeoWonSeok\과제\CSharp\MatchGame\bin\Debug\MatchGame.exe.config
-C:\sos\SeoWonSeok\과제\CSharp\MatchGame\bin\Debug\MatchGame.exe
-C:\sos\SeoWonSeok\과제\CSharp\MatchGame\bin\Debug\MatchGame.pdb
-C:\sos\SeoWonSeok\과제\CSharp\MatchGame\obj\Debug\MatchGame.csprojAssemblyReference.cache
-C:\sos\SeoWonSeok\과제\CSharp\MatchGame\obj\Debug\MatchGame.Properties.Resources.resources
-C:\sos\SeoWonSeok\과제\CSharp\MatchGame\obj\Debug\MatchGame.csproj.GenerateResource.cache
-C:\sos\SeoWonSeok\과제\CSharp\MatchGame\obj\Debug\MatchGame.csproj.CoreCompileInputs.cache
-C:\sos\SeoWonSeok\과제\CSharp\MatchGame\obj\Debug\MatchGame.exe
-C:\sos\SeoWonSeok\과제\CSharp\MatchGame\obj\Debug\MatchGame.pdb
