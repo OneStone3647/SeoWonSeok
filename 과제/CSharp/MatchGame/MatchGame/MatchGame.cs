@@ -15,45 +15,33 @@ namespace MatchGame
         // 랜덤 클래스
         Random random = new Random();
 
-        List<string> tmpTexts = new List<string>()
+        // 등록할 카드 리스트
+        List<Card> tmpCardList = new List<Card>()
         {
-            "A", "A", "B", "B", "C", "C", "D", "D",
-            "E", "E", "F", "F", "G", "G", "H", "H",
-            "I", "I", "J", "J"
+            new Card(false, "Dog", Image.FromFile("00.bmp"), Image.FromFile("back.bmp")),
+            new Card(false, "Dog", Image.FromFile("00.bmp"), Image.FromFile("back.bmp")),
+            new Card(false, "Tiger", Image.FromFile("01.bmp"), Image.FromFile("back.bmp")),
+            new Card(false, "Tiger", Image.FromFile("01.bmp"), Image.FromFile("back.bmp")),
+            new Card(false, "Dock", Image.FromFile("02.bmp"), Image.FromFile("back.bmp")),
+            new Card(false, "Dock", Image.FromFile("02.bmp"), Image.FromFile("back.bmp")),
+            new Card(false, "Elephant", Image.FromFile("03.bmp"), Image.FromFile("back.bmp")),
+            new Card(false, "Elephant", Image.FromFile("03.bmp"), Image.FromFile("back.bmp")),
+            new Card(false, "Bull", Image.FromFile("04.bmp"), Image.FromFile("back.bmp")),
+            new Card(false, "Bull", Image.FromFile("04.bmp"), Image.FromFile("back.bmp")),
+            new Card(false, "Horse", Image.FromFile("05.bmp"), Image.FromFile("back.bmp")),
+            new Card(false, "Horse", Image.FromFile("05.bmp"), Image.FromFile("back.bmp")),
+            new Card(false, "Cat", Image.FromFile("06.bmp"), Image.FromFile("back.bmp")),
+            new Card(false, "Cat", Image.FromFile("06.bmp"), Image.FromFile("back.bmp")),
+            new Card(false, "Monkey", Image.FromFile("07.bmp"), Image.FromFile("back.bmp")),
+            new Card(false, "Monkey", Image.FromFile("07.bmp"), Image.FromFile("back.bmp")),
+            new Card(false, "Frog", Image.FromFile("08.bmp"), Image.FromFile("back.bmp")),
+            new Card(false, "Frog", Image.FromFile("08.bmp"), Image.FromFile("back.bmp")),
+            new Card(false, "Chicken", Image.FromFile("09.bmp"), Image.FromFile("back.bmp")),
+            new Card(false, "Chicken", Image.FromFile("09.bmp"), Image.FromFile("back.bmp"))
         };
 
-        // 카드 임시 리스트
-        List<Image> tmpCards = new List<Image>()
-        {
-            Image.FromFile("00.bmp"), Image.FromFile("00.bmp"),
-            Image.FromFile("01.bmp"), Image.FromFile("01.bmp"),
-            Image.FromFile("02.bmp"), Image.FromFile("02.bmp"),
-            Image.FromFile("03.bmp"), Image.FromFile("03.bmp"),
-            Image.FromFile("04.bmp"), Image.FromFile("04.bmp"),
-            Image.FromFile("05.bmp"), Image.FromFile("05.bmp"),
-            Image.FromFile("06.bmp"), Image.FromFile("06.bmp"),
-            Image.FromFile("07.bmp"), Image.FromFile("07.bmp"),
-            Image.FromFile("08.bmp"), Image.FromFile("08.bmp"),
-            Image.FromFile("09.bmp"), Image.FromFile("09.bmp")
-        };
-
-        // 실제 카드 리스트
-        List<Image> cardList = new List<Image>()
-        {
-            Image.FromFile("00.bmp"), Image.FromFile("00.bmp"),
-            Image.FromFile("01.bmp"), Image.FromFile("01.bmp"),
-            Image.FromFile("02.bmp"), Image.FromFile("02.bmp"),
-            Image.FromFile("03.bmp"), Image.FromFile("03.bmp"),
-            Image.FromFile("04.bmp"), Image.FromFile("04.bmp"),
-            Image.FromFile("05.bmp"), Image.FromFile("05.bmp"),
-            Image.FromFile("06.bmp"), Image.FromFile("06.bmp"),
-            Image.FromFile("07.bmp"), Image.FromFile("07.bmp"),
-            Image.FromFile("08.bmp"), Image.FromFile("08.bmp"),
-            Image.FromFile("09.bmp"), Image.FromFile("09.bmp")
-        };
-
-        // 카드 뒷면
-        Image backCard = Image.FromFile("back.bmp");
+        // 등록한 카드 리스트
+        List<Card> CardList = new List<Card>();
 
         Label firstClicked = null;
         Label secondClicked = null;
@@ -75,13 +63,11 @@ namespace MatchGame
                 Label cardLabel = control as Label;
                 if (cardLabel != null)
                 {
-                    int randomNumber = random.Next(tmpCards.Count);
-                    cardLabel.Image = backCard;
-                    cardLabel.Text = tmpTexts[randomNumber];
-                    // 카드의 앞면을 나타낼 리스트
-                    cardList[cardLabel.TabIndex] = tmpCards[randomNumber];
-                    tmpCards.RemoveAt(randomNumber);
-                    tmpTexts.RemoveAt(randomNumber);
+                    // 등록할 카드 리스트에서 랜덤한 순서로 카드 리스트에 등록합니다.
+                    int randomNumber = random.Next(tmpCardList.Count);
+                    cardLabel.Image = tmpCardList[randomNumber].BackImage;
+                    CardList.Add(tmpCardList[randomNumber]);
+                    tmpCardList.RemoveAt(randomNumber);
                 }
             }
         }
@@ -98,37 +84,29 @@ namespace MatchGame
             Label clickedLabel = sender as Label;
             if(clickedLabel != null)
             {
-                // ForeColor로 뒤집혔는지 안뒤집혔는지 상태를 확인합니다.
-                // 모든 Label의 ForeColor는 미리 설정한 BackColor입니다.
-                // 선택된 Label의 ForeColor를 Black으로 바꿉니다.
-                if(clickedLabel.ForeColor == null)
+                if(CardList[clickedLabel.TabIndex].bIsOpen == true)
                 {
                     return;
                 }
 
-                if(clickedLabel.ForeColor == Color.Black)
-                {
-                    return;
-                }
-
-                // 첫번째 클릭이 없다면 첫번째 클릭을 등록합니다.
+                //// 첫번째 클릭이 없다면 첫번째 클릭을 등록합니다.
                 if(firstClicked == null)
                 {
-                    clickedLabel.Image = cardList[clickedLabel.TabIndex];
+                    clickedLabel.Image = CardList[clickedLabel.TabIndex].FrontImage;
+                    CardList[clickedLabel.TabIndex].bIsOpen = true;
                     firstClicked = clickedLabel;
-                    firstClicked.ForeColor = Color.Black;
                     return;
                 }
 
-                // 두번째 클릭을 등록합니다.
+                //// 두번째 클릭을 등록합니다.
+                clickedLabel.Image = CardList[clickedLabel.TabIndex].FrontImage;
+                CardList[clickedLabel.TabIndex].bIsOpen = true;
                 secondClicked = clickedLabel;
-                clickedLabel.Image = cardList[clickedLabel.TabIndex];
-                secondClicked.ForeColor = Color.Black;
 
                 CheckForWinner();
 
-                // 첫번째 클릭과 두번째 클릭이 같을 경우
-                if (firstClicked.Text == secondClicked.Text)
+                //// 첫번째 클릭과 두번째 클릭이 같을 경우
+                if(CardList[firstClicked.TabIndex].CardName == CardList[secondClicked.TabIndex].CardName)
                 {
                     firstClicked = null;
                     secondClicked = null;
@@ -142,11 +120,10 @@ namespace MatchGame
 
         private void CheckForWinner()
         {
-            Label label;
-            for(int i =0; i<tableLayoutPanel1.Controls.Count; i++)
+            foreach (Control control in tableLayoutPanel1.Controls)
             {
-                label = tableLayoutPanel1.Controls[i] as Label;
-                if (label != null && label.ForeColor == label.BackColor)
+                Label label = control as Label;
+                if (label != null && CardList[label.TabIndex].bIsOpen == false)
                 {
                     return;
                 }
@@ -160,10 +137,10 @@ namespace MatchGame
         {
             timer1.Stop();
 
-            firstClicked.Image = backCard;
-            secondClicked.Image = backCard;
-            firstClicked.ForeColor = firstClicked.BackColor;
-            secondClicked.ForeColor = secondClicked.BackColor;
+            firstClicked.Image = CardList[firstClicked.TabIndex].BackImage;
+            secondClicked.Image = CardList[secondClicked.TabIndex].BackImage;
+            CardList[firstClicked.TabIndex].bIsOpen = false;
+            CardList[secondClicked.TabIndex].bIsOpen = false;
 
             firstClicked = null;
             secondClicked = null;
