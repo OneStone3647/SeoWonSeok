@@ -93,6 +93,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(725, 940);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
@@ -100,7 +101,7 @@
             // 
             this.label20.BackColor = System.Drawing.SystemColors.ControlDark;
             this.label20.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label20.Font = new System.Drawing.Font("굴림", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label20.Font = new System.Drawing.Font("굴림", 1.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label20.ForeColor = System.Drawing.SystemColors.ControlDark;
             this.label20.Location = new System.Drawing.Point(581, 704);
             this.label20.Name = "label20";
@@ -113,7 +114,7 @@
             // 
             this.label19.BackColor = System.Drawing.SystemColors.ControlDark;
             this.label19.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label19.Font = new System.Drawing.Font("굴림", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label19.Font = new System.Drawing.Font("굴림", 1.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label19.ForeColor = System.Drawing.SystemColors.ControlDark;
             this.label19.Location = new System.Drawing.Point(437, 704);
             this.label19.Name = "label19";
@@ -126,7 +127,7 @@
             // 
             this.label18.BackColor = System.Drawing.SystemColors.ControlDark;
             this.label18.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label18.Font = new System.Drawing.Font("굴림", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label18.Font = new System.Drawing.Font("굴림", 1.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label18.ForeColor = System.Drawing.SystemColors.ControlDark;
             this.label18.Location = new System.Drawing.Point(293, 704);
             this.label18.Name = "label18";
@@ -139,7 +140,7 @@
             // 
             this.label17.BackColor = System.Drawing.SystemColors.ControlDark;
             this.label17.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label17.Font = new System.Drawing.Font("굴림", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label17.Font = new System.Drawing.Font("굴림", 1.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label17.ForeColor = System.Drawing.SystemColors.ControlDark;
             this.label17.Location = new System.Drawing.Point(149, 704);
             this.label17.Name = "label17";
@@ -152,7 +153,7 @@
             // 
             this.label16.BackColor = System.Drawing.SystemColors.ControlDark;
             this.label16.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label16.Font = new System.Drawing.Font("굴림", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label16.Font = new System.Drawing.Font("굴림", 1.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label16.ForeColor = System.Drawing.SystemColors.ControlDark;
             this.label16.Location = new System.Drawing.Point(5, 704);
             this.label16.Name = "label16";
@@ -165,7 +166,7 @@
             // 
             this.label15.BackColor = System.Drawing.SystemColors.ControlDark;
             this.label15.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label15.Font = new System.Drawing.Font("굴림", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label15.Font = new System.Drawing.Font("굴림", 1.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label15.ForeColor = System.Drawing.SystemColors.ControlDark;
             this.label15.Location = new System.Drawing.Point(581, 470);
             this.label15.Name = "label15";
@@ -178,7 +179,7 @@
             // 
             this.label14.BackColor = System.Drawing.SystemColors.ControlDark;
             this.label14.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label14.Font = new System.Drawing.Font("굴림", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label14.Font = new System.Drawing.Font("굴림", 1.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label14.ForeColor = System.Drawing.SystemColors.ControlDark;
             this.label14.Location = new System.Drawing.Point(437, 470);
             this.label14.Name = "label14";
@@ -191,7 +192,7 @@
             // 
             this.label13.BackColor = System.Drawing.SystemColors.ControlDark;
             this.label13.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label13.Font = new System.Drawing.Font("굴림", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label13.Font = new System.Drawing.Font("굴림", 1.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label13.ForeColor = System.Drawing.SystemColors.ControlDark;
             this.label13.Location = new System.Drawing.Point(293, 470);
             this.label13.Name = "label13";
@@ -204,7 +205,7 @@
             // 
             this.label12.BackColor = System.Drawing.SystemColors.ControlDark;
             this.label12.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label12.Font = new System.Drawing.Font("굴림", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label12.Font = new System.Drawing.Font("굴림", 1.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label12.ForeColor = System.Drawing.SystemColors.ControlDark;
             this.label12.Location = new System.Drawing.Point(149, 470);
             this.label12.Name = "label12";
@@ -217,7 +218,7 @@
             // 
             this.label11.BackColor = System.Drawing.SystemColors.ControlDark;
             this.label11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label11.Font = new System.Drawing.Font("굴림", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label11.Font = new System.Drawing.Font("굴림", 1.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label11.ForeColor = System.Drawing.SystemColors.ControlDark;
             this.label11.Location = new System.Drawing.Point(5, 470);
             this.label11.Name = "label11";
@@ -230,7 +231,7 @@
             // 
             this.label10.BackColor = System.Drawing.SystemColors.ControlDark;
             this.label10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label10.Font = new System.Drawing.Font("굴림", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label10.Font = new System.Drawing.Font("굴림", 1.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label10.ForeColor = System.Drawing.SystemColors.ControlDark;
             this.label10.Location = new System.Drawing.Point(581, 236);
             this.label10.Name = "label10";
@@ -243,7 +244,7 @@
             // 
             this.label9.BackColor = System.Drawing.SystemColors.ControlDark;
             this.label9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label9.Font = new System.Drawing.Font("굴림", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label9.Font = new System.Drawing.Font("굴림", 1.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label9.ForeColor = System.Drawing.SystemColors.ControlDark;
             this.label9.Location = new System.Drawing.Point(437, 236);
             this.label9.Name = "label9";
@@ -256,7 +257,7 @@
             // 
             this.label8.BackColor = System.Drawing.SystemColors.ControlDark;
             this.label8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label8.Font = new System.Drawing.Font("굴림", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label8.Font = new System.Drawing.Font("굴림", 1.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label8.ForeColor = System.Drawing.SystemColors.ControlDark;
             this.label8.Location = new System.Drawing.Point(293, 236);
             this.label8.Name = "label8";
@@ -269,7 +270,7 @@
             // 
             this.label7.BackColor = System.Drawing.SystemColors.ControlDark;
             this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label7.Font = new System.Drawing.Font("굴림", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label7.Font = new System.Drawing.Font("굴림", 1.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label7.ForeColor = System.Drawing.SystemColors.ControlDark;
             this.label7.Location = new System.Drawing.Point(149, 236);
             this.label7.Name = "label7";
@@ -282,7 +283,7 @@
             // 
             this.label6.BackColor = System.Drawing.SystemColors.ControlDark;
             this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label6.Font = new System.Drawing.Font("굴림", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label6.Font = new System.Drawing.Font("굴림", 1.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label6.ForeColor = System.Drawing.SystemColors.ControlDark;
             this.label6.Location = new System.Drawing.Point(5, 236);
             this.label6.Name = "label6";
@@ -295,7 +296,7 @@
             // 
             this.label5.BackColor = System.Drawing.SystemColors.ControlDark;
             this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label5.Font = new System.Drawing.Font("굴림", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label5.Font = new System.Drawing.Font("굴림", 1.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label5.ForeColor = System.Drawing.SystemColors.ControlDark;
             this.label5.Location = new System.Drawing.Point(581, 2);
             this.label5.Name = "label5";
@@ -308,7 +309,7 @@
             // 
             this.label4.BackColor = System.Drawing.SystemColors.ControlDark;
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label4.Font = new System.Drawing.Font("굴림", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label4.Font = new System.Drawing.Font("굴림", 1.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label4.ForeColor = System.Drawing.SystemColors.ControlDark;
             this.label4.Location = new System.Drawing.Point(437, 2);
             this.label4.Name = "label4";
@@ -321,7 +322,7 @@
             // 
             this.label3.BackColor = System.Drawing.SystemColors.ControlDark;
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Font = new System.Drawing.Font("굴림", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label3.Font = new System.Drawing.Font("굴림", 1.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label3.ForeColor = System.Drawing.SystemColors.ControlDark;
             this.label3.Location = new System.Drawing.Point(293, 2);
             this.label3.Name = "label3";
@@ -334,7 +335,7 @@
             // 
             this.label2.BackColor = System.Drawing.SystemColors.ControlDark;
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Font = new System.Drawing.Font("굴림", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label2.Font = new System.Drawing.Font("굴림", 1.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label2.ForeColor = System.Drawing.SystemColors.ControlDark;
             this.label2.Location = new System.Drawing.Point(149, 2);
             this.label2.Name = "label2";
@@ -347,7 +348,7 @@
             // 
             this.label1.BackColor = System.Drawing.SystemColors.ControlDark;
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Font = new System.Drawing.Font("굴림", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label1.Font = new System.Drawing.Font("굴림", 1.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label1.ForeColor = System.Drawing.SystemColors.ControlDark;
             this.label1.Location = new System.Drawing.Point(5, 2);
             this.label1.Name = "label1";
