@@ -38,3 +38,13 @@ C:\sos\SeoWonSeok\과제\CSharp\MatchGame\MatchGame\obj\Debug\MatchGame.csproj.G
 C:\sos\SeoWonSeok\과제\CSharp\MatchGame\MatchGame\obj\Debug\MatchGame.csproj.CoreCompileInputs.cache
 C:\sos\SeoWonSeok\과제\CSharp\MatchGame\MatchGame\obj\Debug\MatchGame.exe
 C:\sos\SeoWonSeok\과제\CSharp\MatchGame\MatchGame\obj\Debug\MatchGame.pdb
+C:\SeoWonSeok\과제\CSharp\MatchGame\MatchGame\bin\Debug\MatchGame.exe.config
+C:\SeoWonSeok\과제\CSharp\MatchGame\MatchGame\bin\Debug\MatchGame.exe
+C:\SeoWonSeok\과제\CSharp\MatchGame\MatchGame\bin\Debug\MatchGame.pdb
+C:\SeoWonSeok\과제\CSharp\MatchGame\MatchGame\obj\Debug\MatchGame.csprojAssemblyReference.cache
+C:\SeoWonSeok\과제\CSharp\MatchGame\MatchGame\obj\Debug\MatchGame.MatchGame.resources
+C:\SeoWonSeok\과제\CSharp\MatchGame\MatchGame\obj\Debug\MatchGame.Properties.Resources.resources
+C:\SeoWonSeok\과제\CSharp\MatchGame\MatchGame\obj\Debug\MatchGame.csproj.GenerateResource.cache
+C:\SeoWonSeok\과제\CSharp\MatchGame\MatchGame\obj\Debug\MatchGame.csproj.CoreCompileInputs.cache
+C:\SeoWonSeok\과제\CSharp\MatchGame\MatchGame\obj\Debug\MatchGame.exe
+C:\SeoWonSeok\과제\CSharp\MatchGame\MatchGame\obj\Debug\MatchGame.pdb

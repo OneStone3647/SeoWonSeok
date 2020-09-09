@@ -46,7 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Block.cs" />
+    <Compile Include="BlockManager.cs" />
     <Compile Include="Minsweeper.cs">
       <SubType>Form</SubType>
     </Compile>
