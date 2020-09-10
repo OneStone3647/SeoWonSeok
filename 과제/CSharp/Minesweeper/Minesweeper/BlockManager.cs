@@ -9,32 +9,34 @@ namespace Minesweeper
 {
     enum BLOCKNUM
     {
-        BLOCKNUM_0 = 0,
-        BLOCKNUM_1,
-        BLOCKNUM_2,
-        BLOCKNUM_3,
-        BLOCKNUM_4,
-        BLOCKNUM_5,
-        BLOCKNUM_6,
-        BLOCKNUM_7,
-        BLOCKNUM_8,
-        BLOCKNUM_BLOCK,
-        BLOCKNUM_FLAG,
-        BLOCKNUM_MINE
-    }
-
-    struct Block
-    {
-        bool IsOpen;
-        int BlockNum;
+        NUM_0 = 0,
+        NUM_1,
+        NUM_2,
+        NUM_3,
+        NUM_4,
+        NUM_5,
+        NUM_6,
+        NUM_7,
+        NUM_8,
+        BLOCK,
+        FLAG,
+        MINE
     }
 
     class BlockManager
     {
         // 최대 지뢰 개수
         private const int MaxMineCount = 10;
+        public int maxMinCount
+        {
+            get
+            {
+                return MaxMineCount;
+            }
+        }
 
         private Block[] Blocks = new Block[81];
+        
         private Image[] BlockImage = new Image[12]
         {
             Image.FromFile("block_0.bmp"),
@@ -54,26 +56,51 @@ namespace Minesweeper
         // 랜덤 클래스
         Random random = new Random();
 
-        private void InitBlock()
+        public void InitBlock()
+        {
+            for(int i =0; i < Blocks.Count(); i++)
+            {
+                Block tmpBlock = new Block(false, (int)BLOCKNUM.BLOCK);
+                Blocks[i] = tmpBlock;
+            }
+
+            SetMine();
+        }
+
+        // 지뢰 블록 설정
+        private void SetMine()
         {
             List<int> MineBlockList = new List<int>();
             MineBlockList.Add(random.Next(Blocks.Count()));
+
             while (true)
             {
-                int randomNumber = random.Next(Blocks.Count());
                 int count = 0;
-                foreach(int num in MineBlockList)
+                int randomNumber = random.Next(Blocks.Count());
+                for (int i = 0; i < MineBlockList.Count; i++)
                 {
-                    if(randomNumber != num)
+                    if (MineBlockList[i] == randomNumber)
+                    {
+                        break;
+                    }
+                    else
                     {
                         count++;
+
+                        if (MineBlockList.Count == count)
+                        {
+                            MineBlockList.Add(randomNumber);
+                        }
                     }
 
-                    if(MineBlockList.Count == count)
+                    if (count + 1 == MaxMineCount)
                     {
-                        MineBlockList.Add(randomNumber);
+                        for (int j = 0; j < MineBlockList.Count; j++)
+                        {
+                            Blocks[MineBlockList[j]].BlockNum = (int)BLOCKNUM.MINE;
+                        }
+                        return;
                     }
-
                 }
             }
         }

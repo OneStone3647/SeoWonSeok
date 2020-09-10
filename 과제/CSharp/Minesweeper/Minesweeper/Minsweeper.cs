@@ -12,8 +12,8 @@ namespace Minesweeper
 {
     public partial class Minsweeper : Form
     {
-        private int MineCount;
-
+        private BlockManager blockManager = new BlockManager();
+  
         public Minsweeper()
         {
             InitializeComponent();
@@ -23,7 +23,20 @@ namespace Minesweeper
 
         public void Init()
         {
-            MineCount = 10;
+            blockManager.InitBlock();
+        }
+
+        public void DrawBlock()
+        {
+            int count = 0;
+            foreach(Control control in tableLayoutPanel1.Controls)
+            {
+                Label blockLabel = control as Label;
+                if(blockLabel != null)
+                {
+                    
+                }
+            }
         }
     }
 }
