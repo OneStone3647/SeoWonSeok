@@ -34,7 +34,7 @@ namespace Minesweeper
                 Label blockLabel = control as Label;
                 if(blockLabel != null)
                 {
-                    
+                    //blockLabel.Image = blockManager.GetBlockImage(blockLabel.TabIndex);
                 }
             }
         }
