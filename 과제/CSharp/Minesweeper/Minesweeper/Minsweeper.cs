@@ -24,17 +24,41 @@ namespace Minesweeper
         public void Init()
         {
             blockManager.InitBlock();
+
+            DrawBlock();
         }
 
         public void DrawBlock()
         {
-            int count = 0;
             foreach(Control control in tableLayoutPanel1.Controls)
             {
                 Label blockLabel = control as Label;
                 if(blockLabel != null)
                 {
-                    //blockLabel.Image = blockManager.GetBlockImage(blockLabel.TabIndex);
+                    blockLabel.Image = blockManager.GetBlock(blockLabel.TabIndex).BlockImage;
+                }
+            }
+        }
+
+        private void Label_Click(object sender, EventArgs e)
+        {
+            Label clickedLabel = sender as Label;
+            if (clickedLabel != null)
+            {
+                Block tmpBlock = blockManager.GetBlock(clickedLabel.TabIndex);
+                if (tmpBlock.IsOpen != true)
+                {
+                    tmpBlock.IsOpen = true;
+                    if(tmpBlock.BlockType == BLOCKTYPE.MINE)
+                    {
+                        MineBlock mine = tmpBlock as MineBlock;
+                        clickedLabel.Image = mine.MineImage;
+                    }
+                    else
+                    {
+                        SafeBlock safe = tmpBlock as SafeBlock;
+                        clickedLabel.Image = safe.NumImage;
+                    }
                 }
             }
         }

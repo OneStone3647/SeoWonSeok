@@ -17,114 +17,130 @@ namespace Minesweeper
 
     class Block
     {
-        protected bool m_bIsOpen;
-        public bool bIsOpen
+        protected bool bIsOpen;
+        public bool IsOpen
         {
             get
             {
-                return m_bIsOpen;
+                return bIsOpen;
             }
             set
             {
-                m_bIsOpen = value;
+                bIsOpen = value;
             }
         }
 
-        protected bool m_bIsFlag;
-        public bool bIsFlag
+        protected bool bIsFlag;
+        public bool IsFlag
         {
             get
             {
-                return m_bIsFlag;
+                return bIsFlag;
             }
             set
             {
-                m_bIsFlag = value;
+                bIsFlag = value;
             }
         }
 
-        protected BLOCKTYPE m_eBlockType;
+        protected BLOCKTYPE eBlockType;
         public BLOCKTYPE BlockType
         {
             get
             {
-                return m_eBlockType;
+                return eBlockType;
             }
             set
             {
-                m_eBlockType = value;
+                eBlockType = value;
             }
         }
 
-        protected Image   m_BlockImage;
-        protected Image   m_FlagImage;
+        protected Image blockImage;
+        public Image BlockImage
+        {
+            get
+            {
+                return blockImage;
+            }
+        }
+        protected Image flagImage;
+        public Image FlagImage
+        {
+            get
+            {
+                return flagImage;
+            }
+        }
 
         public void Init()
         {
-            m_bIsOpen = false;
-            m_eBlockType = BLOCKTYPE.NONE;
-            m_BlockImage = Image.FromFile("block.bmp");
-            m_FlagImage = Image.FromFile("flag.bmp");
+            bIsOpen = false;
+            eBlockType = BLOCKTYPE.NONE;
+            blockImage = Image.FromFile("block.bmp");
+            flagImage = Image.FromFile("flag.bmp");
         }
 
-        public void IsOpen()
+        public void BlockIsOpen()
         {
-            m_bIsOpen = true;
-            m_bIsFlag = false;
+            bIsOpen = true;
+            bIsFlag = false;
         }
     }
 
     class MineBlock : Block
     {
-        private Image m_MineImage;
+        private Image mineImage;
         public Image MineImage
         {
             get
             {
-                return m_MineImage;
+                return mineImage;
             }
         }
 
         public void Init()
         {
-            m_eBlockType = BLOCKTYPE.MINE;
-            m_MineImage = Image.FromFile("mine.bmp");
+            base.Init();
+            eBlockType = BLOCKTYPE.MINE;
+            mineImage = Image.FromFile("mine.bmp");
         }
     }
 
     class SafeBlock : Block
     {
-        private Image m_NumBlock;
-        public Image NumBlock
+        private Image numImage;
+        public Image NumImage
         {
             get
             {
-                return m_NumBlock;
+                return numImage;
             }
         }
 
-        private int m_MineCount;
+        private int mineCount;
         public int MineCount
         {
             get
             {
-                return m_MineCount;
+                return mineCount;
             }
         }
         public void IncreaseMineCount()
         {
-            m_MineCount++;
+            mineCount++;
         }
 
         public void Init()
         {
-            m_MineCount = 0;            
+            base.Init();
+            mineCount = 0;
         }
 
         public void SetNumBlock()
         {
-            string numBlock = String.Format("block_{0}.bmp", m_MineCount);
-            m_NumBlock = Image.FromFile(numBlock);
+            string numBlock = String.Format("block_{0}.bmp", mineCount);
+            numImage = Image.FromFile(numBlock);
         }
     }
 }
