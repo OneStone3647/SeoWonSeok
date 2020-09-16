@@ -19,10 +19,14 @@ namespace Minesweeper
             }
         }
 
-        private Block[] blocks = new Block[81];
-        public Block GetBlock(int index)
+        private Block[,] blocks = new Block[9, 9];
+        public Block[,] GetBlocks()
         {
-            return blocks[index];
+            return blocks;
+        }
+        public Block GetBlock(int x, int y)
+        {
+            return blocks[x, y];
         }
 
         // 랜덤 클래스
@@ -30,11 +34,14 @@ namespace Minesweeper
 
         public void InitBlock()
         {
-            for(int i =0; i < blocks.Count(); i++)
+            for(int i = 0; i < blocks.GetLength(0); i++)
             {
-                SafeBlock tmpBlock = new SafeBlock();
-                tmpBlock.Init();
-                blocks[i] = tmpBlock;
+                for(int j = 0; j < blocks.GetLength(1); j++)
+                {
+                    SafeBlock tmpBlock = new SafeBlock();
+                    tmpBlock.Init();
+                    blocks[i, j] = tmpBlock;
+                }
             }
 
             SetMine();
@@ -47,16 +54,29 @@ namespace Minesweeper
 
             while(count < maxMineCount)
             {
-                int randomNumber = random.Next(blocks.Count());
+                int randomX= random.Next(blocks.GetLength(0));
+                int randomY = random.Next(blocks.GetLength(1));
 
                 // 지뢰가 아닌 경우
-                if(blocks[randomNumber].BlockType != BLOCKTYPE.MINE)
+                if(blocks[randomX, randomY].BlockType != BLOCKTYPE.MINE)
                 {
                     MineBlock tmpMine = new MineBlock();
                     tmpMine.Init();
-                    blocks[randomNumber] = tmpMine;
+                    blocks[randomX, randomY] = tmpMine;
                     count++;
                 }
+            }
+        }
+
+        private void CheckMine(int blockIndex)
+        {
+        }
+
+        public void OpenBlock(int x, int y)
+        {
+            if (blocks[x, y].BlockType == BLOCKTYPE.SAFE)
+            {
+                blocks[x, y].BlockIsOpen();
             }
         }
     }

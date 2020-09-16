@@ -35,7 +35,8 @@ namespace Minesweeper
                 Label blockLabel = control as Label;
                 if(blockLabel != null)
                 {
-                    blockLabel.Image = blockManager.GetBlock(blockLabel.TabIndex).BlockImage;
+                    blockLabel.Image = blockManager.GetBlock((blockLabel.TabIndex / blockManager.GetBlocks().GetLength(0)),
+                        (blockLabel.TabIndex % blockManager.GetBlocks().GetLength(1))).BlockImage;
                 }
             }
         }
@@ -45,7 +46,8 @@ namespace Minesweeper
             Label clickedLabel = sender as Label;
             if (clickedLabel != null)
             {
-                Block tmpBlock = blockManager.GetBlock(clickedLabel.TabIndex);
+                Block tmpBlock = blockManager.GetBlock((clickedLabel.TabIndex / blockManager.GetBlocks().GetLength(0)),
+                        (clickedLabel.TabIndex % blockManager.GetBlocks().GetLength(1)));
                 if (tmpBlock.IsOpen != true)
                 {
                     tmpBlock.IsOpen = true;
